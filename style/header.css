@@ -311,9 +311,43 @@ a{
 .paragraph-sp{
     margin-bottom: 15px;
     text-align: justify;
+    height: 350px;
+    overflow: hidden;
 }
 
-.paragraph-sp h4{
+.mo_ta{
+    position: relative;
+}
+
+.paragraph-sp h4 h3{
     margin-top: 20px;
     margin-bottom: 10px;
+}
+
+.button-sp{
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+}
+
+.btn-xt, .btn-rg{
+    background: none !important;
+    color: black;
+}
+
+.button-sp::before{
+    height: 40px;
+    margin-top: -45px;
+    content: "";
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff00', endColorstr='#ffffff', GradientType=0);
+    display: block;
+}
+
+.btn-rutgon{
+    display: none;
 }
