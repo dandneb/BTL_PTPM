@@ -284,3 +284,36 @@ a{
     top: 100%;
     height: 100%;
 }
+
+.product-price-sp, .trademark{
+    height: 140px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.trademark::-webkit-scrollbar, .product-price-sp::-webkit-scrollbar{
+    width: 6px;
+}
+
+::-webkit-scrollbar{
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background: #09674f;
+    border-radius: 6px;
+}
+
+.section-sp{
+    max-height: 600px;
+}
+
+.paragraph-sp{
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.paragraph-sp h4{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}

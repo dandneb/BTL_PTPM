@@ -65,7 +65,7 @@
                             <input type="text" class="form-control" id="validationDefault02" placeholder="Email của bạn" required>
                         </div>
                         <div class="col-md-3">
-                        <button class="btn btn-submit" type="submit">Đăng ký</button>
+                            <button class="btn btn-submit" type="submit">Đăng ký</button>
                         </div>
                     </form>
                 </div>
@@ -75,8 +75,6 @@
             <p class="p-12 mt-2">Parfumerie.vn | Cung cấp bởi <a class="p-12 span-footer" href="">Sapo</a></p>
         </div>
     </footer>
-
-    <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js\swiper-bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/d9aa9ca0fe.js" crossorigin="anonymous"></script>
     <script>
