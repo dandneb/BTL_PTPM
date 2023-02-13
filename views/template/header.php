@@ -37,7 +37,7 @@
                 <div class="navbar-nav ms-auto mb-2 mb-lg-0 text-white">
                     <div class="header-myAccount" style="border-right-style: solid;">
                         <p class="p-14-bold mt-3">Xin chào, Khách</p>
-                        <p class="p-12-bold">Đăng nhập <span class="p-12">hoặc</span> <span class="p-12-bold">Đăng ký</span>
+                        <p class="p-12-bold mt-3">Đăng nhập <span class="p-12">hoặc</span> <span class="p-12-bold">Đăng ký</span>
                     </div>
                     <div class="ms-3 me-5 header-myFavorites">
                         <span class="material-icons me-3">

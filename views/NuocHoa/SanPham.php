@@ -6,7 +6,7 @@ require("views/template/header.php");
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#" class="text-decoration-none p-14 text-dark">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none p-14 text-dark">Trang chủ</a></li>
                     <!--<li class="breadcrumb-item"><a href="#" class="text-decoration-none p-14 text-dark">Nước hoa Le Labo</a></li> -->
                     <li class="breadcrumb-item active" aria-current="page"><span class="p-14 text-dark">Nước hoa Nam chính hãng</span></li>
                 </ol>
@@ -98,7 +98,7 @@ require("views/template/header.php");
                             for ($i = 0; $i < 12; $i++) {
                             ?>
                                 <div class="col-md-3">
-                                    <div class="swiper-slide">
+                                    <a class="swiper-slide text-decoration-none" href="index.php?controller=nuochoa&action=thongtin">
                                         <div class="card rounded-0 product border-0">
                                             <img src="images\Unisex\Maison Francis\Maison Francis Kurkdjian Grand Soir EDP.jpg" class="" alt="...">
                                             <div class="card-body">
@@ -122,7 +122,7 @@ require("views/template/header.php");
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             <?php
                             }

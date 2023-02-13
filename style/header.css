@@ -71,7 +71,7 @@ body{
 .p-14-bold{
     font-size: 14px !important;
     font-weight: 600;
-    
+    margin: 0px;
 }
 
 .p-13-bold{
@@ -200,7 +200,8 @@ a{
 }
 
 .container-footer{
-    margin: 0 176px;
+    margin-left: 10%; 
+    margin-bottom:16px
 }
 
 .span-footer{
@@ -350,4 +351,57 @@ a{
 
 .btn-rutgon{
     display: none;
+}
+
+.splide__slide img {
+    width: 100%;
+    height: auto;
+}
+
+.splide__slide {
+    opacity: 0.3;
+}
+
+.splide__slide.is-active {
+    opacity: 1;
+}
+
+.title-head {
+    font-size: 22px;
+    margin: 10px 0 0;
+}
+
+.price-information{
+    font-size: 22px;
+    color: #07503D;
+    font-weight: 500;
+}
+
+.swatch{
+    margin: 10px 0px;
+}
+
+.bk-product-property{
+    display: none;
+}
+
+.swatch-element input:checked+label{
+    background: transparent;
+    color: #333;
+    border: 1px solid #07503d !important;
+}
+
+.swatch label{
+    padding: 5px 5px;
+    margin-top: 6px;
+    font-size: 13px;
+    color: #333333;
+    cursor: pointer;
+}
+
+.swatch-element{
+    margin: 0px 5px 5px 0;
+    height: 35px;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
 }

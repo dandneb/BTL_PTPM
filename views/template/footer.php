@@ -1,5 +1,5 @@
     <footer class="container-fluid bg-success text-white">
-        <div class="container" style="margin-left: 176px; margin-bottom:16px">
+        <div class="container container-footer">
             <div class="row">
                 <div class="col-md-3 mt-4">
                     <p class="p-14-bold">VỀ PARFUMERIE</p>
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="row mt-4">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <p class="p-14-bold">PHƯƠNG THỨC THANH TOÁN</p>
                     <div class="d-flex flex-row">
                         <div style="align-items: center;" class="me-3">
@@ -47,14 +47,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                     <p class="p-14-bold">KẾT NỐI VỚI CHÚNG TÔI</p>
                     <a href="" style="color: #3b5998;"><i class="fa-brands fa-facebook fa-xl me-3"></i></a>
                     <a href="" style="color: #1e88e5;"><i class="fa-brands fa-instagram fa-xl me-3"></i></a>
                     <a href="" style="color: #ff0000;"><i class="fa-brands fa-youtube fa-xl me-3"></i></a>
                     <a href="" style="color: #ff0000;" class="footer-connect"><img src="images\footer\map.png" alt=""></a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <p class="p-14-bold">ĐĂNG KÝ NHẬN TIN</p>
                     <p class="p-13">Nhận thông tin sản phẩm mới nhất, tin khuyến mãi và nhiều hơn nữa.</p>
                     <form class="row g-3">

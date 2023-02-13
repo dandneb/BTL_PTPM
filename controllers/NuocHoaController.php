@@ -6,5 +6,8 @@ class NuocHoaController{
     function SanPham(){
         require_once 'views/NuocHoa/SanPham.php';
     }
+    function ThongTin(){
+        require_once 'views/NuocHoa/ThongTin.php';
+    }
 }
 ?>
