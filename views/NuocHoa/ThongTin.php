@@ -20,7 +20,7 @@ require("views/template/header.php");
         </div>
     </div>
     <div class="container">
-        <div class="row border" style="padding: 10px;">
+        <div class="row border mb-3" style="padding: 10px;">
             <div class="col-md-4 ps-0">
                 <div class="container">
                     <div class="carousel-container position-relative row">
@@ -174,7 +174,124 @@ require("views/template/header.php");
                             </div>
                         </div>
                     </div>
+                    <div class="container p-0">
+                        <button class="btn btn-success btn-lg btn-thongtin rounded-0" type="button">
+                            <span class="txt-main">MUA NGAY</span>
+                        </button>
+                        <button class="btn btn-success btn-lg btn-thongtin rounded-0" type="button">
+                            <span class="txt-main">THÊM VÀO GIỎ HÀNG</span>
+                        </button>
+                    </div>
+                    <div class="container p-0 mt-4">
+                        <a href="" class="text-decoration-none text-dark border favorite-tt d-flex align-items-center">
+                            <span class="material-icons">
+                                favorite
+                            </span>
+                            <span class="favorite-content">
+                                THÊM VÀO YÊU THÍCH
+                            </span>
+                        </a>
+                    </div>
                 </form>
+            </div>
+        </div>
+        <div class="row p-0 pb-3" style="padding: 10px;">
+            <div class="col-md-8 border" style="padding-top: 12px;">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active p-14" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">THÔNG TIN SẢN PHẨM</button>
+                    <button class="nav-link p-14" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">HƯỚNG DẪN SỬ DỤNG VÀ BẢO QUẢN</button>
+                    <button class="nav-link p-14" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">CHÍNH SÁCH ĐỔI TRẢ VÀ BẢO HÀNH</button>
+                    <button class="nav-link p-14" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review" aria-selected="false">ĐÁNH GIÁ</button>
+                </div>
+                <div class="tab-content mt-3" id="nav-tabContent">
+                    <div class="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="mota">
+                            <p class="p-16-bold">
+                                Nước hoa nam Roja Dove Elysium Pour Homme Parfum Cologne là một vệt sáng mới trên bầu trời nước hoa, được tạo ra đầy chất lượng từ việc lựa chọn nguyên liệu cho đến cách thức chế tạo tinh dầu. Chỉ khi bạn sở hữu và cầm nó trên tay, bạn mới cảm nhận được sự xa xỉ của hãng nước hoa đắt nhất thế giới.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade tour_information" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        OK
+                    </div>
+                    <div class="tab-pane tour_information tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                        OK
+                    </div>
+                    <div class="tab-pane fade tour_information" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
+                        OK
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+
+            </div>
+            <div class="col-md-3 border">
+                <div style="border: 1px solid #000; margin-top: 12px;">
+                    <div>
+                        <div class="container">
+                            <div class="row wrap-service">
+                                <div class="col-md-3 pe-0 image_service d-flex align-items-center">
+                                    <img src="images\service\policy_image_1.png" alt="">
+                                </div>
+                                <div class="col-md-9 ps-0">
+                                    <p class="p-14-bold">
+                                        Giao hàng nhanh chóng
+                                    </p>
+                                    <span class="p-13">
+                                        ✅ Giao hàng tận nơi toàn quốc; giao nhanh trong vòng 24h khu vực nội thành HCM.
+                                        <br>
+                                        ✅ Miễn phí giao hàng đối với đơn hàng sản phẩm nước hoa Fullbox.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row wrap-service">
+                                <div class="col-md-3 pe-0 image_service d-flex align-items-center">
+                                    <img src="images\service\policy_image_2.png" alt="">
+                                </div>
+                                <div class="col-md-9 ps-0">
+                                    <p class="p-14-bold">
+                                        Bảo đảm chất lượng
+                                    </p>
+                                    <span class="p-13">
+                                        ✅ Cam kết nước hoa chính hãng 100%.
+                                        <br>
+                                        ✅ Nói không với các sản phẩm nước hoa kém chất lượng; nước hoa Auth 1:1 và các thể loại tương tự khác.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row wrap-service">
+                                <div class="col-md-3 pe-0 image_service d-flex align-items-center">
+                                    <img src="images\service\policy_image_3.png" alt="">
+                                </div>
+                                <div class="col-md-9 ps-0">
+                                    <p class="p-14-bold">
+                                        Chăm sóc khách hàng tốt
+                                    </p>
+                                    <span class="p-13">
+                                        ✅ Hotline 24/7: 
+                                        <br>
+                                        ✅ Chăm sóc khách hàng tận tình trước và sau khi mua hàng.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row wrap-service">
+                                <div class="col-md-3 pe-0 image_service d-flex align-items-center">
+                                    <img src="images\service\policy_image_4.png" alt="">
+                                </div>
+                                <div class="col-md-9 ps-0">
+                                    <p class="p-14-bold">
+                                        Đa dạng lựa chọn
+                                    </p>
+                                    <span class="p-13">
+                                        ✅ Đa dạng sản phẩm thương hiệu nổi tiếng được yêu thích tại Việt Nam.
+                                        <br>
+                                        ✅ Đa dạng dung tích: Nước hoa Fullbox; Nước hoa Chiết 10ml/20ml/30ml; Gốc nước hoa.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

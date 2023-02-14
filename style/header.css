@@ -48,6 +48,11 @@ body{
     font-weight: normal;
 }
 
+.p-16{
+    font-size: 16px !important;
+    font-weight: normal;
+}
+
 .p-14{
     font-size: 14px !important;
     font-weight: normal;
@@ -61,6 +66,12 @@ body{
 .p-12{
     font-size: 12px !important;
     font-weight: normal;
+}
+
+.p-16-bold{
+    font-size: 16px !important;
+    font-weight: bold;
+    line-height: 1.5;
 }
 
 .p-15-bold{
@@ -256,7 +267,7 @@ a{
     object-fit: cover;
 }
 
-.col-md-4 input{
+.col-md-4 input, .col-md-5 input{
     border-radius: 2px !important;
 }
 
@@ -404,4 +415,106 @@ a{
     height: 35px;
     -webkit-font-smoothing: antialiased;
     position: relative;
+}
+
+.txt-main{
+    font-size: 19px;
+    font-weight: 650;
+}
+
+.btn-thongtin{
+    transition: 0.5s ease-in-out;
+    padding: 10px 10px 10px;
+    height: 65px;
+    width: 45%;
+    margin-right: 10px;
+}
+
+.btn-thongtin:hover{
+    background-color: #032119 !important;
+}
+
+.favorite-tt{
+    height: 40px;
+    width: 220px;
+    display: inline-block;
+    position: relative;
+}
+
+.favorite-tt .material-icons{
+    font-size: 30px;
+    color: #cabfbf;
+    padding: 5px;
+    border-right: 0.8px solid #dee2e6;
+}
+
+.favorite-content{
+    padding: 5px;
+    color: #938787;
+}
+
+.nav .nav-tabs{
+    width: 100%;
+}
+
+.nav-tabs .nav-link{
+    background-color: #07503d !important;
+    border-radius: 0%;
+    color: white;
+    padding-right: 19.8px;
+    padding-left: 19.8px;
+}
+
+.nav-tabs .nav-link:focus{
+    border: none;
+}
+
+.nav-tabs .nav-link:hover{
+    background-color: #07503d !important;
+    border-radius: 0%;
+    color: white;
+    padding-right: 19px;
+    padding-left: 19px;
+    isolation: unset !important;
+    font-weight: normal;
+    border: none;
+}
+
+.nav-tabs .nav-link.active{
+    background-color: #07503d !important;
+    color: white !important;
+    border: none;
+    position: relative;
+}
+
+.nav-tabs .nav-link.active::before{
+    content: "";
+    height: 2px;
+    width: 30px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    bottom: 10%;
+    background-color: #fff;
+}
+
+.mota .p-16-bold{
+    color: #42495B;
+}
+
+.image_service img{
+    width: 40px;
+    height: auto;
+    transition: 0.5s ease-in-out;
+}
+
+.image_service img:hover{
+    transform: rotate(360deg);
+}
+
+.wrap-service{
+    padding: 15px 0 15px;
+    border-bottom: 0.8px solid #dee2e6;;
 }
