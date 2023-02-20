@@ -523,3 +523,17 @@ a{
     width: 100%;
     height: 100%;
 }
+
+.a_giohang{
+    text-decoration: none;
+}
+
+.a_giohang:hover{
+    text-decoration: underline;
+}
+
+.p_cost {
+    font-size: 14px;
+    color: #717171;
+    font-weight: 600;
+}
