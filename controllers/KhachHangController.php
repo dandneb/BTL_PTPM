@@ -11,5 +11,14 @@ class KhachHangController{
     function DangKy(){
         require_once 'views/KhachHang/DangKy.php';
     }
+    function DonHang(){
+        require_once 'views/KhachHang/DonHang.php';
+    }
+    function DoiMatKhau(){
+        require_once 'views/KhachHang/DoiMatKhau.php';
+    }
+    function SoDiaChi(){
+        require_once 'views/KhachHang/SoDiaChi.php';
+    }
 }
 ?>
