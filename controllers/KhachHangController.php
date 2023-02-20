@@ -8,5 +8,8 @@ class KhachHangController{
     function DangNhap(){
         require_once 'views/KhachHang/DangNhap.php';
     }
+    function DangKy(){
+        require_once 'views/KhachHang/DangKy.php';
+    }
 }
 ?>
