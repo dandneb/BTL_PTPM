@@ -20,5 +20,14 @@ class KhachHangController{
     function SoDiaChi(){
         require_once 'views/KhachHang/SoDiaChi.php';
     }
+    function YeuThich(){
+        require_once 'views/KhachHang/YeuThich.php';
+    }
+    function GioHang(){
+        require_once 'views/KhachHang/GioHang.php';
+    }
+    function LienHe(){
+        require_once 'views/KhachHang/LienHe.php';
+    }
 }
 ?>

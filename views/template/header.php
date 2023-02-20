@@ -37,13 +37,15 @@
                 <div class="navbar-nav ms-auto mb-2 mb-lg-0 text-white">
                     <div class="header-myAccount" style="border-right-style: solid;">
                         <p class="p-14-bold mt-3">Xin chào, Khách</p>
-                        <p class="p-12-bold mt-3">Đăng nhập <span class="p-12">hoặc</span> <span class="p-12-bold">Đăng ký</span>
+                        <p class="p-12-bold mt-3"><a href="index.php?controller=KhachHang&action=DangNhap" class="text-white">Đăng nhập</a> <span class="p-12">hoặc</span> <span class="p-12-bold"><a href="index.php?controller=KhachHang&action=DangKy" class="text-white">Đăng ký</a></span>
                     </div>
                     <div class="ms-3 me-5 header-myFavorites">
-                        <span class="material-icons me-3">
-                            favorite
-                        </span>
-                        <a href="index.php?controller=nuochoa&action=giohang" style="color: white;">
+                        <a href="index.php?controller=khachhang&action=yeuthich" style="color: white;">
+                            <span class="material-icons me-3">
+                                favorite
+                            </span>
+                        </a>
+                        <a href="index.php?controller=khachhang&action=giohang" style="color: white;">
                             <span class="material-icons">
                                 shopping_cart
                             </span>
@@ -58,7 +60,7 @@
             <a class="nav-link active text-dark" href="#">TRANG CHỦ</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" href="#">GIỚI THIỆU</a>
+            <a class="nav-link text-dark" href="index.php?controller=nuochoa&action=gioithieu">GIỚI THIỆU</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" href="#">THƯƠNG HIỆU ></a>
@@ -73,6 +75,6 @@
             <a class="nav-link text-dark" href="#">BLOG</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" href="#">LIÊN HỆ</a>
+            <a class="nav-link text-dark" href="index.php?controller=KhachHang&action=LienHe">LIÊN HỆ</a>
         </li>
     </ul>

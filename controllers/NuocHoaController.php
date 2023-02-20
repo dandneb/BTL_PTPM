@@ -12,8 +12,8 @@ class NuocHoaController{
     function MuaHang(){
         require_once 'views/NuocHoa/MuaHang.php';
     }
-    function GioHang(){
-        require_once 'views/NuocHoa/GioHang.php';
+    function GioiThieu(){
+        require_once 'views/NuocHoa/GioiThieu.php';
     }
 }
 ?>
