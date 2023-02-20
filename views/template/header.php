@@ -43,9 +43,11 @@
                         <span class="material-icons me-3">
                             favorite
                         </span>
-                        <span class="material-icons">
-                            shopping_cart
-                        </span>
+                        <a href="index.php?controller=nuochoa&action=giohang" style="color: white;">
+                            <span class="material-icons">
+                                shopping_cart
+                            </span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -74,26 +76,3 @@
             <a class="nav-link text-dark" href="#">LIÊN HỆ</a>
         </li>
     </ul>
-    <!-- End Example Code -->
-<!-- /.container 
-    
-        <div class="container-fluid">
-            <div class="d-flex justify-content-start">
-                <div class="col-4 logo_wrapper">
-                    <form class="d-flex input-group" role="search">
-                        <input class="form-control ms-4" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
-                        <button class="btn" style="background-color: #FFFFFF;" type="submit"><span class="material-icons">
-                                search
-                            </span></button>
-                    </form>
-                </div>
-                <div class="col-4 logo_wrapper">
-                    <a href=""><img src="images/header/logo.png" class="logo" alt=""></a>
-                </div>
-                <div class="col-4 logo_wrapper">
-                    <button type="button" class="btn btn-success">Success</button>
-                </div>
-            </div>
-        </div>
-    </nav>
-    -->

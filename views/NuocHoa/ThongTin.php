@@ -114,7 +114,7 @@ require("views/template/header.php");
                     <p class="p-14-bold m-0">Tình trạng: <span class="p-14">Còn hàng</span></p>
                     <p class="price-information">775.000đ</p>
                 </div>
-                <form style="color: #42495b;">
+                <form style="color: #42495b;" action="index.php?controller=nuochoa&action=muahang" method="POST">
                     <span style="font-family:Trebuchet MS,Helvetica,sans-serif;">Hãy thử trải nghiệm nước hoa nam Roja Elysium Pour Homme, bạn sẽ đắm mình trong mùi hương dịu dàng đầy tinh tế này, ngọt ngào, thanh khiết nhưng cũng đầy bí ẩn, mạnh mẽ và gai góc.</span>
                     <div class="swatch">
                         <p class="p-14-bold">Giới tính</p>
@@ -175,7 +175,7 @@ require("views/template/header.php");
                         </div>
                     </div>
                     <div class="container p-0">
-                        <button class="btn btn-success btn-lg btn-thongtin rounded-0" type="button">
+                        <button class="btn btn-success btn-lg btn-thongtin rounded-0" type="submit">
                             <span class="txt-main">MUA NGAY</span>
                         </button>
                         <button class="btn btn-success btn-lg btn-thongtin rounded-0" type="button">
@@ -183,7 +183,7 @@ require("views/template/header.php");
                         </button>
                     </div>
                     <div class="container p-0 mt-4">
-                        <a href="" class="text-decoration-none text-dark border favorite-tt d-flex align-items-center">
+                        <a href="index.php?controller=nuochoa&action=muahang" class="text-decoration-none text-dark border favorite-tt d-flex align-items-center">
                             <span class="material-icons">
                                 favorite
                             </span>
