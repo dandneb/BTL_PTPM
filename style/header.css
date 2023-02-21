@@ -549,3 +549,20 @@ img{
 .text-main{
     color: #07503d;
 }
+
+.text-gray{
+    color: #42495b;
+    text-align: justify;
+}
+
+@media (min-width: 1400px){
+    .container, .container-lg, .container-md, .container-sm {
+        max-width: 1170px;
+    }
+}
+
+@media (min-width: 1200px){
+    .container, .container-lg, .container-md, .container-sm {
+        max-width: 1170px;
+    }
+}

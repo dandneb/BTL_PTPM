@@ -29,5 +29,11 @@ class KhachHangController{
     function LienHe(){
         require_once 'views/KhachHang/LienHe.php';
     }
+    function MuaHang(){
+        require_once 'views/KhachHang/MuaHang.php';
+    }
+    function HoanTatDatHang(){
+        require_once 'views/KhachHang/HoanTatDatHang.php';
+    }
 }
 ?>

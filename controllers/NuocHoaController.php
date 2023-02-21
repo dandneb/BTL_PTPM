@@ -9,9 +9,6 @@ class NuocHoaController{
     function ThongTin(){
         require_once 'views/NuocHoa/ThongTin.php';
     }
-    function MuaHang(){
-        require_once 'views/NuocHoa/MuaHang.php';
-    }
     function GioiThieu(){
         require_once 'views/NuocHoa/GioiThieu.php';
     }
