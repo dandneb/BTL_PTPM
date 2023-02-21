@@ -566,3 +566,8 @@ img{
         max-width: 1170px;
     }
 }
+
+.table-sidebar tbody tr td{
+    font-size: 14px;
+    font-weight: normal;
+}

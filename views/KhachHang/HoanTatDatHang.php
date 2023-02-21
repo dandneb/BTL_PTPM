@@ -103,6 +103,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="container mt-3 p-3">
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-success" type="button">Tiếp tục mua hàng</button>
+                        <button class="btn btn-xt d-flex align-items-center" type="button"><span class="material-icons me-1">
+                                picture_as_pdf
+                            </span> <span>In</span></button>
+                    </div>
+                </div>
             </div>
             <div class="col-md-5 bg-white p-2">
                 <h6>Đơn hàng #2738 (1)</h6>

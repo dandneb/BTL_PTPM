@@ -12,5 +12,8 @@ class NuocHoaController{
     function GioiThieu(){
         require_once 'views/NuocHoa/GioiThieu.php';
     }
+    function Blog(){
+        require_once 'views/NuocHoa/Blog.php';
+    }
 }
 ?>

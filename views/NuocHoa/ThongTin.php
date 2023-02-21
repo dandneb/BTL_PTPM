@@ -114,7 +114,7 @@ require("views/template/header.php");
                     <p class="p-14-bold m-0">Tình trạng: <span class="p-14">Còn hàng</span></p>
                     <p class="price-information">775.000đ</p>
                 </div>
-                <form style="color: #42495b;" action="index.php?controller=nuochoa&action=muahang" method="POST">
+                <form style="color: #42495b;" action="index.php?controller=khachhang&action=muahang" method="POST">
                     <span style="font-family:Trebuchet MS,Helvetica,sans-serif;">Hãy thử trải nghiệm nước hoa nam Roja Elysium Pour Homme, bạn sẽ đắm mình trong mùi hương dịu dàng đầy tinh tế này, ngọt ngào, thanh khiết nhưng cũng đầy bí ẩn, mạnh mẽ và gai góc.</span>
                     <div class="swatch">
                         <p class="p-14-bold">Giới tính</p>

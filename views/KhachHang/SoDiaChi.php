@@ -7,7 +7,8 @@ require("views/template/header.php");
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none p-14 text-dark">Trang chủ</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><span class="p-14 text-dark">Trang khách hàng</span></li>
+                    <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none p-14 text-dark">Trang tài khoản</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><span class="p-14 text-dark">Sổ địa chỉ</span></li>
                 </ol>
             </nav>
         </div>
@@ -18,10 +19,10 @@ require("views/template/header.php");
                 <h5>TRANG TÀI KHOẢN</h5>
                 <p class="p-14-bold">Xin chào, Đào Duy Đán</p>
                 <div class="mt-3">
-                    <p class="p-14"><a href="" class="text-decoration-none text-dark">Thông tin tài khoản</a></p>
-                    <p class="p-14"><a href="" class="text-decoration-none text-dark">Đơn hàng của bạn</a></p>
-                    <p class="p-14"><a href="" class="text-decoration-none text-dark">Đổi mật khẩu</a></p>
-                    <p class="p-14"><a href="" class="text-decoration-none text-dark">Sổ địa chỉ (1)</a></p>
+                    <p class="p-14"><a href="index.php?controller=khachhang" class="text-decoration-none text-dark">Thông tin tài khoản</a></p>
+                    <p class="p-14"><a href="index.php?controller=khachhang&action=DonHang" class="text-decoration-none text-dark">Đơn hàng của bạn</a></p>
+                    <p class="p-14"><a href="index.php?controller=khachhang&action=DoiMatKhau" class="text-decoration-none text-dark">Đổi mật khẩu</a></p>
+                    <p class="p-14"><a href="index.php?controller=khachhang&action=SoDiaChi" class="text-decoration-none text-dark">Sổ địa chỉ (1)</a></p>
                 </div>
             </div>
             <div class="col-md-9">

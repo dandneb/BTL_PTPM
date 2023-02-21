@@ -35,5 +35,8 @@ class KhachHangController{
     function HoanTatDatHang(){
         require_once 'views/KhachHang/HoanTatDatHang.php';
     }
+    function ChiTietDonHang(){
+        require_once 'views/KhachHang/ChiTietDonHang.php';
+    }
 }
 ?>
