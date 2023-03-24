@@ -15,5 +15,8 @@ class NuocHoaController{
     function Blog(){
         require_once 'views/NuocHoa/Blog.php';
     }
+    function Blog_ThongTin(){
+        require_once 'views/NuocHoa/Blog_ThongTin.php';
+    }
 }
 ?>

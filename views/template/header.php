@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style\swiper-bundle.min.css">
-    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/jquery-3.6.4.min.js"></script>
 </head>
 
 <body class="p-0 m-0 border-0 bd-example">
@@ -24,9 +24,80 @@
             <a class="logo_wrapper" href="index.php" style="cursor:pointer;">
                 <div class="navbar-brand" href="index.php"><img src="images/header/logo.png" class="logo" alt=""></div>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <button class="btn btn-sidebar" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><span class="navbar-toggler-icon"></span></button>
+
+            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                <div class="offcanvas-header bg-success" style="display:flex;justify-content:end">
+                    <button type="button" class="btn-close bg-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body p-0">
+                    <div class="bg-success text-white flex-column pb-3">
+                        <div class="d-flex justify-content-center">
+                            <div style="background-color: #05392B; width:50px; height: 50px; border-radius:100%">
+                                <span class="material-icons" style="font-size: 40px; margin-top:5px; margin-left: 5px;">
+                                    account_circle
+                                </span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <p class="p-14">Đào Duy Đán</p>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-outline-light rounded-0" style="transform: translateX(-5px);">TÀI KHOẢN</button>
+                            <button type="button" class="btn btn-outline-light rounded-0" style="transform: translateX(5px);">ĐĂNG XUẤT</button>
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            <form class="d-flex input-group" role="search" style="max-width: 250px;">
+                                <input class="form-control" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
+                                <button class="btn" style="background-color: #FFFFFF;" type="submit"><span class="material-icons">
+                                        search
+                                    </span></button>
+                            </form>
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            <a href="index.php?controller=khachhang&action=yeuthich" style="color: white;">
+                                <span class="material-icons me-3">
+                                    favorite
+                                </span>
+                            </a>
+                            <a href="index.php?controller=khachhang&action=giohang" style="color: white;">
+                                <span class="material-icons">
+                                    shopping_cart
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="background-color:#F6F6F7" class="p-2">
+                            <p class="p-13 m-0">Danh mục</p>
+                        </div>
+                        <div style="background-color:white" class="p-2 border-bottom">
+                            <p class="p-14 m-0">Trang chủ</p>
+                        </div>
+                        <div style="background-color:white" class="p-2 border-bottom">
+                            <p class="p-14 m-0">Giới thiệu</p>
+                        </div>
+                        <div style="background-color:white" class="p-2 border-bottom">
+                            <p class="p-14 m-0">Thương hiệu</p>
+                        </div>
+                        <div style="background-color:white" class="p-2 border-bottom">
+                            <p class="p-14 m-0">Nước hoa</p>
+                        </div>
+                        <div style="background-color:white" class="p-2 border-bottom">
+                            <p class="p-14 m-0">Nước hoa chiết</p>
+                        </div>
+                        <div style="background-color:white" class="p-2 border-bottom">
+                            <p class="p-14 m-0">Kiến thức</p>
+                        </div>
+                        <div style="background-color:white" class="p-2 border-bottom">
+                            <p class="p-14 m-0">Blog</p>
+                        </div>
+                        <div style="background-color:white" class="p-2 border-bottom">
+                            <p class="p-14 m-0">Liên hệ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <form class="d-flex input-group" role="search" style="max-width: 250px;">
                     <input class="form-control" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search">

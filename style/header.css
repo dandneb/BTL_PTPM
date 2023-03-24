@@ -571,3 +571,37 @@ img{
     font-size: 14px;
     font-weight: normal;
 }
+
+.blog-item-thumbnail{
+    float: left;
+    width: 240px;
+    height: auto;
+    margin-right: 10px;
+    overflow: hidden;
+}
+
+.blog-item-thumbnail img{
+    border-radius: 2%;
+}
+
+.blog-items-main .post-time{
+    font-size: 12px;
+    color: #9b9b9b;
+    margin: 0 10px 0 0;
+}
+
+.blog-items-main p{
+    font-size: 14px;
+    color: #4d4d4d;
+    text-align: justify;
+    font-weight: normal;
+}
+
+@media (min-width: 992px){
+    .navbar-expand-lg .offcanvas {
+        display: none;
+    }
+    .navbar-expand-lg .btn-sidebar{
+        display: none;
+    }
+}

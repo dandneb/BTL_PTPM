@@ -30,8 +30,22 @@ require("views/template/header.php");
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-9">
-
+            <div class="col-md-9 border">
+                <div class="row mt-2">
+                    <h5>Blog</h5>
+                    <div class="col-md-12">
+                        <a class="blog-item-thumbnail" href="index.php?controller=NuocHoa&action=Blog_ThongTin">
+                            <img src="images\blog\20_02_2023_XGAUSH87\nuoc-hoa-huong-thom-da-thit-parfumerievn.jpg" alt="">
+                        </a>
+                        <div class="blog-items-main">
+                            <div>
+                                <a><h6>Hương thơm da thịt - Xu hướng mùi hương đang rất được yêu thích</h6></a>
+                                <p class="post-time">20/02/2023 - PARFUMERIEVN</p>
+                            </div>
+                            <p class="mt-3">Sở dĩ có tên gọi là mùi hương da thịt vì hương thơm của những chai nước hoa này vô cùng nhẹ nhàng, khi dùng sẽ hoà với mùi cơ thể tạo ra một hương thơm tự nhiên, nhẹ tênh, dễ chịu, đôi khi hương thơm nhẹ đến nỗi chỉ thoang thoảng trên da, những ai kề cận sát bên mới ...</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
