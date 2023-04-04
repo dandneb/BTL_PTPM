@@ -30,10 +30,10 @@
             <!-- LOGO -->
             <a href="index.html" class="logo text-center logo-light">
                 <span class="logo-lg">
-                    <img src="../BTL_PTPM/views/Admin/assets/images/logo.png" alt="" height="16">
+                    <img src="../../../BTL_PTPM/images/header/logo.png" alt="" height="16">
                 </span>
                 <span class="logo-sm">
-                    <img src="../BTL_PTPM/views/Admin/assets/images/logo_sm.png" alt="" height="16">
+                    <img src="../../../BTL_PTPM/images/header/logo.png" alt="" height="16">
                 </span>
             </a>
 

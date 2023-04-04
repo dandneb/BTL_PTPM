@@ -97,6 +97,11 @@
 <script src="../BTL_PTPM/views/Admin/assets/js/vendor.min.js"></script>
 <script src="../BTL_PTPM/views/Admin/assets/js/app.min.js"></script>
 
+<!-- plugin js -->
+<script src="../BTL_PTPM/views/Admin/assets/js/vendor/dropzone.min.js"></script>
+<!-- init js -->
+<script src="../BTL_PTPM/views/Admin/assets/js/ui/component.fileupload.js"></script>
+
 <!-- third party js -->
 <!-- <script src="../BTL_PTPM/views/Admin/assets/js/vendor/Chart.bundle.min.js"></script> -->
 <script src="../BTL_PTPM/views/Admin/assets/js/vendor/apexcharts.min.js"></script>

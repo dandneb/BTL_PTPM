@@ -41,6 +41,16 @@ require "views/Admin/templates/header.php";
                             </div>
                         </div><!-- end col-->
                     </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <?php
+                                if(isset($_GET['success']))
+                                    echo '<span class="text-success">Thêm sản phẩm nước hoa thành công</span>';
+                                else if(isset($_GET['error']))
+                                    echo '<span class="text-danger">Thêm sản phẩm nước hoa thất bại</span>';
+                            ?>
+                        </div>
+                    </div>
 
                     <div class="table-responsive">
                         <table id="myTable" class="table table-centered w-100 dt-responsive nowrap display" id="products-datatable mt-2">
@@ -148,6 +158,9 @@ require "views/Admin/templates/header.php";
                         return '<span class="badge bg-success">Vẫn bán</span>';
                     } else if ( data == 1 ) {
                         return '<span class="badge bg-danger">Ngừng bán</span>';
+                    }
+                    else if ( data == 2 ) {
+                        return '<span class="badge bg-danger">Khóa</span>';
                     }
                 }},
                 {
