@@ -20,9 +20,9 @@ require("views/template/header.php");
                 <p class="p-14-bold">Xin chào, Đào Duy Đán</p>
                 <div class="mt-3">
                     <p class="p-14"><a href="index.php?controller=khachhang" class="text-decoration-none text-dark">Thông tin tài khoản</a></p>
-                    <p class="p-14"><a href="index.php?controller=khachhang&action=DonHang" class="text-decoration-none text-dark">Đơn hàng của bạn</a></p>
+                    <p class="p-14-bold mb-3"><a href="index.php?controller=khachhang&action=DonHang" class="text-decoration-underline text-dark">Đơn hàng của bạn</a></p>
                     <p class="p-14"><a href="index.php?controller=khachhang&action=DoiMatKhau" class="text-decoration-none text-dark">Đổi mật khẩu</a></p>
-                    <p class="p-14"><a href="index.php?controller=khachhang&action=SoDiaChi" class="text-decoration-none text-dark">Sổ địa chỉ (1)</a></p>
+                    <p class="p-14"><a href="index.php?controller=khachhang&action=SoDiaChi" class="text-decoration-none text-dark">Sổ địa chỉ (<?php echo count($data) ?>)</a></p>
                 </div>
             </div>
             <div class="col-md-9">

@@ -16,21 +16,19 @@ require("views/template/header.php");
         <div class="row">
             <div class="col-md-3">
                 <h5>TRANG TÀI KHOẢN</h5>
-                <p class="p-14-bold">Xin chào, Đào Duy Đán</p>
+                <p class="p-14-bold">Xin chào, <?php echo $kh[2] ?></p>
                 <div class="mt-3">
-                    <p class="p-14"><a href="index.php?controller=khachhang" class="text-decoration-none text-dark">Thông tin tài khoản</a></p>
+                    <p class="p-14-bold mb-3"><a href="index.php?controller=khachhang" class="text-decoration-underline text-dark">Thông tin tài khoản</a></p>
                     <p class="p-14"><a href="index.php?controller=khachhang&action=DonHang" class="text-decoration-none text-dark">Đơn hàng của bạn</a></p>
                     <p class="p-14"><a href="index.php?controller=khachhang&action=DoiMatKhau" class="text-decoration-none text-dark">Đổi mật khẩu</a></p>
-                    <p class="p-14"><a href="index.php?controller=khachhang&action=SoDiaChi" class="text-decoration-none text-dark">Sổ địa chỉ (1)</a></p>
+                    <p class="p-14"><a href="index.php?controller=khachhang&action=SoDiaChi" class="text-decoration-none text-dark">Sổ địa chỉ (<?php echo count($data) ?>)</a></p>
                 </div>
             </div>
             <div class="col-md-9">
                 <h5>THÔNG TIN KHÁCH HÀNG</h5>
-                <p class="p-14-bold mt-4">Họ tên: <span class="p-14">Đào Duy Đán</span></p>
-                <p class="p-14-bold mt-3">Email: <span class="p-14">daodan2612@gmail.com</span></p>
-                <p class="p-14-bold mt-3">Điện thoại: <span class="p-14">0366887398</span></p>
-                <p class="p-14-bold mt-3">Công ty: <span class="p-14">Ha Noi</span></p>
-                <p class="p-14-bold mt-3">Địa chỉ: <span class="p-14">Ha Noi, Huyện Phú Xuyên, Vietnam</span></p>
+                <p class="p-14-bold mt-4">Họ tên: <span class="p-14"><?php echo $data_kh['hoten'] ?></span></p>
+                <p class="p-14-bold mt-3">Email: <span class="p-14"><?php echo $data_kh['email'] ?></span></p>
+                <p class="p-14-bold mt-3">Điện thoại: <span class="p-14"><?php echo $data_kh['dienthoai'] ?></span></p>
             </div>
         </div>
     </div>

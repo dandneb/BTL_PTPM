@@ -1,21 +1,21 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <title>File Uploads | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
-        <meta content="Coderthemes" name="author">
-        <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
+<head>
+    <meta charset="utf-8">
+    <title>File Uploads | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
+    <meta content="Coderthemes" name="author">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-        <!-- App css -->
-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css">
-        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style">
-        <link href="assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style">
+    <!-- App css -->
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style">
+    <link href="assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style">
 
-    </head>
+</head>
 
     <body class="loading" data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
         <!-- Begin page -->
@@ -1053,9 +1053,9 @@
                                         </ul> <!-- end nav-->
                                         <div class="tab-content">
                                             <div class="tab-pane show active" id="file-upload-preview">
-                                                <form action="/" method="post" class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
+                                                <form action="test.php" method="post" class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate" enctype="multipart/form-data">
                                                     <div class="fallback">
-                                                        <input name="file" type="file" multiple="">
+                                                        <input name="file" type="file" multiple>
                                                     </div>
 
                                                     <div class="dz-message needsclick">
@@ -1064,6 +1064,7 @@
                                                         <span class="text-muted font-13">(This is just a demo dropzone. Selected files are
                                                             <strong>not</strong> actually uploaded.)</span>
                                                     </div>
+                                                    <button type="submit" name="submit" id="submit-all">Gui di</button>
                                                 </form>
 
                                                 <!-- Preview -->
@@ -1298,7 +1299,26 @@
 
         <!-- File upload js -->
         <script src="assets/js/ui/component.fileupload.js"></script>
-
+        <script>
+            Dropzone.options.myAwesomeDropzone = {
+                autoProcessQueue: false,
+                acceptedFiles: ".png,.jpg,.gif,.jpeg",
+                init: function() {
+                    var submitButton = document.createElement("#submit-all")
+                    myDropzone = this;
+                    submitButton.addEventListener("submit", function() {
+                        myDropzone.processQueue();
+                    });
+                    this.on("complete", function() {
+                        if(this.getQueueFiles().length==0 && this.getUploadingFiles().length==0){
+                            var _this = this;
+                            _this.removeAllFiles();
+                        }
+                    })
+                }
+            };
+            
+        </script>
     </body>
 
 </html>

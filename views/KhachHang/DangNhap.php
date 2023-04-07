@@ -21,30 +21,34 @@ require("views/template/header.php");
                     <p class="p-14 text-center mt-4">Nếu bạn đã có tài khoản, đăng nhập tại đây.</p>
                 </div>
                 <div>
-                    <form class="row g-3 needs-validation" novalidate>
+                    <form class="row g-3 needs-validation" action="" method="POST">
+                        <div style="color: red">
+                            <?php echo '<span>' . $error . '</span>' ?>
+                        </div>
                         <div class="col-md-12">
-                            <label for="validationCustom01 p-14-bold" class="form-label">Email<span style="color:red;">*</span></label>
-                            <input type="text" class="form-control" id="validationCustom01" placeholder="Email" required>
+                            <label for="validationCustom01 p-14-bold" class="form-label">Email hoặc Số điện thoại<span style="color:red;">*</span></label>
+                            <input type="text" class="form-control" name = "taikhoan" value="<?php echo isset($_POST['taikhoan']) ? $_POST['taikhoan'] : "" ?>" placeholder="Email" required>
                             <div class="invalid-feedback">
-                                Vui lòng nhập email tài khoản của bạn!
+                                Vui lòng nhập tài khoản của bạn!
                             </div>
                         </div>
                         <div class="col-md-12">
                             <label for="validationCustom02 p-14-bold" class="form-label">Mật khẩu<span style="color:red;">*</span></label>
-                            <input type="password" class="form-control" id="validationCustom02" placeholder="Mật khẩu" required>
+                            <input type="password" class="form-control" name="matkhau" placeholder="Mật khẩu" required>
                             <div class="invalid-feedback">
-                                Vui lòng nhập email tài khoản của bạn!
+                                Vui lòng nhập mật khẩu của bạn!
                             </div>
                         </div>
                         <div>
-                            <button class="btn btn-submit rounded-0" type="submit">ĐĂNG NHẬP</button>
+                            <button class="btn btn-submit rounded-0 me-2" name="submit" type="submit">ĐĂNG NHẬP</button>
                         </div>
                     </form>
                 </div>
                 <div>
-                    <p class="p-14 mt-3">Bạn chưa có tài khoản, <a href="" class="text-decoration-none">đăng ký tại đây.</a></p>
+                    <p class="p-14 mt-3">Bạn chưa có tài khoản, <a href="index.php?controller=khachhang&action=dangky" class="text-decoration-none">đăng ký tại đây.</a></p>
                     <a href="" class="p-14 text-decoration-none text-dark">Quên mật khẩu?</a>
                 </div>
+                
             </div>
             <div class="col-md-4"></div>
         </div>

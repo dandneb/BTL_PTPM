@@ -18,6 +18,11 @@ class AdminController{
         $AdminModel = new AdminModel();
         echo $AdminModel->getALLProducts();
     }
+    function addImage(){
+        $error = "";
+        
+        require_once 'views/Admin/apps-addImage.php';
+    }
     function addSanPham(){
         $error = "";
         if(isset($_POST['submit'])){
@@ -116,10 +121,52 @@ class AdminController{
                         'soluong' => $so_luong100,
                     ];
                     if($nhmodel->insertGiaNuocHoa($gnh10) && $nhmodel->insertGiaNuocHoa($gnh20) && $nhmodel->insertGiaNuocHoa($gnh100)){
-                        header("location: index.php?controller=admin&action=sanpham&success=");
+                        if (!empty($_FILES)) {
+                            $folder_name = "../BTL_PTPM/images/" . $id_thuonghieu . "/";
+                            $allowTypes = array('jpg', 'png', 'jpeg', 'pdf');
+                            $link = "images/" . $id_thuonghieu . "/";
+                            if (!file_exists($folder_name)) {
+                                mkdir($folder_name, 0777, true);
+                            }
+                            $check = 0;
+                            if (!empty($_FILES)) {
+                                $folder_name .= $id_nuochoa . "/";
+                                $link .= $id_nuochoa . "/";
+                                if (!file_exists($folder_name)) {
+                                    mkdir($folder_name, 0777, true);
+                                }
+                                $files = array_filter($_FILES['file']['name']);
+                                $total_count = count($_FILES['file']['name']);
+                                for ($i = 0; $i < $total_count; $i++) {
+                                    $newFilePath = $folder_name . $id_nuochoa . "_" . $i . "." . explode("/", $_FILES['file']['type'][$i])[1];
+                                    $new_link = $link . $id_nuochoa . "_" . $i . "." . explode("/", $_FILES['file']['type'][$i])[1];
+                                    $fileType = pathinfo($newFilePath, PATHINFO_EXTENSION);
+                                    $image = [
+                                        'img_link' => $new_link,
+                                        'id_nuochoa' => $id_nuochoa,
+                                    ];
+                                    if (in_array($fileType, $allowTypes)) {
+                                        if ($_FILES['file']['size'][$i] <= 5 * 1024 * 1024)
+                                            $tmpFilePath = $_FILES['file']['tmp_name'][$i];
+                                        if ($tmpFilePath != "") {
+                                            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                                                $check++;
+                                                $nhmodel->insertImage($image);
+                                            }
+                                        }
+                                    }
+                                }
+                                if ($check == $total_count) {
+                                    header("location: index.php?controller=admin&action=sanpham&success=");
+                                }else{
+                                    header("location: index.php?controller=admin&action=sanpham&success=&error=");
+                                }
+                            }
+                        }
+                    }else{
+                        header("location: index.php?controller=admin&action=sanpham&error=");
                     }
-                }
-                else
+                }else
                     header("location: index.php?controller=admin&action=sanpham&error=");
             }
         }
@@ -128,6 +175,7 @@ class AdminController{
         $nhacungcap = $nccModel->getALLNCC();
         $thuonghieu = $thModel->getALLTH();
         require_once 'views/Admin/apps-ecommerce-addProducts.php';
+        
     }
 }
 ?>

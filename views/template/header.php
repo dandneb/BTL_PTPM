@@ -1,3 +1,12 @@
+<?php
+if(!isset($_SESSION)) {
+    session_start();
+}
+if (isset($_SESSION['LoginOK'])) {
+    $kh = explode("_", $_SESSION['LoginOK']);
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -40,11 +49,23 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <p class="p-14">Đào Duy Đán</p>
+                            <?php
+                            if (isset($_SESSION['LoginOK'])) echo '<p class="p-14">' . $kh[2] . '</p>';
+                            else echo '<p class="p-14">Khách</p>';
+                            ?>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-outline-light rounded-0" style="transform: translateX(-5px);">TÀI KHOẢN</button>
-                            <button type="button" class="btn btn-outline-light rounded-0" style="transform: translateX(5px);">ĐĂNG XUẤT</button>
+                            <?php
+                            if (isset($_SESSION['LoginOK'])) echo '
+                            <button type="button" class="btn btn-outline-light rounded-0" style="transform: translateX(-5px);"><a href="index.php?controller=KhachHang" class="text-white">TÀI KHOẢN</a></button>
+                            <button type="button" class="btn btn-outline-light rounded-0" style="transform: translateX(5px);"><a href="index.php?controller=KhachHang&action=DangXuat" class="text-white">ĐĂNG XUẤT</a></button>
+                            ';
+                            else echo '
+                            <button type="button" class="btn btn-outline-light rounded-0" style="transform: translateX(-5px);"><a href="index.php?controller=KhachHang&action=DangNhap" class="text-white">ĐĂNG NHẬP</a></button>
+                            <button type="button" class="btn btn-outline-light rounded-0" style="transform: translateX(5px);"><a href="index.php?controller=KhachHang&action=DangKy" class="text-white">ĐĂNG KÝ</a></button>
+                            ';
+                            ?>
+                            
                         </div>
                         <div class="d-flex justify-content-center mt-3">
                             <form class="d-flex input-group" role="search" style="max-width: 250px;">
@@ -107,8 +128,17 @@
                 </form>
                 <div class="navbar-nav ms-auto mb-2 mb-lg-0 text-white">
                     <div class="header-myAccount" style="border-right-style: solid;">
-                        <p class="p-14-bold mt-3">Xin chào, Khách</p>
-                        <p class="p-12-bold mt-3"><a href="index.php?controller=KhachHang&action=DangNhap" class="text-white">Đăng nhập</a> <span class="p-12">hoặc</span> <span class="p-12-bold"><a href="index.php?controller=KhachHang&action=DangKy" class="text-white">Đăng ký</a></span>
+
+                        <p class="p-14-bold mt-3">Xin chào,
+                            <?php
+                            if (isset($_SESSION['LoginOK'])) echo $kh[2];
+                            else echo 'Khách';
+                            ?>
+                        </p>
+                        <?php
+                        if (isset($_SESSION['LoginOK'])) echo '<p class="p-12-bold mt-3"><a href="index.php?controller=KhachHang" class="text-white">Tài khoản</a> <span class="p-12">hoặc</span> <span class="p-12-bold"><a href="index.php?controller=KhachHang&action=DangXuat" class="text-white">Đăng xuất</a></span>';
+                        else echo '<p class="p-12-bold mt-3"><a href="index.php?controller=KhachHang&action=DangNhap" class="text-white">Đăng nhập</a> <span class="p-12">hoặc</span> <span class="p-12-bold"><a href="index.php?controller=KhachHang&action=DangKy" class="text-white">Đăng ký</a></span>';
+                        ?>
                     </div>
                     <div class="ms-3 me-5 header-myFavorites">
                         <a href="index.php?controller=khachhang&action=yeuthich" style="color: white;">

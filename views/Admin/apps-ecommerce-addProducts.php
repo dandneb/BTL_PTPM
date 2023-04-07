@@ -1,18 +1,19 @@
 <?php
 require "views/Admin/templates/header.php";
-$characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+$characters = '01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ';
 $randomString = str_shuffle($characters);
 $id_nuochoa = substr($randomString, 0, 11);
 ?>
-<div class="container-fluid" style="margin-top:15px">
-    <!-- start page title -->
+
+<!-- Start Content-->
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-10 ms-auto me-auto">
-            <a class="btn btn-danger mb-2">Thêm nước hoa</a>
+            <a class="btn btn-danger mt-2 mb-2">Thêm nước hoa</a>
             <div style="color: red">
                 <?php echo '<span>' . $error . '</span>' ?>
             </div>
-            <form class="needs-validation" method="POST" action="" novalidate>
+            <form action="" method="post" class="needs-validation dropzone" id="myAwesomeDropzone" enctype="multipart/form-data" onsubmit="return validateForm()" novalidate>
                 <div class="row">
                     <div class="col-md-6 ms-0">
                         <div class="mb-3">
@@ -219,6 +220,7 @@ $id_nuochoa = substr($randomString, 0, 11);
                         <label class="form-label" for="validationCustom01">Chọn thương hiệu của nước hoa</label>
                         <select class="form-select mb-3" name="id_thuonghieu">
                             <?php
+
                             for ($i = 0; $i < count($thuonghieu); $i++) {
                                 $th = $thuonghieu[$i];
                                 if ($i == 0) {
@@ -255,21 +257,31 @@ $id_nuochoa = substr($randomString, 0, 11);
                     <div class="col-md-3 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 10ML - Giá Nhập</label>
-                            <input type="text" class="form-control" name="gia_nhap10" id="validationCustom01">
+                            <input type="text" class="form-control" name="gia_nhap10" id="validationCustom01" required>
+                            <div class="invalid-feedback">
+                                Hãy điền giá nhập của nước hoa!
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-3 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 10ML - Giá Bán</label>
-                            <input type="text" class="form-control" name="gia_ban10" id="validationCustom01">
+                            <input type="text" class="form-control" name="gia_ban10" id="validationCustom01" required>
+                            <div class="invalid-feedback">
+                                Hãy điền giá bán của nước hoa!
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-3 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 10ML - Số lượng</label>
-                            <input type="text" class="form-control" name="so_luong10" id="validationCustom01">
+                            <input type="text" class="form-control" name="so_luong10" id="validationCustom01" required>
+                            <div class="invalid-feedback">
+                                Hãy nhập số lượng nước hoa!
+                            </div>
                         </div>
                     </div>
+
                     <!-- Dung tích 20 -->
                     <div class="col-md-3 me-0">
                         <div class="mb-3">
@@ -280,22 +292,33 @@ $id_nuochoa = substr($randomString, 0, 11);
                     <div class="col-md-3 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 20ML - Giá Nhập</label>
-                            <input type="text" class="form-control" name="gia_nhap20" id="validationCustom01">
+                            <input type="text" class="form-control" name="gia_nhap20" id="validationCustom01" required>
+                            <div class="invalid-feedback">
+                                Hãy điền giá nhập của nước hoa!
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-3 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 20ML - Giá Bán</label>
-                            <input type="text" class="form-control" name="gia_ban20" id="validationCustom01">
+                            <input type="text" class="form-control" name="gia_ban20" id="validationCustom01" required>
+                            <div class="invalid-feedback">
+                                Hãy điền giá bán của nước hoa!
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-3 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 20ML - Số lượng</label>
-                            <input type="text" class="form-control" name="so_luong20" id="validationCustom01">
+                            <input type="text" class="form-control" name="so_luong20" id="validationCustom01" required>
+                            <div class="invalid-feedback">
+                                Hãy nhập số lượng nước hoa!
+                            </div>
                         </div>
+
                     </div>
-                    <!-- Dung tích 100 -->
+
+                    <!-- Dung tích 100  -->
                     <div class="col-md-3 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 100ML</label>
@@ -305,107 +328,260 @@ $id_nuochoa = substr($randomString, 0, 11);
                     <div class="col-md-3 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 100ML - Giá Nhập</label>
-                            <input type="text" class="form-control" name="gia_nhap100" id="validationCustom01">
+                            <input type="text" class="form-control" name="gia_nhap100" id="validationCustom01" required>
+                            <div class="invalid-feedback">
+                                Hãy điền giá nhập của nước hoa!
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-3 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 100ML - Giá Bán</label>
-                            <input type="text" class="form-control" name="gia_ban100" id="validationCustom01">
+                            <input type="text" class="form-control" name="gia_ban100" id="validationCustom01" required>
+                            <div class="invalid-feedback">
+                                Hãy điền giá bán của nước hoa!
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-3 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 100ML - Số lượng</label>
-                            <input type="text" class="form-control" name="so_luong100" id="validationCustom01">
+                            <input type="text" class="form-control" name="so_luong100" id="validationCustom01" required>
+                            <div class="invalid-feedback">
+                                Hãy nhập số lượng nước hoa!
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Ảnh nước hoa -->
-                    <div class="tab-content">
+                    <div id="tab-content">
                         <div class="tab-pane show active" id="file-upload-preview">
-                            <form action="/" method="post" class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
-                                <div class="fallback">
-                                    <input name="file" type="file" multiple="">
-                                </div>
-
-                                <div class="dz-message needsclick">
-                                    <i class="h1 text-muted dripicons-cloud-upload"></i>
-                                    <h3>Drop files here or click to upload.</h3>
-                                    <span class="text-muted font-13">(This is just a demo dropzone. Selected files are
-                                        <strong>not</strong> actually uploaded.)</span>
-                                </div>
-                            </form>
-
-                            <!-- Preview -->
-                            <div class="dropzone-previews mt-3" id="file-previews"></div>
-                        </div> <!-- end preview-->
-
-                        <div class="tab-pane" id="file-upload-code">
-                            <p>Make sure to include following js files at end of <code>body element</code></p>
-
-                            <pre class="mb-0">
-                                                    <span class="html escape">
-                                                        &lt;!-- plugin js --&gt;
-                                                        &lt;script src=&quot;assets/js/vendor/dropzone.min.js&quot;&gt;&lt;/script&gt;
-                                                        &lt;!-- init js --&gt;
-                                                        &lt;script src=&quot;assets/js/ui/component.fileupload.js&quot;&gt;&lt;/script&gt;
-                                                    </span>
-                                                </pre> <!-- end highlight-->
-
-                            <pre class="mb-0">
-                                                    <span class="html escape">
-                                                        &lt;!-- File Upload --&gt;
-                                                        &lt;form action=&quot;/&quot; method=&quot;post&quot; class=&quot;dropzone&quot; id=&quot;myAwesomeDropzone&quot; data-plugin=&quot;dropzone&quot; data-previews-container=&quot;#file-previews&quot;
-                                                            data-upload-preview-template=&quot;#uploadPreviewTemplate&quot;&gt;
-                                                            &lt;div class=&quot;fallback&quot;&gt;
-                                                                &lt;input name=&quot;file&quot; type=&quot;file&quot; multiple /&gt;
-                                                            &lt;/div&gt;
-                                                        
-                                                            &lt;div class=&quot;dz-message needsclick&quot;&gt;
-                                                                &lt;i class=&quot;h1 text-muted dripicons-cloud-upload&quot;&gt;&lt;/i&gt;
-                                                                &lt;h3&gt;Drop files here or click to upload.&lt;/h3&gt;
-                                                                &lt;span class=&quot;text-muted font-13&quot;&gt;(This is just a demo dropzone. Selected files are
-                                                                    &lt;strong&gt;not&lt;/strong&gt; actually uploaded.)&lt;/span&gt;
-                                                            &lt;/div&gt;
-                                                        &lt;/form&gt;
-                                                        
-                                                        &lt;!-- Preview --&gt;
-                                                        &lt;div class=&quot;dropzone-previews mt-3&quot; id=&quot;file-previews&quot;&gt;&lt;/div&gt;
-
-                                                        &lt;!-- file preview template --&gt;
-                                                        &lt;div class=&quot;d-none&quot; id=&quot;uploadPreviewTemplate&quot;&gt;
-                                                            &lt;div class=&quot;card mt-1 mb-0 shadow-none border&quot;&gt;
-                                                                &lt;div class=&quot;p-2&quot;&gt;
-                                                                    &lt;div class=&quot;row align-items-center&quot;&gt;
-                                                                        &lt;div class=&quot;col-auto&quot;&gt;
-                                                                            &lt;img data-dz-thumbnail src=&quot;#&quot; class=&quot;avatar-sm rounded bg-light&quot; alt=&quot;&quot;&gt;
-                                                                        &lt;/div&gt;
-                                                                        &lt;div class=&quot;col ps-0&quot;&gt;
-                                                                            &lt;a href=&quot;javascript:void(0);&quot; class=&quot;text-muted fw-bold&quot; data-dz-name&gt;&lt;/a&gt;
-                                                                            &lt;p class=&quot;mb-0&quot; data-dz-size&gt;&lt;/p&gt;
-                                                                        &lt;/div&gt;
-                                                                        &lt;div class=&quot;col-auto&quot;&gt;
-                                                                            &lt;!-- Button --&gt;
-                                                                            &lt;a href=&quot;&quot; class=&quot;btn btn-link btn-lg text-muted&quot; data-dz-remove&gt;
-                                                                                &lt;i class=&quot;dripicons-cross&quot;&gt;&lt;/i&gt;
-                                                                            &lt;/a&gt;
-                                                                        &lt;/div&gt;
-                                                                    &lt;/div&gt;
-                                                                &lt;/div&gt;
-                                                            &lt;/div&gt;
-                                                        &lt;/div&gt;
-                                                    </span>
-                                                </pre> <!-- end highlight-->
-                        </div> <!-- end preview code-->
-                    </div> <!-- end tab-content-->
+                            <div class="fallback">
+                                <input name="file[]" type="file" id="image" accept="image/png,image/jpeg,image/gif,image/ipg" style="display: none;" multiple>
+                            </div>
+                            <div class="dz-message needsclick">
+                                <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                <h3>Thêm ảnh cho nước hoa.</h3>
+                                <span class="text-muted font-13">(Chọn đúng định dạng file ảnh (png, jpg, jpeg, gif),
+                                    <strong>tối thiểu</strong> 7 ảnh và kích thước <strong>tối đa</strong> 5MB.)</span>
+                                <p id="soluong-image" style="text-align:center;"></p>
+                                <p id="error-image" style="text-align:center; color: red;"></p>
+                                <p id="success-image" style="text-align:center; color: green;"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
                 </div>
-                <button class="btn btn-primary mt-2" name="submit" type="submit">Thêm</button>
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <button class="btn btn-primary mt-2" id="submit-all" name="submit" type="submit">Thêm</button>
+                    </div>
+                </div>
             </form>
+        </div>
+    </div>
+
+</div>
+<!-- container -->
+
+</div>
+<!-- content -->
+
+<!-- Footer Start -->
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <script>
+                    document.write(new Date().getFullYear())
+                </script> © Hyper - Coderthemes.com
+            </div>
+            <div class="col-md-6">
+                <div class="text-md-end footer-links d-none d-md-block">
+                    <a href="javascript: void(0);">About</a>
+                    <a href="javascript: void(0);">Support</a>
+                    <a href="javascript: void(0);">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- end Footer -->
+
+</div>
+
+<!-- ============================================================== -->
+<!-- End Page content -->
+<!-- ============================================================== -->
+</div>
+<!-- END wrapper -->
+
+
+
+<!-- Right Sidebar -->
+<div class="end-bar">
+
+    <div class="rightbar-title">
+        <a href="javascript:void(0);" class="end-bar-toggle float-end">
+            <i class="dripicons-cross noti-icon"></i>
+        </a>
+        <h5 class="m-0">Settings</h5>
+    </div>
+
+    <div class="rightbar-content h-100" data-simplebar="">
+
+        <div class="p-3">
+            <div class="alert alert-warning" role="alert">
+                <strong>Customize </strong> the overall color scheme, sidebar menu, etc.
+            </div>
+
+            <!-- Settings -->
+            <h5 class="mt-3">Color Scheme</h5>
+            <hr class="mt-1">
+
+            <div class="form-check form-switch mb-1">
+                <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="light" id="light-mode-check" checked="">
+                <label class="form-check-label" for="light-mode-check">Light Mode</label>
+            </div>
+
+            <div class="form-check form-switch mb-1">
+                <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="dark" id="dark-mode-check">
+                <label class="form-check-label" for="dark-mode-check">Dark Mode</label>
+            </div>
+
+
+            <!-- Width -->
+            <h5 class="mt-4">Width</h5>
+            <hr class="mt-1">
+            <div class="form-check form-switch mb-1">
+                <input class="form-check-input" type="checkbox" name="width" value="fluid" id="fluid-check" checked="">
+                <label class="form-check-label" for="fluid-check">Fluid</label>
+            </div>
+
+            <div class="form-check form-switch mb-1">
+                <input class="form-check-input" type="checkbox" name="width" value="boxed" id="boxed-check">
+                <label class="form-check-label" for="boxed-check">Boxed</label>
+            </div>
+
+
+            <!-- Left Sidebar-->
+            <h5 class="mt-4">Left Sidebar</h5>
+            <hr class="mt-1">
+            <div class="form-check form-switch mb-1">
+                <input class="form-check-input" type="checkbox" name="theme" value="default" id="default-check">
+                <label class="form-check-label" for="default-check">Default</label>
+            </div>
+
+            <div class="form-check form-switch mb-1">
+                <input class="form-check-input" type="checkbox" name="theme" value="light" id="light-check" checked="">
+                <label class="form-check-label" for="light-check">Light</label>
+            </div>
+
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" name="theme" value="dark" id="dark-check">
+                <label class="form-check-label" for="dark-check">Dark</label>
+            </div>
+
+            <div class="form-check form-switch mb-1">
+                <input class="form-check-input" type="checkbox" name="compact" value="fixed" id="fixed-check" checked="">
+                <label class="form-check-label" for="fixed-check">Fixed</label>
+            </div>
+
+            <div class="form-check form-switch mb-1">
+                <input class="form-check-input" type="checkbox" name="compact" value="condensed" id="condensed-check">
+                <label class="form-check-label" for="condensed-check">Condensed</label>
+            </div>
+
+            <div class="form-check form-switch mb-1">
+                <input class="form-check-input" type="checkbox" name="compact" value="scrollable" id="scrollable-check">
+                <label class="form-check-label" for="scrollable-check">Scrollable</label>
+            </div>
+
+            <div class="d-grid mt-4">
+                <button class="btn btn-primary" id="resetBtn">Reset to Default</button>
+
+                <a href="../../product/hyper-responsive-admin-dashboard-template/index.htm" class="btn btn-danger mt-3" target="_blank"><i class="mdi mdi-basket me-1"></i> Purchase Now</a>
+            </div>
+        </div> <!-- end padding-->
+
+    </div>
+</div>
+
+<div class="rightbar-overlay"></div>
+<!-- /End-bar -->
+
+<!-- file preview template -->
+<div class="d-none" id="uploadPreviewTemplate">
+    <div class="card mt-1 mb-0 shadow-none border">
+        <div class="p-2">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <img data-dz-thumbnail="" src="#" class="avatar-sm rounded bg-light" alt="">
+                </div>
+                <div class="col ps-0">
+                    <a href="javascript:void(0);" class="text-muted fw-bold" data-dz-name=""></a>
+                    <p class="mb-0" data-dz-size=""></p>
+                </div>
+                <div class="col-auto">
+                    <!-- Button -->
+                    <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove="">
+                        <i class="dripicons-cross"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<?php
-require "views/admin/templates/footer.php";
-?>
+
+<script src="../BTL_PTPM/views/Admin/assets/js/vendor.min.js"></script>
+<script src="../BTL_PTPM/views/Admin/assets/js/app.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+<script>
+    var content = document.getElementById("tab-content");
+    var image = document.getElementById("image");
+    const acceptedImageTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+    content.addEventListener("click", function() {
+        image.click();
+    })
+
+    // Thêm sự kiện lắng nghe khi có file được chọn
+    image.addEventListener("change", (event) => {
+        var files = image.files;
+        $("#soluong-image").html(files.length + " ảnh đã được chọn!")
+        if (files.length < 7) {
+            $("#error-image").html("Hãy thêm đủ 7 ảnh cho nước hoa!")
+            $("#success-image").html("")
+        } else {
+            check = true;
+            Array.from(files).forEach((file, index) => {
+                if (check == true) {
+                    if (!acceptedImageTypes.includes(file.type)) {
+                        $("#error-image").html(file.name + " không đúng định dạng!")
+                        $("#success-image").html("")
+                        check = false;
+                    } else if (file.size > 5 * 1024 * 1024) {
+                        $("#error-image").html(file.name + " kích thước quá lớn!")
+                        $("#success-image").html("")
+                        check = false;
+                    } else {
+                        $("#error-image").html("")
+                        $("#success-image").html("Perfect")
+                    }
+                } else {
+
+                }
+            })
+        }
+    });
+
+    function validateForm() {
+        if ($("#success-image").text() === "Perfect") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+</body>
+
+</html>

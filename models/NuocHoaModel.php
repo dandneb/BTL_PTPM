@@ -45,5 +45,12 @@ class NuocHoaModel extends Model{
         $stmt->bindValue(5, $param['gia_ban']);
         return $stmt->execute();
     }
+    public function insertImage($param = []) {
+        $dbh = $this->connectDb();
+        $stmt = $dbh->prepare("INSERT INTO `tb_anhnuochoa`(`img_link`, `id_nuochoa`) VALUES (?, ?)");
+        $stmt->bindValue(1, $param['img_link']);
+        $stmt->bindValue(2, $param['id_nuochoa']);
+        return $stmt->execute();
+    }
 }
 ?>
