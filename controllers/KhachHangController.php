@@ -36,10 +36,10 @@ class KhachHangController{
                             header("location: index.php");
                         }else if($data['capbac'] == 1){
                             $_SESSION['LoginOK'] = '1_'.$data['id_nguoidung'].'_'.$data['hoten'];
-                            header("location: index.php?controller=admin");
+                            header("location: index.php?controller=nhanvien");
                         }else{
                             $_SESSION['LoginOK'] = '2_'.$data['id_nguoidung'].'_'.$data['hoten'];
-                            header("location: index.php?controller=admin");
+                            header("location: index.php?controller=nhanvien");
                         }
                     }
                 }else{
@@ -161,13 +161,42 @@ class KhachHangController{
             $id_nguoidung = $kh[1];
             $khmodel = new KhachHangModel();
             $data = $khmodel->get("tb_diachi", ['id_nguoidung'], [$id_nguoidung], ['and']);
+            $data_kh = $khmodel->get("tb_nguoidung", ['id_nguoidung'], [$id_nguoidung], ['and']);
+            if(isset($_POST['submit']) && isset($_POST['matkhaucu'])){
+                $matkhaucu = $_POST['matkhaucu'];
+                $matkhaumoi_1 = $_POST['matkhaumoi_1'];
+                $matkhaumoi_2 = $_POST['matkhaumoi_2'];
+                if(password_verify($matkhaucu, $data_kh[0]['matkhau'])){
+                    if($matkhaumoi_1 == $matkhaumoi_2){
+                        $matkhaumoi = password_hash($matkhaumoi_1, PASSWORD_DEFAULT);
+                        if($khmodel->update("tb_nguoidung", ["matkhau"] ,[$matkhaumoi], ["id_nguoidung"], [$kh[1]], ["and"])){
+                            header("location: index.php?controller=khachhang&action=doimatkhau&success=");
+                        }else{
+                            header("location: index.php?controller=khachhang&action=doimatkhau&error=");
+                        }
+                    }
+                }
+            }
             require_once 'views/KhachHang/DoiMatKhau.php';
         }else{
             header("location: index.php");
         }
     }
     function checkMatKhau(){
-        
+        if(isset($_SESSION['LoginOK']) && isset($_POST['matkhaucu'])){
+            $kh = explode("_", $_SESSION['LoginOK']);
+            $id_nguoidung = $kh[1];
+            $khmodel = new KhachHangModel();
+            $matkhaucu = $_POST['matkhaucu'];
+            $data = $khmodel->get("tb_nguoidung", ['id_nguoidung'], [$id_nguoidung], ['and']);
+            if(password_verify($matkhaucu, $data[0]['matkhau'])){
+                echo 1;
+            }else{
+                echo 0;
+            }
+        }else{
+            echo 0;
+        }
     }
     //End Đổi mật khẩu
     //Sổ địa chỉ
@@ -203,7 +232,7 @@ class KhachHangController{
                     $phuongxa = NULL;
                 }
                 $mazip = $_POST['mazip'];
-                if(count($khmodel->get("tb_diachi",[],[],[])) < 1){
+                if(count($khmodel->get("tb_diachi",['id_nguoidung'],[$id_nguoidung],['and'])) < 1){
                     $macdinh = 1;
                 }else{
                     $macdinh = 0;
@@ -219,7 +248,7 @@ class KhachHangController{
                 ];
                 
                 if($macdinh == 1){
-                    if($khmodel->update("tb_diachi", ['macdinh'], [0], ['id_nguoidung'], [$id_nguoidung], 'and')){
+                    if($khmodel->update("tb_diachi", ['macdinh'], [0], ['id_nguoidung'], [$id_nguoidung], ['and'])){
                         if($khmodel->insert("tb_diachi", $column, $value)){
                             header("location: index.php?controller=khachhang&action=sodiachi&success=");
                         }else{
@@ -259,8 +288,8 @@ class KhachHangController{
             $id_nguoidung = $kh[1];
             $khmodel = new KhachHangModel();
             $id_diachi = $_POST['submit-datMacDinh'];
-            if($khmodel->update("tb_diachi", ['macdinh'], [0], ['id_nguoidung'], [$id_nguoidung], 'and')){
-                if($khmodel->update("tb_diachi", ['macdinh'], [1], ['id_nguoidung', 'id_diachi'], [$id_nguoidung, $id_diachi], 'and')){
+            if($khmodel->update("tb_diachi", ['macdinh'], [0], ['id_nguoidung'], [$id_nguoidung], ['and'])){
+                if($khmodel->update("tb_diachi", ['macdinh'], [1], ['id_nguoidung', 'id_diachi'], [$id_nguoidung, $id_diachi], ['and', 'and'])){
                     header("location: index.php?controller=khachhang&action=sodiachi&update_success=");
                 }else{
                     header("location: index.php?controller=khachhang&action=sodiachi&update_error=");

@@ -1,3 +1,9 @@
+<?php
+if(!isset($_SESSION)) {
+    session_start();
+}
+if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['LoginOK'][0] == "2") {
+?>
 </div>
 </div>
 <!-- end-wrapper -->
@@ -93,24 +99,22 @@
 <div class="rightbar-overlay"></div>
 <!-- /End-bar -->
 
-<!-- bundle -->
 <script src="../BTL_PTPM/views/Admin/assets/js/vendor.min.js"></script>
 <script src="../BTL_PTPM/views/Admin/assets/js/app.min.js"></script>
 
-<!-- plugin js -->
-<script src="../BTL_PTPM/views/Admin/assets/js/vendor/dropzone.min.js"></script>
-<!-- init js -->
-<script src="../BTL_PTPM/views/Admin/assets/js/ui/component.fileupload.js"></script>
-
 <!-- third party js -->
 <!-- <script src="../BTL_PTPM/views/Admin/assets/js/vendor/Chart.bundle.min.js"></script> -->
-<script src="../BTL_PTPM/views/Admin/assets/js/vendor/apexcharts.min.js"></script>
 <script src="../BTL_PTPM/views/Admin/assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="../BTL_PTPM/views/Admin/assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
 <!-- third party js ends -->
 
 <!-- demo app -->
-<script src="../BTL_PTPM/views/Admin/assets/js/pages/demo.dashboard-analytics.js"></script>
+<script src="../BTL_PTPM/js/jquery-3.6.4.min.js"></script>
+<!-- third party js ends -->
+
+<!-- demo app -->
+<!-- <script src="../BTL_PTPM/views/Admin/assets/js/pages/demo.dashboard-analytics.js"></script> -->
+<script src="https://kit.fontawesome.com/b30ce0384f.js" crossorigin="anonymous"></script>
 <!-- end demo js-->
 <!-- Footer Start -->
 <footer class="footer">
@@ -135,3 +139,6 @@
 </body>
 
 </html>
+<?php
+}
+?>

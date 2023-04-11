@@ -1,6 +1,17 @@
 <?php
 require("views/template/header.php");
 ?>
+<style>
+    .form-control.is-valid,
+    .was-validated .form-control:valid {
+        border-color: white;
+        padding-right: calc(1.5em + 0.75rem);
+        background-image: none;
+        background-repeat: no-repeat;
+        background-position: right calc(0.375em + 0.1875rem) center;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
+</style>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
         <div class="container">
@@ -26,12 +37,22 @@ require("views/template/header.php");
             </div>
             <div class="col-md-9">
                 <h5>ĐỔI MẬT KHẨU</h5>
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <?php
+                        if (isset($_GET['success']))
+                            echo '<span class="text-sucess p-14">Đổi mật khẩu thành công!</span>';
+                        else if (isset($_GET['error']))
+                            echo '<span class="text-danger p-14">Đổi mật khẩu thất bại!</span>';
+                        ?>
+                    </div>
+                </div>
                 <p class="p-14">Để đảm bảo tính bảo mật vui lòng đặt mật khẩu với ít nhất 8 kí tự</p>
-                <form class="row g-3 needs-validation" action="index.php?controller=khachhang&action=doimatkhau" method="POST" novalidate>
+                <form class="row g-3 needs-validation" action="index.php?controller=khachhang&action=doimatkhau" method="POST" onsubmit="return validationFormDoiMatKhau()" novalidate>
                     <div class="col-md-12">
                         <label for="validationCustom01 p-14-bold" class="form-label">Mật khẩu cũ<span style="color:red;">*</span></label>
                         <input type="password" class="form-control rounded-0" id="matkhaucu" name="matkhaucu" placeholder="Mật khẩu cũ" required>
-                        <div class="invalid-feedback">
+                        <div class="invalid-feedback" id="oldPassword-feedback">
                             Vui lòng nhập mật khẩu cũ của bạn!
                         </div>
                     </div>
@@ -45,18 +66,47 @@ require("views/template/header.php");
                     <div class="col-md-12">
                         <label for="validationCustom03 p-14-bold" class="form-label">Xác nhận lại mật khẩu<span style="color:red;">*</span></label>
                         <input type="password" class="form-control rounded-0" id="matkhaumoi_2" name="matkhaumoi_2" placeholder="Xác nhận lại mật khẩu" required>
-                        <div class="invalid-feedback">
+                        <div class="invalid-feedback" id="newPassword-feedback">
                             Vui lòng nhập lại mật khẩu mới của bạn!
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-submit rounded-0" type="submit" name = "submit">ĐẶT LẠI MẬT KHẨU</button>
+                        <button class="btn btn-submit rounded-0" type="submit" name="submit">ĐẶT LẠI MẬT KHẨU</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </main>
+<script src="js/ajax.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#matkhaumoi_1").change(function() {
+            if ($("#matkhaumoi_1").val().localeCompare($("#matkhaumoi_2").val()) == 0 && $("#matkhaumoi_1").val().length >= 8 && $("#matkhaumoi_2").val().length >= 8) {
+                $("#newPassword-feedback").text("Mật khẩu mới hợp lệ!").show().css('color', 'green');;
+            } else {
+                $("#newPassword-feedback").text("Mật khẩu mới chưa khớp hoặc chưa đủ độ dài hợp lệ!").show().css('color', '#b02a37');
+            }
+        });
+    });
+    $(document).ready(function() {
+        $("#matkhaumoi_2").change(function() {
+            if ($("#matkhaumoi_1").val().localeCompare($("#matkhaumoi_2").val()) == 0 && $("#matkhaumoi_1").val().length >= 8 && $("#matkhaumoi_2").val().length >= 8) {
+                $("#newPassword-feedback").text("Mật khẩu mới hợp lệ!").show().css('color', 'green');;
+            } else {
+                $("#newPassword-feedback").text("Mật khẩu mới chưa khớp hoặc chưa đủ độ dài hợp lệ!").show().css('color', '#b02a37');
+            }
+        });
+    });
+
+    function validationFormDoiMatKhau() {
+        if ($("#oldPassword-feedback").text() == "Mật khẩu chính xác!" && $("#newPassword-feedback").text() == "Mật khẩu mới hợp lệ!") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 <?php
 require("views/template/footer.php");
 ?>

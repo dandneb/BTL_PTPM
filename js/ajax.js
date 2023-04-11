@@ -70,10 +70,11 @@ $(document).ready(function(){
                 data: form_datas,
                 type: 'post',
                 success: function(res) {
-                    if(res == 1)
-                        $("#sdtHelp").text("Số điện thoại đã tồn tại trong hệ thống").css("color","red");
-                    else
-                        $("#sdtHelp").text("Số điện thoại hợp lệ có thể đăng ký").css("color","green");
+                    if(res == 0){
+                        $("#oldPassword-feedback").text("Mật khẩu chưa chính xác!").show().css('color','#b02a37');;
+                    }else{
+                        $("#oldPassword-feedback").text("Mật khẩu chính xác!").show().css('color','green');
+                    }
                 }
             });
             return false;

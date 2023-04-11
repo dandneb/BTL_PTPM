@@ -1,5 +1,10 @@
 <?php
 require "views/Admin/templates/header.php";
+if(!isset($_SESSION)) {
+    session_start();
+}
+if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['LoginOK'][0] == "2") {
+    $ql = explode("_", $_SESSION['LoginOK']);
 $characters = '01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ';
 $randomString = str_shuffle($characters);
 $id_nuochoa = substr($randomString, 0, 11);
@@ -7,6 +12,21 @@ $id_nuochoa = substr($randomString, 0, 11);
 
 <!-- Start Content-->
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="index.php">Parfumerie</a></li>
+                        <li class="breadcrumb-item"><a href="index.php?controller=nhanvien">Quản lý cửa hàng</a></li>
+                        <li class="breadcrumb-item"><a href="index.php?controller=nhanvien&action=sanpham">Nước hoa</a></li>
+                        <li class="breadcrumb-item active">Thêm nước hoa</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Thêm nước hoa</h4>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-10 ms-auto me-auto">
             <a class="btn btn-danger mt-2 mb-2">Thêm nước hoa</a>
@@ -362,7 +382,7 @@ $id_nuochoa = substr($randomString, 0, 11);
                                 <i class="h1 text-muted dripicons-cloud-upload"></i>
                                 <h3>Thêm ảnh cho nước hoa.</h3>
                                 <span class="text-muted font-13">(Chọn đúng định dạng file ảnh (png, jpg, jpeg, gif),
-                                    <strong>tối thiểu</strong> 7 ảnh và kích thước <strong>tối đa</strong> 5MB.)</span>
+                                    <strong>tối thiểu</strong> 7 ảnh và <strong>tối đa</strong> 10 ảnh với kích thước <strong>tối đa</strong> 5MB.)</span>
                                 <p id="soluong-image" style="text-align:center;"></p>
                                 <p id="error-image" style="text-align:center; color: red;"></p>
                                 <p id="success-image" style="text-align:center; color: green;"></p>
@@ -407,135 +427,7 @@ $id_nuochoa = substr($randomString, 0, 11);
 </footer>
 <!-- end Footer -->
 
-</div>
 
-<!-- ============================================================== -->
-<!-- End Page content -->
-<!-- ============================================================== -->
-</div>
-<!-- END wrapper -->
-
-
-
-<!-- Right Sidebar -->
-<div class="end-bar">
-
-    <div class="rightbar-title">
-        <a href="javascript:void(0);" class="end-bar-toggle float-end">
-            <i class="dripicons-cross noti-icon"></i>
-        </a>
-        <h5 class="m-0">Settings</h5>
-    </div>
-
-    <div class="rightbar-content h-100" data-simplebar="">
-
-        <div class="p-3">
-            <div class="alert alert-warning" role="alert">
-                <strong>Customize </strong> the overall color scheme, sidebar menu, etc.
-            </div>
-
-            <!-- Settings -->
-            <h5 class="mt-3">Color Scheme</h5>
-            <hr class="mt-1">
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="light" id="light-mode-check" checked="">
-                <label class="form-check-label" for="light-mode-check">Light Mode</label>
-            </div>
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="dark" id="dark-mode-check">
-                <label class="form-check-label" for="dark-mode-check">Dark Mode</label>
-            </div>
-
-
-            <!-- Width -->
-            <h5 class="mt-4">Width</h5>
-            <hr class="mt-1">
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="width" value="fluid" id="fluid-check" checked="">
-                <label class="form-check-label" for="fluid-check">Fluid</label>
-            </div>
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="width" value="boxed" id="boxed-check">
-                <label class="form-check-label" for="boxed-check">Boxed</label>
-            </div>
-
-
-            <!-- Left Sidebar-->
-            <h5 class="mt-4">Left Sidebar</h5>
-            <hr class="mt-1">
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="theme" value="default" id="default-check">
-                <label class="form-check-label" for="default-check">Default</label>
-            </div>
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="theme" value="light" id="light-check" checked="">
-                <label class="form-check-label" for="light-check">Light</label>
-            </div>
-
-            <div class="form-check form-switch mb-3">
-                <input class="form-check-input" type="checkbox" name="theme" value="dark" id="dark-check">
-                <label class="form-check-label" for="dark-check">Dark</label>
-            </div>
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="compact" value="fixed" id="fixed-check" checked="">
-                <label class="form-check-label" for="fixed-check">Fixed</label>
-            </div>
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="compact" value="condensed" id="condensed-check">
-                <label class="form-check-label" for="condensed-check">Condensed</label>
-            </div>
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="compact" value="scrollable" id="scrollable-check">
-                <label class="form-check-label" for="scrollable-check">Scrollable</label>
-            </div>
-
-            <div class="d-grid mt-4">
-                <button class="btn btn-primary" id="resetBtn">Reset to Default</button>
-
-                <a href="../../product/hyper-responsive-admin-dashboard-template/index.htm" class="btn btn-danger mt-3" target="_blank"><i class="mdi mdi-basket me-1"></i> Purchase Now</a>
-            </div>
-        </div> <!-- end padding-->
-
-    </div>
-</div>
-
-<div class="rightbar-overlay"></div>
-<!-- /End-bar -->
-
-<!-- file preview template -->
-<div class="d-none" id="uploadPreviewTemplate">
-    <div class="card mt-1 mb-0 shadow-none border">
-        <div class="p-2">
-            <div class="row align-items-center">
-                <div class="col-auto">
-                    <img data-dz-thumbnail="" src="#" class="avatar-sm rounded bg-light" alt="">
-                </div>
-                <div class="col ps-0">
-                    <a href="javascript:void(0);" class="text-muted fw-bold" data-dz-name=""></a>
-                    <p class="mb-0" data-dz-size=""></p>
-                </div>
-                <div class="col-auto">
-                    <!-- Button -->
-                    <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove="">
-                        <i class="dripicons-cross"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<script src="../BTL_PTPM/views/Admin/assets/js/vendor.min.js"></script>
-<script src="../BTL_PTPM/views/Admin/assets/js/app.min.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 <script>
     var content = document.getElementById("tab-content");
     var image = document.getElementById("image");
@@ -551,6 +443,9 @@ $id_nuochoa = substr($randomString, 0, 11);
         if (files.length < 7) {
             $("#error-image").html("Hãy thêm đủ 7 ảnh cho nước hoa!")
             $("#success-image").html("")
+        }else if(files.length > 10){
+            $("#error-image").html("Tối đa là 10 ảnh!")
+            $("#success-image").html("")
         } else {
             check = true;
             Array.from(files).forEach((file, index) => {
@@ -560,7 +455,7 @@ $id_nuochoa = substr($randomString, 0, 11);
                         $("#success-image").html("")
                         check = false;
                     } else if (file.size > 5 * 1024 * 1024) {
-                        $("#error-image").html(file.name + " kích thước quá lớn!")
+                        $("#error-image").html(file.name + " có kích thước quá lớn!")
                         $("#success-image").html("")
                         check = false;
                     } else {
@@ -568,20 +463,48 @@ $id_nuochoa = substr($randomString, 0, 11);
                         $("#success-image").html("Perfect")
                     }
                 } else {
-
                 }
             })
         }
     });
 
+    function check(){
+        var files = image.files;
+        if (files.length < 7) {
+            return false;
+        }else if(files.length > 10){
+            return false;
+        } else {
+            check = true;
+            Array.from(files).forEach((file, index) => {
+                if (check == true) {
+                    if (!acceptedImageTypes.includes(file.type)) {
+                        check = false;
+                        return false;
+                    } else if (file.size > 5 * 1024 * 1024) {
+                        check = false;
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } else {
+                }
+            })
+        }
+    }
+
     function validateForm() {
-        if ($("#success-image").text() === "Perfect") {
+        if ($("#success-image").text() === "Perfect" && check() == true) {
             return true;
         } else {
             return false;
         }
     }
 </script>
-</body>
-
-</html>
+<?php
+require "views/Admin/templates/footer.php";
+}
+else{
+    header("location: index.php");
+}
+?>

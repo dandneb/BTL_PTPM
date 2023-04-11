@@ -213,9 +213,9 @@ require("views/template/header.php");
         </div>
         <div class="row">
             <div class="d-flex justify-content-center">
-                <a type="button" class="btn_xemThem bg-success text-white border-0 text-decoration-none" href="index.php?controller=nuochoa&action=sanpham">
-                    <div class="d-flex justify-content-center mt-1"><i class="bi bi-arrow-right-square" style="margin-top: 3px;"></i><span class="ms-1">Xem tất cả</span></div>
-                </a>
+                <button type="button" class="btn_xemThem bg-success text-white border-0">
+                    <div class="d-flex justify-content-center"><i class="bi bi-arrow-right-square" style="margin-top: 3px;"></i><span class="ms-1">Xem tất cả</span></div>
+                </button>
             </div>
         </div>
     </div>

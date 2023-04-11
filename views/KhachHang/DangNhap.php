@@ -21,14 +21,14 @@ require("views/template/header.php");
                     <p class="p-14 text-center mt-4">Nếu bạn đã có tài khoản, đăng nhập tại đây.</p>
                 </div>
                 <div>
-                    <form class="row g-3 needs-validation" action="" method="POST">
+                    <form class="row g-3 needs-validation" action="" method="POST" novalidate>
                         <div style="color: red">
                             <?php echo '<span>' . $error . '</span>' ?>
                         </div>
                         <div class="col-md-12">
                             <label for="validationCustom01 p-14-bold" class="form-label">Email hoặc Số điện thoại<span style="color:red;">*</span></label>
                             <input type="text" class="form-control" name = "taikhoan" value="<?php echo isset($_POST['taikhoan']) ? $_POST['taikhoan'] : "" ?>" placeholder="Email" required>
-                            <div class="invalid-feedback">
+                            <div class="invalid-feedback" id="oldPassword-feedback">
                                 Vui lòng nhập tài khoản của bạn!
                             </div>
                         </div>

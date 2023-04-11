@@ -1,5 +1,10 @@
 ﻿<?php
 require "views/Admin/templates/header.php";
+if(!isset($_SESSION)) {
+    session_start();
+}
+if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['LoginOK'][0] == "2") {
+    $ql = explode("_", $_SESSION['LoginOK']);
 ?>
 
 <head>
@@ -14,12 +19,12 @@ require "views/Admin/templates/header.php";
             <div class="page-title-box">
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">eCommerce</a></li>
-                        <li class="breadcrumb-item active">Products</li>
+                        <li class="breadcrumb-item"><a href="index.php">Parfumerie</a></li>
+                        <li class="breadcrumb-item"><a href="index.php?controller=nhanvien">Quản lý cửa hàng</a></li>
+                        <li class="breadcrumb-item active">Nước hoa</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Products</h4>
+                <h4 class="page-title">Nước hoa</h4>
             </div>
         </div>
     </div>
@@ -31,7 +36,7 @@ require "views/Admin/templates/header.php";
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <a href="index.php?controller=admin&action=addSanPham" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Add Products</a>
+                            <a href="index.php?controller=NhanVien&action=addSanPham" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Add Products</a>
                         </div>
                         <div class="col-sm-8">
                             <div class="text-sm-end">
@@ -113,19 +118,9 @@ require "views/Admin/templates/header.php";
     <!-- end row -->
 
 </div> <!-- container -->
-<script src="../BTL_PTPM/views/Admin/assets/js/vendor.min.js"></script>
-<script src="../BTL_PTPM/views/Admin/assets/js/app.min.js"></script>
-
-<!-- third party js -->
-<!-- <script src="../BTL_PTPM/views/Admin/assets/js/vendor/Chart.bundle.min.js"></script> -->
-<script src="../BTL_PTPM/views/Admin/assets/js/vendor/apexcharts.min.js"></script>
-<script src="../BTL_PTPM/views/Admin/assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="../BTL_PTPM/views/Admin/assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
-<!-- third party js ends -->
-
-<!-- demo app -->
-<script src="../BTL_PTPM/views/Admin/assets/js/pages/demo.dashboard-analytics.js"></script>
-<script src="../BTL_PTPM/js/jquery-3.6.4.min.js"></script>
+<?php
+    require "views/Admin/templates/footer.php";
+?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/date-1.4.0/fc-4.2.2/fh-3.3.2/r-2.4.1/rg-1.3.1/sc-2.1.1/sb-1.4.2/sl-1.6.2/datatables.min.js"></script>
@@ -135,21 +130,33 @@ require "views/Admin/templates/header.php";
             dom: 'Blfrtip',
             select: true,
             lengthMenu: [10, 15, 25, 50, 75, 100],
-            "ajax": "index.php?controller=admin&action=getSanPham",
+            "ajax": "index.php?controller=NhanVien&action=getSanPham",
             "columns":[
                 {"data":"ten_nuochoa",
                     "render": function ( data, type, row ) {
-                    return `<img src="views/Admin/assets/images/products/product-1.jpg" alt="contact-img" title="contact-img" class="rounded me-3" height="48">
-                                            <p class="m-0 d-inline-block align-middle font-16"><a>${data}</a><br>
+                    return `<img src="images/${row.id_thuonghieu}/${row.id_nuochoa}/${row.id_nuochoa}_1.jpeg" alt="contact-img" title="contact-img" class="rounded me-3" height="48">
+                                            <p class="m-0 d-inline-block align-middle font-16" data-toggle="tooltip" data-placement="top" title="${data}"><a>${data.length > 10 ? data.substring(0, 10)+"..." : data}</a><br>
                                             <span class="text-warning mdi mdi-star"></span>
                                             <span class="text-warning mdi mdi-star"></span>
                                             <span class="text-warning mdi mdi-star"></span>
                                             <span class="text-warning mdi mdi-star"></span>
                                             <span class="text-warning mdi mdi-star"></span></p>`
                 }},
-                {"data":"ten_thuonghieu"},
-                {"data":"gia_nhap"},
-                {"data":"gia_ban"},
+                {"data":"ten_thuonghieu", "render": function(data, type, row){
+                    return `<p class="m-0 d-inline-block align-middle font-14" data-toggle="tooltip" data-placement="top" title="${data}">${data.length > 10 ? data.substring(0, 10)+"..." : data}</p>`;
+                }},
+                {"data":"gia_nhap", "render": function(data, type, row){
+                    str = data.split("-");
+                    str_1 = formatStringPrice(str[0]);
+                    str_2 = formatStringPrice(str[1]);
+                    return str_1+" - "+str_2;
+                }},
+                {"data":"gia_ban", "render": function(data, type, row){
+                    str = data.split("-");
+                    str_1 = formatStringPrice(str[0]);
+                    str_2 = formatStringPrice(str[1]);
+                    return str_1+" - "+str_2;
+                }},
                 {"data":"soluong"},
                 {"data":"soluongdaban"},
                 {"data": "status",
@@ -167,132 +174,18 @@ require "views/Admin/templates/header.php";
                     data: 'id_nuochoa',
                     targets: 7,
                     render: function ( data, type, row, meta ) {
-                        return `<a href="javascript:void(0);" class="action-icon"><i class="mdi mdi-eye"></i></a>
-                                        <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                        <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>`;
+                        s = (row.status == 0) ? `<a onclick="return confirm('Bạn có chắc chắn muốn ngừng kinh doanh sản phẩm này?')" href="index.php?controller=NhanVien&action=lockSanPham&id_nuochoa=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Khóa sản phẩm"> <i class="mdi mdi-lock-plus-outline"></i></a>` : `<a href="index.php?controller=NhanVien&action=unlockSanPham&id_nuochoa=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Mở khóa sản phẩm" onclick="return confirm('Bạn có chắc chắn muốn kinh doanh lại sản phẩm này?')"> <i class="mdi mdi-lock-open-minus-outline"></i></a>`;
+                        return `<a href="javascript:void(0);" class="action-icon" data-toggle="tooltip" data-placement="top" title="Xem thông tin"><i class="mdi mdi-eye"></i></a>
+                                        <a href="index.php?controller=NhanVien&action=updateSanPham&id_nuochoa=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Chỉnh sửa"><i class="mdi mdi-square-edit-outline"></i></a>
+                                        `+ s;
                     }
                 },
             ],
         });
     } );
 </script>
-</div>
-</div>
-<!-- end-wrapper -->
-</div>
-<!-- Right Sidebar -->
-<div class="end-bar">
-
-    <div class="rightbar-title">
-        <a href="javascript:void(0);" class="end-bar-toggle float-end">
-            <i class="dripicons-cross noti-icon"></i>
-        </a>
-        <h5 class="m-0">Settings</h5>
-    </div>
-
-    <div class="rightbar-content h-100" data-simplebar="">
-
-        <div class="p-3">
-            <div class="alert alert-warning" role="alert">
-                <strong>Customize </strong> the overall color scheme, sidebar menu, etc.
-            </div>
-
-            <!-- Settings -->
-            <h5 class="mt-3">Color Scheme</h5>
-            <hr class="mt-1">
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="light" id="light-mode-check" checked="">
-                <label class="form-check-label" for="light-mode-check">Light Mode</label>
-            </div>
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="dark" id="dark-mode-check">
-                <label class="form-check-label" for="dark-mode-check">Dark Mode</label>
-            </div>
-
-
-            <!-- Width -->
-            <h5 class="mt-4">Width</h5>
-            <hr class="mt-1">
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="width" value="fluid" id="fluid-check" checked="">
-                <label class="form-check-label" for="fluid-check">Fluid</label>
-            </div>
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="width" value="boxed" id="boxed-check">
-                <label class="form-check-label" for="boxed-check">Boxed</label>
-            </div>
-
-
-            <!-- Left Sidebar-->
-            <h5 class="mt-4">Left Sidebar</h5>
-            <hr class="mt-1">
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="theme" value="default" id="default-check">
-                <label class="form-check-label" for="default-check">Default</label>
-            </div>
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="theme" value="light" id="light-check" checked="">
-                <label class="form-check-label" for="light-check">Light</label>
-            </div>
-
-            <div class="form-check form-switch mb-3">
-                <input class="form-check-input" type="checkbox" name="theme" value="dark" id="dark-check">
-                <label class="form-check-label" for="dark-check">Dark</label>
-            </div>
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="compact" value="fixed" id="fixed-check" checked="">
-                <label class="form-check-label" for="fixed-check">Fixed</label>
-            </div>
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="compact" value="condensed" id="condensed-check">
-                <label class="form-check-label" for="condensed-check">Condensed</label>
-            </div>
-
-            <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="compact" value="scrollable" id="scrollable-check">
-                <label class="form-check-label" for="scrollable-check">Scrollable</label>
-            </div>
-
-            <div class="d-grid mt-4">
-                <button class="btn btn-primary" id="resetBtn">Reset to Default</button>
-                <a href="product/hyper-responsive-admin-dashboard-template/index.htm" class="btn btn-danger mt-3" target="_blank"><i class="mdi mdi-basket me-1"></i> Purchase Now</a>
-            </div>
-        </div> <!-- end padding-->
-
-    </div>
-</div>
-<div class="rightbar-overlay"></div>
-<!-- /End-bar -->
-
-<!-- bundle -->
-
-<!-- end demo js-->
-<!-- Footer Start -->
-<footer class="footer">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                <script>
-                    document.write(new Date().getFullYear())
-                </script> © Hyper - Coderthemes.com
-            </div>
-            <div class="col-md-6">
-                <div class="text-md-end footer-links d-none d-md-block">
-                    <a href="javascript: void(0);">About</a>
-                    <a href="javascript: void(0);">Support</a>
-                    <a href="javascript: void(0);">Contact Us</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-<!-- end Footer -->
-</body>
-
-</html>
+<?php
+}else{
+    header("location: index.php");
+}
+?>

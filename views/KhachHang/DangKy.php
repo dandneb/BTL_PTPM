@@ -80,22 +80,6 @@ require("views/template/header.php");
         </div>
     </div>
 </main>
-<script>
-    (() => {
-        'use strict'
-        const forms = document.querySelectorAll('.needs-validation')
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
-</script>
 <?php
 require("views/template/footer.php");
 ?>
@@ -104,11 +88,11 @@ require("views/template/footer.php");
     function validationForm(){
         console.log($("#emailHelp").text()==="Email hợp lệ có thể đăng ký");
         console.log($("#sdtHelp").text() === "Số điện thoại hợp lệ có thể đăng ký");
-        console.log($("#password").val().length >= 3);
-        if($("#emailHelp").text()==="Email hợp lệ có thể đăng ký" && $("#sdtHelp").text() === "Số điện thoại hợp lệ có thể đăng ký" && $("#password").val().length >= 3){
+        console.log($("#password").val().length >= 8);
+        if($("#emailHelp").text()==="Email hợp lệ có thể đăng ký" && $("#sdtHelp").text() === "Số điện thoại hợp lệ có thể đăng ký" && $("#password").val().length >= 8){
             return true;
         }else{
-            if($("#password").val().length < 3){
+            if($("#password").val().length < 8){
                 $("#passwordHelp").text("Mật khẩu chưa đủ 8 ký tự").css('color', 'red');
             }else{
                 $("#passwordHelp").text("Mật khẩu hợp lệ").css('color', 'green');

@@ -1,3 +1,10 @@
+<?php
+if(!isset($_SESSION)) {
+    session_start();
+}
+if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['LoginOK'][0] == "2") {
+    $ql = explode("_", $_SESSION['LoginOK']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +25,8 @@
     <link href="../BTL_PTPM/views/Admin/assets/css/icons.min.css" rel="stylesheet" type="text/css">
     <link href="../BTL_PTPM/views/Admin/assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style">
     <link href="../BTL_PTPM/views/Admin/assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style">
-
+    <link href="../BTL_PTPM/views/Admin/assets/css/admin.css" rel="stylesheet" type="text/css" id="dark-style">
+    <script src="js/admin.js"></script></script>
 </head>
 
 <body class="loading" data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
@@ -63,48 +71,105 @@
                         <div class="collapse" id="sidebarDashboards">
                             <ul class="side-nav-second-level">
                                 <li>
-                                    <a href="index.php?controller=Admin&action=analytics">Analytics</a>
+                                    <a href="index.php?controller=NhanVien&action=analytics">Analytics</a>
                                 </li>
                                 <li>
-                                    <a href="index.php?controller=Admin">Ecommerce</a>
+                                    <a href="index.php?controller=NhanVien">Ecommerce</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
 
                     <li class="side-nav-title side-nav-item">Apps</li>
-
+                    <!-- Quản lý nước hoa -->
                     <li class="side-nav-item">
                         <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
                             <i class="uil-store"></i>
-                            <span> Ecommerce </span>
+                            <span> Quản lý nước hoa </span>
                             <span class="menu-arrow"></span>
                         </a>
                         <div class="collapse" id="sidebarEcommerce">
                             <ul class="side-nav-second-level">
                                 <li>
-                                    <a href="index.php?controller=Admin&action=sanpham">Products</a>
+                                    <a href="index.php?controller=NhanVien&action=sanpham">Danh sách sản phẩm</a>
                                 </li>
                                 <li>
-                                    <a href="apps-ecommerce-products-details.html">Products Details</a>
+                                    <a href="index.php?controller=NhanVien&action=addsanpham">Thêm sản phẩm</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- Quản lý thương hiệu -->
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarThuongHieu" aria-expanded="false" aria-controls="sidebarThuongHieu" class="side-nav-link">
+                            <i class="dripicons-view-thumb"></i>
+                            <span> Quản lý thương hiệu </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarThuongHieu">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="index.php?controller=ThuongHieu&action=thuonghieu">Danh sách thương hiệu</a>
                                 </li>
                                 <li>
-                                    <a href="apps-ecommerce-orders.html">Orders</a>
+                                    <a href="index.php?controller=ThuongHieu&action=addthuonghieu">Thêm thương hiệu</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Quản lý nhà cung cấp -->
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarNhaCungCap" aria-expanded="false" aria-controls="sidebarNhaCungCap" class="side-nav-link">
+                            <i class="mdi mdi-car-arrow-right"></i>
+                            <span> Quản lý nhà cung cấp </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarNhaCungCap">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="index.php?controller=NhaCungCap&action=nhacungcap">Danh sách nhà cung cấp</a>
                                 </li>
                                 <li>
-                                    <a href="apps-ecommerce-orders-details.html">Order Details</a>
+                                    <a href="index.php?controller=NhaCungCap&action=addnhacungcap">Thêm nhà cung cấp</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Quản lý blog/kiến thức -->
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarBaiViet" aria-expanded="false" aria-controls="sidebarBaiViet" class="side-nav-link">
+                            <i class="mdi mdi-post-outline"></i>
+                            <span> Quản lý blog/kiến thức </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarBaiViet">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="index.php?controller=BaiViet&action=baiviet">Danh sách blog/kiến thức</a>
                                 </li>
                                 <li>
-                                    <a href="apps-ecommerce-customers.html">Customers</a>
+                                    <a href="index.php?controller=BaiViet&action=addbaiviet">Thêm blog/kiến thức</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Quản lý đơn hàng -->
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarDonHang" aria-expanded="false" aria-controls="sidebarDonHang" class="side-nav-link">
+                            <i class="mdi mdi-order-bool-descending-variant"></i>
+                            <span> Quản lý đơn hàng </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarDonHang">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="index.php?controller=NhanVien&action=nhacungcap">Danh sách nhà cung cấp</a>
                                 </li>
                                 <li>
-                                    <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
-                                </li>
-                                <li>
-                                    <a href="apps-ecommerce-checkout.html">Checkout</a>
-                                </li>
-                                <li>
-                                    <a href="apps-ecommerce-sellers.html">Sellers</a>
+                                    <a href="index.php?controller=NhanVien&action=addnhacungcap">Thêm nhà cung cấp</a>
                                 </li>
                             </ul>
                         </div>
@@ -113,7 +178,7 @@
                     <li class="side-nav-item">
                         <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
                             <i class="uil-envelope"></i>
-                            <span> Email </span>
+                            <span> Phản hồi </span>
                             <span class="menu-arrow"></span>
                         </a>
                         <div class="collapse" id="sidebarEmail">
@@ -127,532 +192,7 @@
                             </ul>
                         </div>
                     </li>
-
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
-                            <i class="uil-briefcase"></i>
-                            <span> Projects </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarProjects">
-                            <ul class="side-nav-second-level">
-                                <li>
-                                    <a href="apps-projects-list.html">List</a>
-                                </li>
-                                <li>
-                                    <a href="apps-projects-details.html">Details</a>
-                                </li>
-                                <li>
-                                    <a href="apps-projects-gantt.html">Gantt <span class="badge rounded-pill badge-light-lighten font-10 float-end">New</span></a>
-                                </li>
-                                <li>
-                                    <a href="apps-projects-add.html">Create Project <span class="badge rounded-pill badge-success-lighten font-10 float-end">New</span></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="side-nav-item">
-                        <a href="apps-social-feed.html" class="side-nav-link">
-                            <i class="uil-rss"></i>
-                            <span> Social Feed </span>
-                        </a>
-                    </li>
-
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks" class="side-nav-link">
-                            <i class="uil-clipboard-alt"></i>
-                            <span> Tasks </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarTasks">
-                            <ul class="side-nav-second-level">
-                                <li>
-                                    <a href="apps-tasks.html">List</a>
-                                </li>
-                                <li>
-                                    <a href="apps-tasks-details.html">Details</a>
-                                </li>
-                                <li>
-                                    <a href="apps-kanban.html">Kanban Board</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="side-nav-item">
-                        <a href="apps-file-manager.html" class="side-nav-link">
-                            <i class="uil-folder-plus"></i>
-                            <span> File Manager </span>
-                        </a>
-                    </li>
-
-                    <li class="side-nav-title side-nav-item">Custom</li>
-
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
-                            <i class="uil-copy-alt"></i>
-                            <span> Pages </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarPages">
-                            <ul class="side-nav-second-level">
-                                <li>
-                                    <a href="pages-profile.html">Profile</a>
-                                </li>
-                                <li>
-                                    <a href="pages-profile-2.html">Profile 2</a>
-                                </li>
-                                <li>
-                                    <a href="pages-invoice.html">Invoice</a>
-                                </li>
-                                <li>
-                                    <a href="pages-faq.html">FAQ</a>
-                                </li>
-                                <li>
-                                    <a href="pages-pricing.html">Pricing</a>
-                                </li>
-                                <li>
-                                    <a href="pages-maintenance.html">Maintenance</a>
-                                </li>
-                                <li class="side-nav-item">
-                                    <a data-bs-toggle="collapse" href="#sidebarPagesAuth" aria-expanded="false" aria-controls="sidebarPagesAuth">
-                                        <span> Authentication </span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <div class="collapse" id="sidebarPagesAuth">
-                                        <ul class="side-nav-third-level">
-                                            <li>
-                                                <a href="pages-login.html">Login</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-login-2.html">Login 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-register.html">Register</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-register-2.html">Register 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-logout.html">Logout</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-logout-2.html">Logout 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-recoverpw.html">Recover Password</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-recoverpw-2.html">Recover Password 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-lock-screen.html">Lock Screen</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-lock-screen-2.html">Lock Screen 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-confirm-mail.html">Confirm Mail</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-confirm-mail-2.html">Confirm Mail 2</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="side-nav-item">
-                                    <a data-bs-toggle="collapse" href="#sidebarPagesError" aria-expanded="false" aria-controls="sidebarPagesError">
-                                        <span> Error </span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <div class="collapse" id="sidebarPagesError">
-                                        <ul class="side-nav-third-level">
-                                            <li>
-                                                <a href="pages-404.html">Error 404</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-404-alt.html">Error 404-alt</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-500.html">Error 500</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="pages-starter.html">Starter Page</a>
-                                </li>
-                                <li>
-                                    <a href="pages-preloader.html">With Preloader</a>
-                                </li>
-                                <li>
-                                    <a href="pages-timeline.html">Timeline</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="side-nav-item">
-                        <a href="landing.html" target="_blank" class="side-nav-link">
-                            <i class="uil-globe"></i>
-                            <span class="badge bg-secondary text-light float-end">New</span>
-                            <span> Landing </span>
-                        </a>
-                    </li>
-
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
-                            <i class="uil-window"></i>
-                            <span> Layouts </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarLayouts">
-                            <ul class="side-nav-second-level">
-                                <li>
-                                    <a href="layouts-horizontal.html">Horizontal</a>
-                                </li>
-                                <li>
-                                    <a href="layouts-detached.html">Detached</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="side-nav-title side-nav-item mt-1">Components</li>
-
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI" class="side-nav-link">
-                            <i class="uil-box"></i>
-                            <span> Base UI </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarBaseUI">
-                            <ul class="side-nav-second-level">
-                                <li>
-                                    <a href="ui-accordions.html">Accordions</a>
-                                </li>
-                                <li>
-                                    <a href="ui-alerts.html">Alerts</a>
-                                </li>
-                                <li>
-                                    <a href="ui-avatars.html">Avatars</a>
-                                </li>
-                                <li>
-                                    <a href="ui-badges.html">Badges</a>
-                                </li>
-                                <li>
-                                    <a href="ui-breadcrumb.html">Breadcrumb</a>
-                                </li>
-                                <li>
-                                    <a href="ui-buttons.html">Buttons</a>
-                                </li>
-                                <li>
-                                    <a href="ui-cards.html">Cards</a>
-                                </li>
-                                <li>
-                                    <a href="ui-carousel.html">Carousel</a>
-                                </li>
-                                <li>
-                                    <a href="ui-dropdowns.html">Dropdowns</a>
-                                </li>
-                                <li>
-                                    <a href="ui-embed-video.html">Embed Video</a>
-                                </li>
-                                <li>
-                                    <a href="ui-grid.html">Grid</a>
-                                </li>
-                                <li>
-                                    <a href="ui-list-group.html">List Group</a>
-                                </li>
-                                <li>
-                                    <a href="ui-modals.html">Modals</a>
-                                </li>
-                                <li>
-                                    <a href="ui-notifications.html">Notifications</a>
-                                </li>
-                                <li>
-                                    <a href="ui-offcanvas.html">Offcanvas</a>
-                                </li>
-                                <li>
-                                    <a href="ui-pagination.html">Pagination</a>
-                                </li>
-                                <li>
-                                    <a href="ui-popovers.html">Popovers</a>
-                                </li>
-                                <li>
-                                    <a href="ui-progress.html">Progress</a>
-                                </li>
-                                <li>
-                                    <a href="ui-ribbons.html">Ribbons</a>
-                                </li>
-                                <li>
-                                    <a href="ui-spinners.html">Spinners</a>
-                                </li>
-                                <li>
-                                    <a href="ui-tabs.html">Tabs</a>
-                                </li>
-                                <li>
-                                    <a href="ui-tooltips.html">Tooltips</a>
-                                </li>
-                                <li>
-                                    <a href="ui-typography.html">Typography</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false" aria-controls="sidebarExtendedUI" class="side-nav-link">
-                            <i class="uil-package"></i>
-                            <span> Extended UI </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarExtendedUI">
-                            <ul class="side-nav-second-level">
-                                <li>
-                                    <a href="extended-dragula.html">Dragula</a>
-                                </li>
-                                <li>
-                                    <a href="extended-range-slider.html">Range Slider</a>
-                                </li>
-                                <li>
-                                    <a href="extended-ratings.html">Ratings</a>
-                                </li>
-                                <li>
-                                    <a href="extended-scrollbar.html">Scrollbar</a>
-                                </li>
-                                <li>
-                                    <a href="extended-scrollspy.html">Scrollspy</a>
-                                </li>
-                                <li>
-                                    <a href="extended-treeview.html">Treeview</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="side-nav-item">
-                        <a href="widgets.html" class="side-nav-link">
-                            <i class="uil-layer-group"></i>
-                            <span> Widgets </span>
-                        </a>
-                    </li>
-
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarIcons" aria-expanded="false" aria-controls="sidebarIcons" class="side-nav-link">
-                            <i class="uil-streering"></i>
-                            <span> Icons </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarIcons">
-                            <ul class="side-nav-second-level">
-                                <li>
-                                    <a href="icons-dripicons.html">Dripicons</a>
-                                </li>
-                                <li>
-                                    <a href="icons-mdi.html">Material Design</a>
-                                </li>
-                                <li>
-                                    <a href="icons-unicons.html">Unicons</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarForms" aria-expanded="false" aria-controls="sidebarForms" class="side-nav-link">
-                            <i class="uil-document-layout-center"></i>
-                            <span> Forms </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarForms">
-                            <ul class="side-nav-second-level">
-                                <li>
-                                    <a href="form-elements.html">Basic Elements</a>
-                                </li>
-                                <li>
-                                    <a href="form-advanced.html">Form Advanced</a>
-                                </li>
-                                <li>
-                                    <a href="form-validation.html">Validation</a>
-                                </li>
-                                <li>
-                                    <a href="form-wizard.html">Wizard</a>
-                                </li>
-                                <li>
-                                    <a href="form-fileuploads.html">File Uploads</a>
-                                </li>
-                                <li>
-                                    <a href="form-editors.html">Editors</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarCharts" aria-expanded="false" aria-controls="sidebarCharts" class="side-nav-link">
-                            <i class="uil-chart"></i>
-                            <span> Charts </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarCharts">
-                            <ul class="side-nav-second-level">
-                                <li class="side-nav-item">
-                                    <a data-bs-toggle="collapse" href="#sidebarApexCharts" aria-expanded="false" aria-controls="sidebarApexCharts">
-                                        <span> Apex Charts </span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <div class="collapse" id="sidebarApexCharts">
-                                        <ul class="side-nav-third-level">
-                                            <li>
-                                                <a href="charts-apex-area.html">Area</a>
-                                            </li>
-                                            <li>
-                                                <a href="charts-apex-bar.html">Bar</a>
-                                            </li>
-                                            <li>
-                                                <a href="charts-apex-bubble.html">Bubble</a>
-                                            </li>
-                                            <li>
-                                                <a href="charts-apex-candlestick.html">Candlestick</a>
-                                            </li>
-                                            <li>
-                                                <a href="charts-apex-column.html">Column</a>
-                                            </li>
-                                            <li>
-                                                <a href="charts-apex-heatmap.html">Heatmap</a>
-                                            </li>
-                                            <li>
-                                                <a href="charts-apex-line.html">Line</a>
-                                            </li>
-                                            <li>
-                                                <a href="charts-apex-mixed.html">Mixed</a>
-                                            </li>
-                                            <li>
-                                                <a href="charts-apex-pie.html">Pie</a>
-                                            </li>
-                                            <li>
-                                                <a href="charts-apex-radar.html">Radar</a>
-                                            </li>
-                                            <li>
-                                                <a href="charts-apex-radialbar.html">RadialBar</a>
-                                            </li>
-                                            <li>
-                                                <a href="charts-apex-scatter.html">Scatter</a>
-                                            </li>
-                                            <li>
-                                                <a href="charts-apex-sparklines.html">Sparklines</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="charts-brite.html">Britecharts</a>
-                                </li>
-                                <li>
-                                    <a href="charts-chartjs.html">Chartjs</a>
-                                </li>
-                                <li>
-                                    <a href="charts-sparkline.html">Sparklines</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarTables" aria-expanded="false" aria-controls="sidebarTables" class="side-nav-link">
-                            <i class="uil-table"></i>
-                            <span> Tables </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarTables">
-                            <ul class="side-nav-second-level">
-                                <li>
-                                    <a href="tables-basic.html">Basic Tables</a>
-                                </li>
-                                <li>
-                                    <a href="tables-datatable.html">Data Tables</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarMaps" aria-expanded="false" aria-controls="sidebarMaps" class="side-nav-link">
-                            <i class="uil-location-point"></i>
-                            <span> Maps </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarMaps">
-                            <ul class="side-nav-second-level">
-                                <li>
-                                    <a href="maps-google.html">Google Maps</a>
-                                </li>
-                                <li>
-                                    <a href="maps-vector.html">Vector Maps</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarMultiLevel" aria-expanded="false" aria-controls="sidebarMultiLevel" class="side-nav-link">
-                            <i class="uil-folder-plus"></i>
-                            <span> Multi Level </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarMultiLevel">
-                            <ul class="side-nav-second-level">
-                                <li class="side-nav-item">
-                                    <a data-bs-toggle="collapse" href="#sidebarSecondLevel" aria-expanded="false" aria-controls="sidebarSecondLevel">
-                                        <span> Second Level </span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <div class="collapse" id="sidebarSecondLevel">
-                                        <ul class="side-nav-third-level">
-                                            <li>
-                                                <a href="javascript: void(0);">Item 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript: void(0);">Item 2</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="side-nav-item">
-                                    <a data-bs-toggle="collapse" href="#sidebarThirdLevel" aria-expanded="false" aria-controls="sidebarThirdLevel">
-                                        <span> Third Level </span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <div class="collapse" id="sidebarThirdLevel">
-                                        <ul class="side-nav-third-level">
-                                            <li>
-                                                <a href="javascript: void(0);">Item 1</a>
-                                            </li>
-                                            <li class="side-nav-item">
-                                                <a data-bs-toggle="collapse" href="#sidebarFourthLevel" aria-expanded="false" aria-controls="sidebarFourthLevel">
-                                                    <span> Item 2 </span>
-                                                    <span class="menu-arrow"></span>
-                                                </a>
-                                                <div class="collapse" id="sidebarFourthLevel">
-                                                    <ul class="side-nav-forth-level">
-                                                        <li>
-                                                            <a href="javascript: void(0);">Item 2.1</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript: void(0);">Item 2.2</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
+                    </ul>
 
                 <!-- Help Box -->
                 <div class="help-box text-white text-center">
@@ -691,35 +231,6 @@
                                 <form class="p-3">
                                     <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
                                 </form>
-                            </div>
-                        </li>
-                        <li class="dropdown notification-list topbar-dropdown">
-                            <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <img src="../BTL_PTPM/views/Admin/assets/images/flags/us.jpg" alt="user-image" class="me-0 me-sm-1" height="12">
-                                <span class="align-middle d-none d-sm-inline-block">English</span> <i class="mdi mdi-chevron-down d-none d-sm-inline-block align-middle"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu">
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <img src="../BTL_PTPM/views/Admin/assets/images/flags/germany.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">German</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <img src="../BTL_PTPM/views/Admin/assets/images/flags/italy.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Italian</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <img src="../BTL_PTPM/views/Admin/assets/images/flags/spain.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Spanish</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <img src="../BTL_PTPM/views/Admin/assets/images/flags/russia.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Russian</span>
-                                </a>
-
                             </div>
                         </li>
 
@@ -879,20 +390,20 @@
                                     <img src="../BTL_PTPM/views/Admin/assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle">
                                 </span>
                                 <span>
-                                    <span class="account-user-name">Soeng Souy</span>
-                                    <span class="account-position">Founder</span>
+                                    <span class="account-user-name"><?php echo $ql[2] ?></span>
+                                    <span class="account-position"><?php echo $ql[0] == "2" ? "Chủ cửa hàng" : "Nhân viên" ?></span>
                                 </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
                                 <!-- item-->
                                 <div class=" dropdown-header noti-title">
-                                    <h6 class="text-overflow m-0">Welcome !</h6>
+                                    <h6 class="text-overflow m-0">Chào bạn !</h6>
                                 </div>
 
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                                     <i class="mdi mdi-account-circle me-1"></i>
-                                    <span>My Account</span>
+                                    <span>Tài khoản</span>
                                 </a>
 
                                 <!-- item-->
@@ -914,9 +425,9 @@
                                 </a>
 
                                 <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <a href="index.php?controller=khachhang&action=dangxuat" class="dropdown-item notify-item">
                                     <i class="mdi mdi-logout me-1"></i>
-                                    <span>Logout</span>
+                                    <span>Đăng xuất</span>
                                 </a>
                             </div>
                         </li>
@@ -989,4 +500,6 @@
                     </div>
                 </div>
                 <!-- end Topbar -->
-    
+<?php
+}
+?>
