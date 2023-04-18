@@ -85,6 +85,15 @@
                 transition: '0.4s ease-in-out',
             });
         })
+        var tongSanPham = 0;
+        if (document.cookie.indexOf("myCart") != -1) {
+            var myArrayCookie = document.cookie.replace(/(?:(?:^|.*;\s*)myCart\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+            var myArray = JSON.parse(myArrayCookie);
+            tongSanPham = myArray.reduce((tong, arr) => tong + arr.soluong, 0);
+        }
+        $(".numberOfCart").text(tongSanPham);
+        $(".slsp").text("("+tongSanPham+") sản phẩm.")
+
     </script>
     <script>
     (() => {
@@ -96,7 +105,6 @@
                     event.preventDefault()
                     event.stopPropagation()
                 }
-
                 form.classList.add('was-validated')
             }, false)
         })

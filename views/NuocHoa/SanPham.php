@@ -1,6 +1,9 @@
 <?php
 require("views/template/header.php");
 ?>
+<head>
+    <title>Danh sách sản phẩm</title>
+</head>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
         <div class="container">
@@ -170,13 +173,6 @@ require("views/template/header.php");
                         <p class="p-14">
                             Bên cạnh trang phục thì nước hoa cũng giúp cho người đối diện nhớ đến mùi thơm của bạn. Chọn loại nước hoa nam phù hợp cũng giúp cho bạn tạo cá tính riêng cũng như thể hiện được bản thân, và ấn tượng riêng đến với người xung quanh.
                         </p>
-                        <div class="container-fluid btn-xemthem">
-                            <div class="button-sp text-center">
-                                <span class="btn btn-xt">XEM THÊM <span class="material-icons" style="transform:translateY(6px)">
-                                        expand_more
-                                    </span></span>
-                            </div>
-                        </div>
                         <h4>
                             Mang đến sự tự tin cho nam giới
                         </h4>
@@ -336,12 +332,19 @@ require("views/template/header.php");
                         <p class="p-14">
                             Tại cửa hàng nước hoa Parfumerie - Chúng tôi cung cấp các sản phẩm nước hoa nam từ fullbox, nguyên seal đến các loại nước hoa chiết cho nam với giá cả phù hợp cũng như chất lượng chính hãng.
                         </p>
-                        <div class="container-fluid btn-rutgon">
-                            <div class="text-center">
-                                <span class="btn btn-rg">THU GỌN <span class="material-icons" style="transform:translateY(6px)">
+                    </div>
+                    <div class="container-fluid btn-xemthem">
+                        <div class="button-sp text-center">
+                            <span class="btn btn-xt">XEM THÊM <span class="material-icons" style="transform:translateY(6px)">
+                                    expand_more
+                                </span></span>
+                        </div>
+                    </div>
+                    <div class="container-fluid btn-rutgon">
+                        <div class="text-center">
+                            <span class="btn btn-rg">THU GỌN <span class="material-icons" style="transform:translateY(6px)">
                                     arrow_upward
-                                    </span></span>
-                            </div>
+                                </span></span>
                         </div>
                     </div>
                 </div>

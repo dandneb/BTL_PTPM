@@ -38,6 +38,8 @@ class Model{
         if($stmt->execute()){
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $data;
+        }else{
+            return false;
         }
     }
 
@@ -123,6 +125,21 @@ class Model{
             }
         }
         return $stmt->execute();
+    }
+    function ps_price($str){
+        $sprice = (string)$str;
+        $stringres = '';
+        $le = strlen($sprice);
+        if($le>0 &&  $le<=3){
+            $stringres = $sprice.' đ';
+        }else if($le>3 &&  $le<=6){
+            $stringres = substr($sprice, 0, -3).'.'.substr($sprice, -3).' đ';
+        }else if($le>6 &&  $le<=9){
+            $stringres = substr($sprice, 0, -6).'.'.substr($sprice, -6, -3).'.'.substr($sprice, -3).' đ';
+        }else if($le>9 &&  $le<=12){
+            $stringres = substr($sprice, 0, -9).'.'.substr($sprice, -9, -6).'.'.substr($sprice, -6, -3).'.'.substr($sprice, -3).' đ';
+        }
+        return $stringres;
     }
 }
 ?>

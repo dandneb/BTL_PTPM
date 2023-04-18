@@ -13,11 +13,11 @@ if (isset($_SESSION['LoginOK'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../BTL_PTPM/views/Admin/assets/images/users/unnamed.jpg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <link rel="stylesheet" href="style/header.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>Bootstrap Example</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style\swiper-bundle.min.css">
@@ -77,11 +77,13 @@ if (isset($_SESSION['LoginOK'])) {
                         </div>
                         <div class="d-flex justify-content-center mt-3">
                             <a href="index.php?controller=khachhang&action=yeuthich" style="color: white;">
+                                <span class="soLuongGioHang"></span>
                                 <span class="material-icons me-3">
                                     favorite
                                 </span>
                             </a>
-                            <a href="index.php?controller=khachhang&action=giohang" style="color: white;">
+                            <a href="index.php?controller=khachhang&action=giohang" style="color: white; position:relative">
+                                <div class="soLuongGioHang"><p class="numberOfCart">0</p></div> 
                                 <span class="material-icons">
                                     shopping_cart
                                 </span>
@@ -146,7 +148,8 @@ if (isset($_SESSION['LoginOK'])) {
                                 favorite
                             </span>
                         </a>
-                        <a href="index.php?controller=khachhang&action=giohang" style="color: white;">
+                        <a href="index.php?controller=khachhang&action=giohang" style="color: white; position:relative">
+                            <div class="soLuongGioHang"><p class="numberOfCart p-13">0</p></div> 
                             <span class="material-icons">
                                 shopping_cart
                             </span>

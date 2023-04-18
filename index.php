@@ -5,13 +5,15 @@
     $fileController = $controller . "Controller.php";
     $pathController = "controllers/$fileController";
     if (!file_exists($pathController)) {
-        die("Trang bạn tìm không tồn tại"); //Nếu đoạn này xảy ra, chương trình dừng thực hiện
+        header("location: index.php?controller=error"); //Nếu đoạn này xảy ra, chương trình dừng thực hiện
+        die();
     }
     require_once "$pathController";
     $classController = $controller."Controller";
     $object = new $classController();
     if (!method_exists($object, $action)) {
-        die("Phương thức $action không tồn tại trong class $classController"); //Kiểm tra action có tồn tại trong Controller ko
+        header("location: index.php?controller=error"); //Nếu đoạn này xảy ra, chương trình dừng thực hiện //Kiểm tra action có tồn tại trong Controller ko
+        die();
     }
     $object->$action();
 ?>

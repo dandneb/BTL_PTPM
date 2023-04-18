@@ -9,7 +9,9 @@ $characters = '01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRS
 $randomString = str_shuffle($characters);
 $id_nuochoa = substr($randomString, 0, 11);
 ?>
-
+<head>
+    <title>Thêm nước hoa</title>
+</head>
 <!-- Start Content-->
 <div class="container-fluid">
     <div class="row">
@@ -292,15 +294,6 @@ $id_nuochoa = substr($randomString, 0, 11);
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 me-0">
-                        <div class="mb-3">
-                            <label class="form-label" for="validationCustom01">Dung tích 10ML - Số lượng</label>
-                            <input type="text" class="form-control" name="so_luong10" id="validationCustom01" required>
-                            <div class="invalid-feedback">
-                                Hãy nhập số lượng nước hoa!
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Dung tích 20 -->
                     <div class="col-md-3 me-0">
@@ -327,16 +320,6 @@ $id_nuochoa = substr($randomString, 0, 11);
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 me-0">
-                        <div class="mb-3">
-                            <label class="form-label" for="validationCustom01">Dung tích 20ML - Số lượng</label>
-                            <input type="text" class="form-control" name="so_luong20" id="validationCustom01" required>
-                            <div class="invalid-feedback">
-                                Hãy nhập số lượng nước hoa!
-                            </div>
-                        </div>
-
-                    </div>
 
                     <!-- Dung tích 100  -->
                     <div class="col-md-3 me-0">
@@ -360,15 +343,6 @@ $id_nuochoa = substr($randomString, 0, 11);
                             <input type="text" class="form-control" name="gia_ban100" id="validationCustom01" required>
                             <div class="invalid-feedback">
                                 Hãy điền giá bán của nước hoa!
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 me-0">
-                        <div class="mb-3">
-                            <label class="form-label" for="validationCustom01">Dung tích 100ML - Số lượng</label>
-                            <input type="text" class="form-control" name="so_luong100" id="validationCustom01" required>
-                            <div class="invalid-feedback">
-                                Hãy nhập số lượng nước hoa!
                             </div>
                         </div>
                     </div>

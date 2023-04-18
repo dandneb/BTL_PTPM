@@ -1,6 +1,9 @@
 <?php
 require("views/template/header.php");
 ?>
+<head>
+    <title>Sổ địa chỉ</title>
+</head>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
         <div class="container">
@@ -146,7 +149,7 @@ require("views/template/header.php");
                         </div>
                         <div class="col-md-12" id="col-quocgia">
                             <label class="form-label" for="validationCustom01">Quốc gia</label>
-                            <select class="form-select mb-3" name="country" id = "country" required>
+                            <select class="form-select mb-3" name="country" id="country" required>
                             </select>
                             <div class="invalid-feedback">
                                 Hãy nhập quốc gia của bạn!
@@ -154,7 +157,7 @@ require("views/template/header.php");
                         </div>
                         <div class="col-md-4 me-0" id="col-tinhthanh">
                             <label class="form-label" for="validationCustom01">Tỉnh thành</label>
-                            <select class="form-select mb-3" name="province" id = "province" required>
+                            <select class="form-select mb-3" name="province" id="province" required>
                                 <option selected disabled value="">---</option>
                                 <option value='0'>OPTION</option>
                             </select>
@@ -165,7 +168,7 @@ require("views/template/header.php");
                         </div>
                         <div class="col-md-4 me-0" id="col-quanhuyen">
                             <label class="form-label" for="validationCustom01">Quận huyện</label>
-                            <select class="form-select mb-3" name="district" id = "district" disabled required>
+                            <select class="form-select mb-3" name="district" id="district" disabled required>
                                 <option selected disabled value="">---</option>
                                 <option value='0'>OPTION</option>
                             </select>
@@ -213,7 +216,7 @@ require("views/template/header.php");
     </div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
-<script src="js/diachi.js"></script>
+<script src="js/sodiachi.js"></script>
 <script src="js/ajax.js"></script>
 <?php
 require("views/template/footer.php");

@@ -12,6 +12,29 @@ class KhachHangModel extends Model{
             else return false;
         }
     }
+    function getALLDH($id_khachhang){
+        $dbh = $this->connectDb();
+        $stmt = $dbh->prepare("Select * from tb_donhang where id_khachhang = ?");
+        $stmt->bindValue(1, $id_khachhang);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        echo json_encode(array("data" => $data));
+    }
+    function getDonHangSanPham($id_donhang){
+        $dbh = $this->connectDb();
+        $stmt = $dbh->prepare("SELECT t1.*, t3.id_nuochoa, t3.ten_nuochoa, t3.xuatxu, IF(t3.gioitinh=0, 'Nam', IF(t3.gioitinh=1, 'Nữ', 'Unisex')) AS gioitinh,
+        (SELECT img_link FROM tb_anhnuochoa t2 WHERE t1.id_nuochoa = t2.id_nuochoa ORDER BY t2.id_anh ASC LIMIT 1) as img_link
+        FROM tb_donhang_nuochoa t1
+        INNER JOIN tb_nuochoa t3 on t1.id_nuochoa = t3.id_nuochoa
+        WHERE t1.id_donhang = ?");
+        $stmt->bindValue(1, $id_donhang);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if(count($data) > 0)    return $data;
+            else return false;
+        }
+    }
     function check($table, $column, $value){
         $dbh = $this->connectDb();
         $stmt = $dbh->prepare("SELECT ".$column." FROM `".$table."` WHERE ".$column." = ?");

@@ -7,7 +7,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
     require_once 'models/BaiVietModel.php';
 class BaiVietController{
 
-    function baiViet(){
+    function index(){
         $bvModel = new BaiVietModel();
         require_once 'views/Admin/BaiVietManagement/index.php';
     }
@@ -18,8 +18,6 @@ class BaiVietController{
     function addBaiViet(){
         $error = "";
         if(isset($_POST['submit'])){
-            $success="Thêm bài viết thành công!";
-            $error="Thêm bài viết thất bại!";
             $phanloai = trim($_POST['phanloai']);
             $tieude = $_POST['tieude'];
             $mota = $_POST['mota'];
@@ -29,19 +27,46 @@ class BaiVietController{
                 $bvModel = new BaiVietModel();
                 $ql = explode("_", $_SESSION['LoginOK']);
                 if($bvModel->insert("tb_kienthuc_blog", ['phanloai', 'tieude', 'mota', 'id_nguoidung'], [$phanloai, $tieude, $mota, $ql[1]])){
-                    header("location: index.php?controller=BaiViet&action=baiviet&success=$success");
+                    $_SESSION['success'] = "Thêm bài viết thành công!";
+                    header("location: index.php?controller=BaiViet");
                 }else{
-                    header("location: index.php?controller=BaiViet&action=baiviet&error=$error");
+                    $_SESSION['error'] = "Thêm bài viết thất bại!";
+                    header("location: index.php?controller=BaiViet");
                 }
             }
         }
         require_once 'views/Admin/BaiVietManagement/apps-ecommerce-addBaiViet.php';
     }
 
-    function updateBaiViet(){
+    function deleteBaiViet(){
         if(isset($_GET['id_baiviet_blog'])){
+            $id_baiviet = $_GET['id_baiviet_blog'];
+            $bvModel = new BaiVietModel();
+            if($bvModel->delete("tb_doanvan", ['id'], [$id_baiviet], ['and'])){
+                if($bvModel->delete("tb_kienthuc_blog", ['id_baiviet_blog'], [$id_baiviet])){
+                    $_SESSION['success'] = "Xóa bài viết thành công!";
+                    header("location: index.php?controller=BaiViet");
+                }else{
+                    $_SESSION['error'] = "Xóa bài viết thất bại!";
+                    header("location: index.php?controller=BaiViet");
+                }
+            }else{
+                $_SESSION['error'] = "Xóa bài viết thất bại!";
+                header("location: index.php?controller=BaiViet");
+            }
+        }
+    }
+
+    function updateBaiViet(){
+        if(!empty($_GET['id_baiviet_blog'])){
             $id_baiviet_blog = $_GET['id_baiviet_blog'];
-            require_once 'views/Admin/BaiVietManagement/apps-ecommerce-updateBaiViet.php';
+            $bvModel = new BaiVietModel();
+            if(count($bvModel->get("tb_kienthuc_blog", ['id_baiviet_blog'], [$id_baiviet_blog], ['and'])) > 0){
+                require_once 'views/Admin/BaiVietManagement/apps-ecommerce-updateBaiViet.php';
+            }else{
+                header("location: index.php?controller=BaiViet");
+            }
+            
         }else{
             header("location: index.php?controller=BaiViet");
         }
@@ -88,14 +113,17 @@ class BaiVietController{
                             $noidung,
                             $new_link,
                         ])){
-                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&success=$success");
+                            $_SESSION['success'] = "Thêm đoạn văn thành công!";
+                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                         }else{
-                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&error=$error");
+                            $_SESSION['error'] = "Thêm đoạn văn thất bại!";
+                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                         }
                     }
                 }
             }else{
-                header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&error=$error");
+                $_SESSION['error'] = "Ảnh của đoạn văn không hợp lệ!";
+                header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
             }
         }else{
             header("location: index.php?controller=BaiViet");
@@ -122,12 +150,15 @@ class BaiVietController{
                     if (file_exists($link)) {
                         unlink($link);
                         rmdir($dir);
-                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id&success=$success");
+                        $_SESSION['success'] = "Xóa đoạn văn thành công!";
+                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id");
                     }else{
-                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id&error=$error");
+                        $_SESSION['error'] = "Xóa đoạn văn thất bại!";
+                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id");
                     }
                 }else{
-                    header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id&error=$error");
+                    $_SESSION['error'] = "Xóa đoạn văn thất bại!";
+                    header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id");
                 }
             }else if(min($sothutu_arr) == $sothutu){
                 if($bvModel->delete("tb_doanvan", ['id_doanvan'], [$id_doanvan], ['and'])){
@@ -135,25 +166,35 @@ class BaiVietController{
                         unlink($dv[0]['img_link']);
                         rmdir($dir);
                         if($bvModel->updateSTT($id)){
-                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id&success=$success");
+                            $_SESSION['success'] = "Xóa đoạn văn thành công!";
+                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id");
+                        }else{
+                            $_SESSION['error'] = "Xóa đoạn văn thành công nhưng cập nhật vị trí các đoạn văn thất bại!";
+                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id");
                         }
                     }
                 }else{
-                    header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id&error=$error");
+                    $_SESSION['error'] = "Xóa đoạn văn thất bại!";
+                    header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id");
                 }
             }else{
                 if($bvModel->updateSTT_TT($id, $sothutu)){
-                    if($bvModel->delete("tb_doanvan", ['id_doanvan'], [$id_doanvan], ['and'])){
-                        if (file_exists($link)) {
+                    if (file_exists($link)) {
+                        if($bvModel->delete("tb_doanvan", ['id_doanvan'], [$id_doanvan], ['and'])){
                             unlink($link);
                             rmdir($dir);
-                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id&success=$success");
+                            $_SESSION['success'] = "Xóa đoạn văn thành công!";
+                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id");
+                        }else{
+                            $_SESSION['error'] = "Xóa đoạn văn thất bại!";
                         }
                     }else{
-                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id&error=$error");
+                        $_SESSION['error'] = "Không tìm thấy đường dẫn ảnh của đoạn văn!";
+                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id");
                     }
                 }else{
-                    header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id&error=$error");
+                    $_SESSION['error'] = "Xóa đoạn văn thất bại!";
+                    header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id");
                 }
             }
         }
@@ -199,9 +240,11 @@ class BaiVietController{
                                         $noidung,
                                         $new_link,
                                     ], ['id_doanvan'], [$id_doanvan], ['and'])){
-                                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&success=$success");
+                                        $_SESSION['success'] = "Cập nhật đoạn văn thành công!";
+                                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                                     }else{
-                                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&error=$error");
+                                        $_SESSION['error'] = "Cập nhật đoạn văn thất bại!";
+                                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                                     }
                                 }else{
                                     if($bvModel->update("tb_doanvan", ['sothutu'], [$old['sothutu']], ['id', 'sothutu'], [$id_baiviet, $sothutu], ['and', 'and'])){
@@ -211,21 +254,26 @@ class BaiVietController{
                                             $noidung,
                                             $new_link,
                                         ], ['id_doanvan'], [$id_doanvan], ['and'])){
-                                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&success=$success");
+                                            $_SESSION['success'] = "Cập nhật đoạn văn thành công!";
+                                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                                         }
                                     }else{
-                                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&error=$error");
+                                        $_SESSION['error'] = "Cập nhật đoạn văn thất bại!";
+                                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                                     }
                                 }
                             }
                         }else{
-                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&error=$error");
+                            $_SESSION['error'] = "Không tìm thấy đường dẫn của ảnh cập nhật bài viết!";
+                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                         }
                     }else{
-                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&error=$error");
+                        $_SESSION['error'] = "Ảnh vượt qua dung lượng cho phép (5MB)!";
+                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                     }
                 }else{
-                    header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&error=$error");
+                    $_SESSION['error'] = "Định dạng ảnh không đúng!";
+                    header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                 }
             }else{
                 if($old['sothutu'] == $sothutu){
@@ -233,9 +281,11 @@ class BaiVietController{
                         $tieude,
                         $noidung,
                     ], ['id_doanvan'], [$id_doanvan], ['and'])){
-                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&success=$success");
+                        $_SESSION['success'] = "Cập nhật đoạn văn thành công!";
+                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                     }else{
-                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&error=$error");
+                        $_SESSION['error'] = "Cập nhật đoạn văn thất bại!";
+                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                     }
                 }else{
                     if($bvModel->update("tb_doanvan", ['sothutu'], [$old['sothutu']], ['id', 'sothutu'], [$id_baiviet, $sothutu], ['and', 'and'])){
@@ -244,12 +294,15 @@ class BaiVietController{
                             $tieude,
                             $noidung,
                         ], ['id_doanvan'], [$id_doanvan], ['and'])){
-                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&success=$success");
+                            $_SESSION['success'] = "Cập nhật đoạn văn thành công!";
+                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                         }else{
-                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&error=$error");
+                            $_SESSION['error'] = "Cập nhật đoạn văn thất bại!";
+                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                         }
                     }else{
-                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet&error=$error");
+                        $_SESSION['error'] = "Cập nhật đoạn văn thất bại!";
+                        header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                     }
                 }
             }

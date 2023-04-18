@@ -6,7 +6,9 @@ if(!isset($_SESSION)) {
 if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['LoginOK'][0] == "2") {
     $ql = explode("_", $_SESSION['LoginOK']);
 ?>
-
+<head>
+    <title>Thêm bài viết</title>
+</head>
 <!-- Start Content-->
 <div class="container-fluid">
     <div class="row">
@@ -16,7 +18,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="index.php">Parfumerie</a></li>
                         <li class="breadcrumb-item"><a href="index.php?controller=NhaCungCap">Quản lý cửa hàng</a></li>
-                        <li class="breadcrumb-item"><a href="index.php?controller=NhaCungCap&action=sanpham">Nhà cung cấp</a></li>
+                        <li class="breadcrumb-item"><a href="index.php?controller=BaiViet">Blog/Kiến thức</a></li>
                         <li class="breadcrumb-item active">Thêm blog/kiến thức</li>
                     </ol>
                 </div>

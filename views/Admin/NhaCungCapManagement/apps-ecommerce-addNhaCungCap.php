@@ -9,7 +9,9 @@ $characters = '01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRS
 $randomString = str_shuffle($characters);
 $id_nhacungcap = substr($randomString, 0, 11);
 ?>
-
+<head>
+    <title>Thêm nhà cung cấp</title>
+</head>
 <!-- Start Content-->
 <div class="container-fluid">
     <div class="row">

@@ -1,6 +1,9 @@
 <?php
 require("views/template/header.php");
 ?>
+<head>
+    <title>Trang chủ</title>
+</head>
 <main style="margin-bottom: 100px">
     <a class="swiper mySwiper" href="">
         <div class="swiper-wrapper">
@@ -22,13 +25,23 @@ require("views/template/header.php");
             </div>
         </a>
         <div class="row">
-            <div class="swiper slide-product1">
+            <div class="swiper slide-product1" style="background-color: #FFF">
                 <div class="swiper-wrapper">
+                
+                    <?php
+                    for($i = 0; $i < count($nuocHoaNam); $i++){
+                        $nam = $nuocHoaNam[$i];
+                        
+                        $anh = $nHModel->get("tb_anhnuochoa", ['id_nuochoa'], [$nam['id_nuochoa']], ['and'], "order by anhdaidien DESC, id_anh ASC");
+                        $anh = $anh[0];
+                    ?>
                     <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\nuocHoaNam\Creed\Creed Aventus For Men EDP\19bdcdbc-e405-4f18-89a0-8ba031e7269b.jpg" class="" alt="...">
+                        <div class="card rounded-0 pduct">
+                            <a style="height: 232px" href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $nam['id_nuochoa'] ?>">
+                                <img src="<?php echo $anh['img_link'] ?>" alt="" class="product-img">
+                            </a>
                             <div class="card-body">
-                                <p class="card-text p-14-bold">Creed Aventus For Men EDP 1</p>
+                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $nam['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $nam['ten_nuochoa'] ?></p></a>
                                 <div class="vote">
                                     <i class="bi bi-star text-warning"></i>
                                     <i class="bi bi-star text-warning"></i>
@@ -38,7 +51,9 @@ require("views/template/header.php");
                                 </div>
                                 <div>
                                     <div class="product-price p-14-bold text-success">
-                                        795.000đ - 7.800.000đ
+                                        <?php echo $nHModel->ps_price($nHModel->getPrice('min', $nam['id_nuochoa'])).' - '.
+                                        $nHModel->ps_price($nHModel->getPrice('max', $nam['id_nuochoa']));
+                                        ?>
                                     </div>
                                     <div class="product-menu hidden-menu">
                                         <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
@@ -49,156 +64,9 @@ require("views/template/header.php");
                             </div>
                         </div>
                     </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\nuocHoaNam\Creed\Creed Aventus For Men EDP\19bdcdbc-e405-4f18-89a0-8ba031e7269b.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Creed Aventus For Men EDP 2</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        795.000đ - 7.800.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\nuocHoaNam\Creed\Creed Aventus For Men EDP\19bdcdbc-e405-4f18-89a0-8ba031e7269b.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Creed Aventus For Men EDP 3</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        795.000đ - 7.800.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\nuocHoaNam\Creed\Creed Aventus For Men EDP\19bdcdbc-e405-4f18-89a0-8ba031e7269b.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Creed Aventus For Men EDP 4</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        795.000đ - 7.800.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\nuocHoaNam\Creed\Creed Aventus For Men EDP\19bdcdbc-e405-4f18-89a0-8ba031e7269b.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Creed Aventus For Men EDP 5</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        795.000đ - 7.800.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\nuocHoaNam\Creed\Creed Aventus For Men EDP\19bdcdbc-e405-4f18-89a0-8ba031e7269b.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Creed Aventus For Men EDP 6</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        795.000đ - 7.800.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\nuocHoaNam\Creed\Creed Aventus For Men EDP\19bdcdbc-e405-4f18-89a0-8ba031e7269b.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Creed Aventus For Men EDP 7</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        795.000đ - 7.800.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                    }
+                    ?>
                 </div>
                 <div class="swiper-button-next next1"></div>
                 <div class="swiper-button-prev prev1"></div>
@@ -234,7 +102,7 @@ require("views/template/header.php");
             <div class="swiper slide-product2">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <div class="card rounded-0 product">
+                        <div class="card rounded-0 pduct">
                             <img src="images\nuocHoaNu\Maison Francis\Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum.jpg" class="" alt="...">
                             <div class="card-body">
                                 <p class="card-text p-14-bold">Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum 1</p>
@@ -587,7 +455,7 @@ require("views/template/header.php");
                             <div class="image-content">
                                 <span class="overlay"></span>
                                 <div class="card-image">
-                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img">
+                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img" style="width: 100%">
                                 </div>
                             </div>
                             <div class="card-content d-flex flex-column justify-content-start mt-2">
@@ -600,7 +468,7 @@ require("views/template/header.php");
                             <div class="image-content">
                                 <span class="overlay"></span>
                                 <div class="card-image">
-                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img">
+                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img" style="width: 100%">
                                 </div>
                             </div>
                             <div class="card-content d-flex flex-column justify-content-start mt-2">
@@ -613,7 +481,7 @@ require("views/template/header.php");
                             <div class="image-content">
                                 <span class="overlay"></span>
                                 <div class="card-image">
-                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img">
+                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img" style="width: 100%">
                                 </div>
                             </div>
                             <div class="card-content d-flex flex-column justify-content-start mt-2">
@@ -626,7 +494,7 @@ require("views/template/header.php");
                             <div class="image-content">
                                 <span class="overlay"></span>
                                 <div class="card-image">
-                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img">
+                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img" style="width: 100%">
                                 </div>
                             </div>
                             <div class="card-content d-flex flex-column justify-content-start mt-2">
@@ -639,7 +507,7 @@ require("views/template/header.php");
                             <div class="image-content">
                                 <span class="overlay"></span>
                                 <div class="card-image">
-                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img">
+                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img" style="width: 100%">
                                 </div>
                             </div>
                             <div class="card-content d-flex flex-column justify-content-start mt-2">
@@ -652,7 +520,7 @@ require("views/template/header.php");
                             <div class="image-content">
                                 <span class="overlay"></span>
                                 <div class="card-image">
-                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img">
+                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img" style="width: 100%">
                                 </div>
                             </div>
                             <div class="card-content d-flex flex-column justify-content-start mt-2">

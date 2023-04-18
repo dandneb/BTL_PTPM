@@ -24,6 +24,21 @@ class NhanVienController{
         echo $NhanVienModel->getALLProducts();
     }
     function addImage(){
+        /*
+        $arrTH = ['AFNAN', 'AMOUAGE', 'ARMAF', 'BURBERRY', 'BVLGARI', 'CAROLINA HERRERA', 'CHANEL', 'CALVIN KLEIN', 'DOLCE & GABBANA', 'DIOR', 'DIPTYQUE', 'FREDERIC MALLE', 'GIORGIO ARMANI', 'GUCCI', 'JO MALONE', 'JEAN PAUL GAUTIER', 'KILIAN', 'LANCOME', 'LE LABO', 'MAISON MARGIELA', 'MARC JACOBS', 'MONTALE', 'NARCISO RODRIGUEZ', 'SALVATORE FERRAGAMO', 'VERSACE', 'YSL', 'HERMES', 'TOM FORD', 'MONT BLANC', 'MOSCHINO', 'CLIVE CHRISTIAN', 'PACO RANBANNE', 'ALREHAB', 'ALFRED DUNHILL', 'XERJOFF', 'DAVIDOFF', 'SERGE LUTENS', 'LATTAFA', 'FLORIS', 'PARFUMS de MARLY', 'MANCERA', 'AL HARAMAIN', 'DIESEL', "ETAT LIBRE D'ORANGE", 'NISHANE', 'FRANCK BOCLET', 'KENZO', 'ATELIER DES ORS', 'CHLOÃ‰', 'LOUIS VUITTON', 'VICTORIAâ€™S SECRET', 'NASOMATTO', 'LALIQUE', 'NAUTICA', 'THOMAS KOSMALA', "PENHALIGON'S", 'VIKTOR & ROLF', 'TOMMY HILFIGER', 'RALPH LAUREN', 'JIMMY CHOO', 'JULIETTE HAS A GUN', 'MCM', 'THE MERCHANT OF VENICE', 'BOND NO.9', 'NACHO VIDAL', 'MISSONI', 'BUTTERFLY THAI PERFUME', 'ORTO PARISI', 'MAD ET LEN', 'ATTAR COLLECTION', 'THEODOROS KALOTINIS'];
+        $NhanVienModel = new NhanVienModel();
+        $folder_name = "../BTL_PTPM/images/";
+        $characters = '01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for ($i=0; $i < count($arrTH); $i++){
+            $randomString = str_shuffle($characters);
+            $id_thuonghieu = substr($randomString, 0, 11);
+            $new_folder = $folder_name .$id_thuonghieu."/";
+            if (!file_exists($new_folder)) {
+                mkdir($new_folder, 0777, true);
+            }
+            $NhanVienModel->insert("tb_thuonghieu", ['id_thuonghieu','ten_thuonghieu', 'id_nguoidung'], [$id_thuonghieu, $arrTH[$i], '74R1G6BOT5N']);
+        }
+        */
         require_once 'views/Admin/ProductManagement/apps-addImage.php';
     }
     function addSanPham(){
@@ -58,22 +73,19 @@ class NhanVienController{
             $dungtich10  = $_POST['ML_10'];
             $gia_nhap10  = $_POST['gia_nhap10'];
             $gia_ban10  = $_POST['gia_ban10'];
-            $so_luong10  = $_POST['so_luong10'];
             //20ML
             $dungtich20  = $_POST['ML_20'];
             $gia_nhap20  = $_POST['gia_nhap20'];
             $gia_ban20  = $_POST['gia_ban20'];
-            $so_luong20  = $_POST['so_luong20'];
             //100ML
             $dungtich100  = $_POST['ML_100'];
             $gia_nhap100  = $_POST['gia_nhap100'];
             $gia_ban100  = $_POST['gia_ban100'];
-            $so_luong100  = $_POST['so_luong100'];
             if(empty($id_nuochoa) && empty($ten_nuochoa) && empty($gioitinh) && empty($xuatxu) && empty($mota) && empty($thongtinchinh) && empty($tongquan) && empty($huongthom) && empty($loai_huongthom) && empty($thietke)
             && empty($dadanghoa) && empty($huongdansudung) && empty($nhomnuochoa) && empty($dotuoikhuyendung) && empty($namramat) && empty($nongdo) && empty($nhaphache) && empty($doluuhuong) && empty($phongcach) && empty($dotoahuong) && empty($thoidiemphuhop)
             && empty($id_thuonghieu) && empty($id_nhacungcap) && empty($id_nguoiquanly) && empty($dungtich10) && empty($gia_nhap10)
-            && empty($gia_ban10) && empty($so_luong10) && empty($dungtich20) && empty($gia_nhap20) && empty($gia_ban20) 
-            && empty($so_luong20) && empty($dungtich100) && empty($gia_nhap100) && empty($gia_ban100) && empty($so_luong100)){
+            && empty($gia_ban10) && empty($dungtich20) && empty($gia_nhap20) && empty($gia_ban20) 
+            && empty($dungtich100) && empty($gia_nhap100) && empty($gia_ban100)){
                 $error = "Hãy nhập đầy đủ thông tin!";
             }else{
                 $nhArr = [
@@ -109,27 +121,27 @@ class NhanVienController{
                         'dungtich' => $dungtich10,
                         'gia_nhap' => $gia_nhap10,
                         'gia_ban' => $gia_ban10,
-                        'soluong' => $so_luong10,
+                        'soluong' => 0,
                     ];
                     $gnh20 = [
                         'id_nuochoa' => $id_nuochoa,
                         'dungtich' => $dungtich20,
                         'gia_nhap' => $gia_nhap20,
                         'gia_ban' => $gia_ban20,
-                        'soluong' => $so_luong20,
+                        'soluong' => 0,
                     ];
                     $gnh100 = [
                         'id_nuochoa' => $id_nuochoa,
                         'dungtich' => $dungtich100,
                         'gia_nhap' => $gia_nhap100,
                         'gia_ban' => $gia_ban100,
-                        'soluong' => $so_luong100,
+                        'soluong' => 0,
                     ];
                     if($nhmodel->insertGiaNuocHoa($gnh10) && $nhmodel->insertGiaNuocHoa($gnh20) && $nhmodel->insertGiaNuocHoa($gnh100)){
                         if (!empty($_FILES)) {
-                            $folder_name = "../BTL_PTPM/images/" . $id_thuonghieu . "/";
+                            $folder_name = "../BTL_PTPM/images/NuocHoa/";
                             $allowTypes = array('jpg', 'png', 'jpeg', 'pdf');
-                            $link = "images/" . $id_thuonghieu . "/";
+                            $link = "images/NuocHoa/";
                             if (!file_exists($folder_name)) {
                                 mkdir($folder_name, 0777, true);
                             }
@@ -162,9 +174,11 @@ class NhanVienController{
                                     }
                                 }
                                 if ($check == $total_count) {
-                                    header("location: index.php?controller=NhanVien&action=sanpham&success=");
+                                    $_SESSION['success'] = "Thêm sản phẩm thành công!";
+                                    header("location: index.php?controller=NhanVien&action=sanpham");
                                 }else{
-                                    header("location: index.php?controller=NhanVien&action=sanpham&success=&error=");
+                                    $_SESSION['error'] = "Thêm sản phẩm thành công!";
+                                    header("location: index.php?controller=NhanVien&action=sanpham");
                                 }
                             }
                         }
@@ -309,7 +323,10 @@ class NhanVienController{
                 $nhModel->update("tb_gianuochoa", ['gia_nhap', 'gia_ban'], [$gia_nhap20, $gia_ban20], ["id_nuochoa", "dungtich"], [$id_nuochoa, $dungtich20], ["and", "and"]) && 
                 $nhModel->update("tb_gianuochoa", ['gia_nhap', 'gia_ban'], [$gia_nhap100, $gia_ban100], ["id_nuochoa", "dungtich"], [$id_nuochoa, $dungtich100], ["and", "and"])
                 ){
-                    header("location: index.php?controller=nhanvien&action=updateSanPham&id_nuochoa=".$id_nuochoa."&success=");
+                    $_SESSION['success'] = "Cập nhật thông tin sản phẩm thành công!";
+                    header("location: index.php?controller=nhanvien&action=updateSanPham&id_nuochoa=".$id_nuochoa);
+                }else{
+                    $_SESSION['error'] = "Cập nhật thông tin sản phẩm thất bại!";
                 }
             }
         }else{
@@ -322,7 +339,7 @@ class NhanVienController{
             $id_nuochoa = $_GET['id_nuochoa'];
             $nuochoa = $nhModel->get("tb_nuochoa", ['id_nuochoa'], [$id_nuochoa], ['and']);
             if(count($nuochoa) > 0){
-                $anhnuochoa = $nhModel->get("tb_anhnuochoa", ['id_nuochoa'], [$id_nuochoa], ['and']);
+                $anhnuochoa = $nhModel->get("tb_anhnuochoa", ['id_nuochoa'], [$id_nuochoa], ['and'], "order by anhdaidien DESC, id_anh ASC");
                 require_once 'views/Admin/ProductManagement/apps-ecommerce-updateImagesProducts.php';
             }else{
                 header("location: index.php");
@@ -332,14 +349,13 @@ class NhanVienController{
             $id_nuochoa = $_GET['id_nuochoa'];
             $nuochoa = $nhModel->get("tb_nuochoa", ['id_nuochoa'], [$id_nuochoa], ['and']);
             $anhnuochoa = $nhModel->get("tb_anhnuochoa", ['id_nuochoa'], [$id_nuochoa], ['and'], " Order by id_anh ASC");
-            $id_thuonghieu = $nuochoa[0]['id_thuonghieu'];
             if(count($anhnuochoa) > 0)
                 $anhLonNhat = intval(explode(".", explode("_",explode("/", $anhnuochoa[count($anhnuochoa)-1]['img_link'])[3])[1])[0])+1;
             else    $anhLonNhat = 0;
             if (!empty($_FILES)) {
-                $folder_name = "../BTL_PTPM/images/" . $id_thuonghieu . "/";
+                $folder_name = "../BTL_PTPM/images/NuocHoa/";
                 $allowTypes = array('jpg', 'png', 'jpeg', 'pdf');
-                $link = "images/" . $id_thuonghieu . "/";
+                $link = "images/NuocHoa/";
                 if (!file_exists($folder_name)) {
                     mkdir($folder_name, 0777, true);
                 }
@@ -374,15 +390,44 @@ class NhanVienController{
                     }
                 }
                 if ($check == $total_count) {
-                    header("location: index.php?controller=NhanVien&action=updateImages&id_nuochoa={$id_nuochoa}&success=");
+                    $_SESSION['success'] = "Thêm ảnh của sản phẩm thành công!";
+                    header("location: index.php?controller=NhanVien&action=updateImages&id_nuochoa={$id_nuochoa}");
                 }else{
-                    header("location: index.php?controller=NhanVien&action=updateImages&id_nuochoa={$id_nuochoa}&error=");
+                    $_SESSION['error'] = "Chỉ thêm được 1 số ảnh không thêm hết được!";
+                    header("location: index.php?controller=NhanVien&action=updateImages&id_nuochoa={$id_nuochoa}");
                 }
             }else{
                 header("location: index.php");
             }
         }
         else{
+            header("location: index.php");
+        }
+    }
+
+    function setAnhDaiDien(){
+        if(isset($_POST['submit-set'])){
+            $nhModel = new NuocHoaModel();
+            $tmp = $_POST['submit-set'];
+            $id_anh = explode("_", $tmp)[0];
+            $id_nuochoa = explode("_", $tmp)[1];
+            if(count($nhModel->get("tb_anhnuochoa", ["id_anh"], [$id_anh], ["and"])) > 0){
+                if($nhModel->update("tb_anhnuochoa", ['anhdaidien'],[0], ["id_nuochoa"], [$id_nuochoa], ['and'])){
+                    if($nhModel->update("tb_anhnuochoa", ['anhdaidien'],[1], ["id_anh"], [$id_anh], ['and'])){
+                        $_SESSION['success'] = "Đặt ảnh đại diện của sản phẩm thành công!";
+                        header("location: index.php?controller=NhanVien&action=updateImages&id_nuochoa={$id_nuochoa}");
+                    }else{
+                        $_SESSION['error'] = "Đặt ảnh đại diện của sản phẩm thất bại!";
+                        header("location: index.php?controller=NhanVien&action=updateImages&id_nuochoa={$id_nuochoa}");
+                    }
+                }else{
+                    $_SESSION['error'] = "Đặt ảnh đại diện của sản phẩm thất bại!";
+                    header("location: index.php?controller=NhanVien&action=updateImages&id_nuochoa={$id_nuochoa}");
+                }
+            }else{
+                header("location: index.php");
+            }
+        }else{
             header("location: index.php");
         }
     }
@@ -399,13 +444,16 @@ class NhanVienController{
             if (file_exists($file_path)) {
                 //die($file_path);
                 if($nhModel->delete("tb_anhnuochoa", ["id_anh"], [$id_anh], ["and"])){
+                    $_SESSION['success'] = "Xóa ảnh của sản phẩm thành công!";
                     unlink($file_path);
-                    header("location: index.php?controller=NhanVien&action=updateImages&id_nuochoa={$id_nuochoa}&delete_success=");
+                    header("location: index.php?controller=NhanVien&action=updateImages&id_nuochoa={$id_nuochoa}");
                 }else{
-                    header("location: index.php?controller=NhanVien&action=updateImages&id_nuochoa={$id_nuochoa}&delete_error=");
+                    $_SESSION['success'] = "Xóa ảnh của sản phẩm thất bại!";
+                    header("location: index.php?controller=NhanVien&action=updateImages&id_nuochoa={$id_nuochoa}");
                 }
             }else{
-                header("location: index.php?controller=NhanVien&action=updateImages&id_nuochoa={$id_nuochoa}&file_not_exists=");
+                $_SESSION['error'] = "Không tìm thấy ảnh cần xóa!";
+                header("location: index.php?controller=NhanVien&action=updateImages&id_nuochoa={$id_nuochoa}");
             }
         }else{
             header("location: index.php");
@@ -428,9 +476,11 @@ class NhanVienController{
             $nhModel = new NuocHoaModel();
             $id_nuochoa = $_GET['id_nuochoa'];
             if($nhModel->update("tb_gianuochoa", ['soluong'], [$soluong], ['id_nuochoa', 'dungtich'], [$id_nuochoa, $dungtich], ["and", "and"])){
-                header("location: index.php?controller=NhanVien&action=updateSoLuong&id_nuochoa={$id_nuochoa}&success=");
+                $_SESSION['success'] = "Cập nhật tình trạng số lượng sản phẩm thành công!";
+                header("location: index.php?controller=NhanVien&action=updateSoLuong&id_nuochoa={$id_nuochoa}");
             }else{
-                header("location: index.php?controller=NhanVien&action=updateSoLuong&id_nuochoa={$id_nuochoa}&error=");
+                $_SESSION['error'] = "Cập nhật tình trạng số lượng sản phẩm thất bại!";
+                header("location: index.php?controller=NhanVien&action=updateSoLuong&id_nuochoa={$id_nuochoa}");
             }
         }else{
             header("location: index.php");
@@ -450,9 +500,11 @@ class NhanVienController{
             $nhModel = new NuocHoaModel();
             $id_nuochoa = $_GET['id_nuochoa'];
             if($nhModel->update("tb_nuochoa", ['status'], [1], ['id_nuochoa'], [$id_nuochoa], ['and'])){
-                header("location: index.php?controller=NhanVien&action=sanpham&lock_success=");
+                $_SESSION['success'] = "Khóa sản phẩm thành công!";
+                header("location: index.php?controller=NhanVien&action=sanpham");
             }else{
-                header("location: index.php?controller=NhanVien&action=sanpham&lock_error=");
+                $_SESSION['error'] = "Khóa sản phẩm thất bại!";
+                header("location: index.php?controller=NhanVien&action=sanpham");
             }
         }
     }
@@ -461,9 +513,11 @@ class NhanVienController{
             $nhModel = new NuocHoaModel();
             $id_nuochoa = $_GET['id_nuochoa'];
             if($nhModel->update("tb_nuochoa", ['status'], [0], ['id_nuochoa'], [$id_nuochoa], ['and'])){
-                header("location: index.php?controller=NhanVien&action=sanpham&unlock_success=");
+                $_SESSION['success'] = "Mở khóa sản phẩm thành công!";
+                header("location: index.php?controller=NhanVien&action=sanpham");
             }else{
-                header("location: index.php?controller=NhanVien&action=sanpham&unlock_error=");
+                $_SESSION['error'] = "Mở khóa sản phẩm thất bại!";
+                header("location: index.php?controller=NhanVien&action=sanpham");
             }
         }
     }

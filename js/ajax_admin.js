@@ -16,9 +16,16 @@ $(document).ready(function(){
                 data: form_datas,
                 type: 'post',
                 success: function(res) {
-                    $("#soluong").removeAttr('readonly');
-                    $("#soluong").val(res['soluong']);
-                    $("#label_soluong").text("(Số lượng hiện tại: "+res['soluong']+").")
+                    var title = "";
+                    $("#soluong").removeAttr('disabled');
+                    if(res['soluong'] == 0){
+                        $("#soluong").val("0");
+                        $("#label_soluong").text("Sản phẩm hiện tại còn hàng.");
+                    }
+                    else{
+                        $("#soluong").val("1");
+                        $("#label_soluong").text("Sản phẩm hiện tại hết hàng.");
+                    }
                 }
             });
             return false;

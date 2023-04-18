@@ -82,3 +82,35 @@ $(document).ready(function(){
     })
 })
 //End
+
+function get(id_input, url_, id_help_, text_help_success, text_help_error){
+    return new Promise(function(resolve, reject) {
+        let data = $("#"+id_input).val();
+        var array = [];
+        if(data!=""){
+            let form_datas = new FormData();
+            form_datas.append('data',data);
+            $.ajax({
+                url: url_, // gửi đến file upload.php 
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_datas,
+                type: 'post',
+                success: function(res) {
+                    if(res == 0){
+                        $("#"+id_help_).text(text_help_error).css("color","red");
+                        resolve(res);
+                    }
+                    else{
+                        $("#"+id_help_).text(text_help_success).css("color","green");
+                        resolve(res);
+                    }
+                },
+            });
+        }else{
+            reject('Data is empty');
+        }
+    })
+}

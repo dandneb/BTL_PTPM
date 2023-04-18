@@ -20,6 +20,9 @@ require("views/template/header.php");
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     }
 </style>
+<head>
+    <title>Đăng ký tài khoản</title>
+</head>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
         <div class="container">

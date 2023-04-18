@@ -18,43 +18,52 @@ class KhachHangController{
     }
     function DangNhap(){
         $error = "";
-        $khmodel = new KhachHangModel();
-        if(isset($_POST["submit"])){
-            $taikhoan = $_POST['taikhoan'];
-            $matkhau = $_POST['matkhau'];
-            $data = $khmodel->checkArrVal("tb_nguoidung", ["email", "dienthoai"], [$taikhoan, $taikhoan], "or");
-            if(count($data) > 0){
-                $data = $data[0];
-                if(password_verify($matkhau, $data['matkhau'])){
-                    if($data['trangthai'] == 0){
-                        $error = "Tài khoản của bạn chưa được xác thực, hãy kiểm tra lại email!";
-                    }else if($data['trangthai'] == 2){
-                        $error = "Tài khoản của bạn đã bị khóa hãy liên hệ với cửa hàng để được hỗ trợ!";
-                    }else{
-                        if($data['capbac'] == 0){
-                            $_SESSION['LoginOK'] = '0_'.$data['id_nguoidung'].'_'.$data['hoten'];
-                            header("location: index.php");
-                        }else if($data['capbac'] == 1){
-                            $_SESSION['LoginOK'] = '1_'.$data['id_nguoidung'].'_'.$data['hoten'];
-                            header("location: index.php?controller=nhanvien");
+        if(!isset($_SESSION['LoginOK'])){
+            $khmodel = new KhachHangModel();
+            if(isset($_POST["submit"])){
+                $taikhoan = $_POST['taikhoan'];
+                $matkhau = $_POST['matkhau'];
+                $data = $khmodel->checkArrVal("tb_nguoidung", ["email", "dienthoai"], [$taikhoan, $taikhoan], "or");
+                if(count($data) > 0){
+                    $data = $data[0];
+                    if(password_verify($matkhau, $data['matkhau'])){
+                        if($data['trangthai'] == 0){
+                            $error = "Tài khoản của bạn chưa được xác thực, hãy kiểm tra lại email!";
+                        }else if($data['trangthai'] == 2){
+                            $error = "Tài khoản của bạn đã bị khóa hãy liên hệ với cửa hàng để được hỗ trợ!";
                         }else{
-                            $_SESSION['LoginOK'] = '2_'.$data['id_nguoidung'].'_'.$data['hoten'];
-                            header("location: index.php?controller=nhanvien");
+                            if($data['capbac'] == 0){
+                                $_SESSION['LoginOK'] = '0_'.$data['id_nguoidung'].'_'.$data['hoten'].'_'.$data['email'];
+                                if(isset($_GET['purchase']))    header("location: index.php?controller=khachhang&action=muahang");
+                                else    header("location: index.php");
+                            }else if($data['capbac'] == 1){
+                                $_SESSION['LoginOK'] = '1_'.$data['id_nguoidung'].'_'.$data['hoten'].'_'.$data['email'];
+                                header("location: index.php?controller=nhanvien");
+                            }else{
+                                $_SESSION['LoginOK'] = '2_'.$data['id_nguoidung'].'_'.$data['hoten'].'_'.$data['email'];
+                                header("location: index.php?controller=nhanvien");
+                            }
                         }
+                    }else{
+                        $error = "Mật khẩu không chính xác!";
                     }
                 }else{
-                    $error = "Mật khẩu không chính xác!";
+                    $error = "Tài khoản không tồn tại!";
                 }
-            }else{
-                $error = "Tài khoản không tồn tại!";
             }
+            require_once 'views/KhachHang/DangNhap.php';
+        }else{
+            header("location: index.php");
         }
-        require_once 'views/KhachHang/DangNhap.php';
     }
     function DangXuat(){
         if(isset($_SESSION['LoginOK'])){
             unset($_SESSION['LoginOK']);
-            header('location: index.php');
+            if(isset($_GET['purchase'])){
+                header("location: index.php?controller=khachhang&action=muahang");
+            }else{
+                header('location: index.php');
+            }
         }
     }
     function DangKy(){
@@ -143,17 +152,7 @@ class KhachHangController{
             header("location: index.php");
         }
     }
-    function DonHang(){
-        if(isset($_SESSION['LoginOK'])){
-            $kh = explode("_", $_SESSION['LoginOK']);
-            $id_nguoidung = $kh[1];
-            $khmodel = new KhachHangModel();
-            $data = $khmodel->get("tb_diachi", ['id_nguoidung'], [$id_nguoidung], ['and']);
-            require_once 'views/KhachHang/DonHang.php';
-        }else{
-            header("location: index.php");
-        }
-    }
+    
     //Đổi mật khẩu
     function DoiMatKhau(){
         if(isset($_SESSION['LoginOK'])){
@@ -306,19 +305,459 @@ class KhachHangController{
         require_once 'views/KhachHang/YeuThich.php';
     }
     function GioHang(){
+        $khmodel = new KhachHangModel();
         require_once 'views/KhachHang/GioHang.php';
     }
     function LienHe(){
         require_once 'views/KhachHang/LienHe.php';
     }
     function MuaHang(){
-        require_once 'views/KhachHang/MuaHang.php';
+        if (isset($_COOKIE['myCart'])) {
+            $khmodel = new KhachHangModel();
+            $gioHang = $_COOKIE['myCart'];
+            $gioHang = json_decode($gioHang, true);
+            $soluongsanpham = array_reduce($gioHang, function($carry, $item) { return $carry + $item['soluong']; }, 0);
+            $tongtien = array_reduce($gioHang, function($carry, $item) { return $carry + $item['soluong']*$item['dongia']; }, 0);
+            $soDiaChi = [];
+            $checkDiaChi = false;
+            if(isset($_SESSION['LoginOK'])){
+                $kh = explode("_", $_SESSION['LoginOK']);
+                $soDiaChi = $khmodel->get("tb_diachi", ['id_nguoidung'], [$kh[1]], ['and']);
+                if(count($soDiaChi) > 0){
+                    $checkDiaChi = true;
+                    $dsDiaChi = array_map(function($item){
+                        return $item['hoten'].", ".$item['dienthoai'].", ".$item['diachi'].", ".$item['phuongxa'].", ".$item['quanhuyen'].", ".$item['tinhthanh'];
+                    }, $soDiaChi);
+                    $diachi_new = array_map(function($item){
+                        return [$item['hoten'],$item['dienthoai'],$item['diachi'],$item['phuongxa'],$item['quanhuyen'],$item['tinhthanh']];
+                    }, $soDiaChi);
+                    $diachi_new_json = json_encode($diachi_new);
+                    echo "<script> var diachi = $diachi_new_json; </script>";
+                }
+            }
+            $pTTT = $khmodel->get("tb_phuongthucthanhtoan");
+            require_once 'views/KhachHang/MuaHang.php';
+        } else {
+            header("location: index.php");
+        }
+    }
+    function getMaGiamGia(){
+        if(isset($_POST['data'])){
+            $khmodel = new KhachHangModel();
+            $magiamgia = $_POST['data'];
+            $mgg = $khmodel->get("tb_magiamgia", ['magiamgia'], [$magiamgia], ['and']);
+            if(count($mgg) > 0){
+                echo json_encode($mgg);
+            }else{
+                echo 0;
+            }
+        }else {
+            header("location: index.php");
+        }
+    }
+    function DatHang(){
+        $kh = "";
+        if(isset($_POST['submit'])){
+            $khmod = new KhachHangModel();
+            $characters = '01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $randomString = str_shuffle($characters);
+            $id_donhang = substr($randomString, 0, 11);
+            if(!empty($_POST['email'])){
+                $email = $_POST['email'];
+            }else{
+                $email = '';
+            }
+            $hoten = $_POST['hoten'];
+            $dienthoai = $_POST['dienthoai'];
+            $diachi = $_POST['diachi'];
+            $tinhthanh = $_POST['tinhthanh'];
+            $quanhuyen = $_POST['quanhuyen'];
+            $phuongxa = $_POST['phuongxa'];
+            $ghichu = $_POST['ghichu'];
+            $id_phuongthucthanhtoan = $_POST['thanh-toan'];
+            if(isset($_POST['diachikhac'])){
+                $diachikhac = $_POST['diachikhac'];
+                $hoten_khac = $_POST['hoten_khac'];
+                $dienthoai_khac = $_POST['dienthoai_khac'];
+                $diachi_khac = $_POST['diachi_khac'];
+                $tinhthanh_khac = $_POST['tinhthanh_khac'];
+                $quanhuyen_khac = $_POST['quanhuyen_khac'];
+                $phuongxa_khac = $_POST['phuongxa_khac'];
+                $ghichu_khac = $_POST['ghichu_khac'];
+            }
+            else    $diachikhac = 0;
+            $khmod = new KhachHangModel();
+            $gioHang = $_COOKIE['myCart'];
+            $gioHang = json_decode($gioHang, true);
+            $sanPham = array_map(function($item){
+                $khmodel = new KhachHangModel();
+                $nh = $khmodel->get("tb_gianuochoa", ['id_nuochoa', 'dungtich'], [$item['id_nuochoa'], $item['dungtich']], ['and', 'and']);
+                if(count($nh)>0){
+                    $item['dongia'] = $nh[0]['gia_ban'];
+                }else{
+                    setcookie("myCart", "", time() - 3600);
+                    header("location: index.php");
+                }
+                return $item;
+            }, $gioHang);
+            $tongtien = array_reduce($sanPham, function($carry, $item) { return $carry + $item['soluong']*$item['dongia']; }, 0);
+            if(!empty($_POST['magiamgia'])){
+                $magiamgia = $_POST['magiamgia'];
+                $mgg = $khmod->get("tb_magiamgia", ['magiamgia'], [$magiamgia], ['and']);
+                $id_nuochoaGG = $mgg[0]['id_nuochoa'];
+                if(count($mgg) > 0){
+                    $sanpham_giamgia = array_filter($sanPham, function($item) use ($id_nuochoaGG){
+                        return $item['id_nuochoa'] == $id_nuochoaGG;
+                    }, 1);
+                    $tiengiamgia = array_reduce($sanpham_giamgia, function($carry, $item) { return $carry + $item['soluong']*$item['dongia']; }, 0)*$mgg[0]['giam']/100;
+                    $tongtien = $tongtien - $tiengiamgia;
+                }else{
+                    $magiamgia = '';
+                    $tiengiamgia = 0;
+                }
+            }else{
+                $magiamgia = '';
+                $tiengiamgia = 0;
+            }
+            $flag = false;
+            if(isset($_SESSION['LoginOK'])){
+                $kh = explode("_", $_SESSION['LoginOK']);
+                if(isset($_POST['diachikhac'])){
+                    if($khmod->insert("tb_donhang", [
+                        'id_donhang',
+                        'email',
+                        'hoten',
+                        'sodienthoai',
+                        'diachi',
+                        'tinhthanh',
+                        'quanhuyen',
+                        'phuongxa',
+                        'ghichu',
+                        'diachikhac',
+                        'hoten_khac',
+                        'sodienthoai_khac',
+                        'diachi_khac',
+                        'tinhthanh_khac',
+                        'quanhuyen_khac',
+                        'phuongxa_khac',
+                        'ghichu_khac',
+                        'id_phuongthucthanhtoan',
+                        'id_khachhang',
+                        'khuyenmai',
+                        'tongtien',
+                    ], [
+                        $id_donhang,
+                        $email,
+                        $hoten,
+                        $dienthoai,
+                        $diachi,
+                        $tinhthanh,
+                        $quanhuyen,
+                        $phuongxa,
+                        $ghichu,
+                        $diachikhac,
+                        $hoten_khac,
+                        $dienthoai_khac,
+                        $diachi_khac,
+                        $tinhthanh_khac,
+                        $quanhuyen_khac,
+                        $phuongxa_khac,
+                        $ghichu_khac,
+                        $id_phuongthucthanhtoan,
+                        $kh[1],
+                        $tiengiamgia,
+                        $tongtien,
+                    ])){
+                        $flag = true;
+                    }
+                }else{
+                    if($khmod->insert("tb_donhang", [
+                        'id_donhang',
+                        'email',
+                        'hoten',
+                        'sodienthoai',
+                        'diachi',
+                        'tinhthanh',
+                        'quanhuyen',
+                        'phuongxa',
+                        'ghichu',
+                        'diachikhac',
+                        'id_phuongthucthanhtoan',
+                        'id_khachhang',
+                        'khuyenmai',
+                        'tongtien',
+                    ], [
+                        $id_donhang,
+                        $email,
+                        $hoten,
+                        $dienthoai,
+                        $diachi,
+                        $tinhthanh,
+                        $quanhuyen,
+                        $phuongxa,
+                        $ghichu,
+                        0,
+                        $id_phuongthucthanhtoan,
+                        $kh[1],
+                        $tiengiamgia,
+                        $tongtien,
+                    ])){
+                        $flag = true;
+                    }
+                }
+            }else{
+                if(isset($_POST['diachikhac'])){
+                    if($khmod->insert("tb_donhang", [
+                        'id_donhang',
+                        'email',
+                        'hoten',
+                        'sodienthoai',
+                        'diachi',
+                        'tinhthanh',
+                        'quanhuyen',
+                        'phuongxa',
+                        'ghichu',
+                        'diachikhac',
+                        'hoten_khac',
+                        'sodienthoai_khac',
+                        'diachi_khac',
+                        'tinhthanh_khac',
+                        'quanhuyen_khac',
+                        'phuongxa_khac',
+                        'ghichu_khac',
+                        'id_phuongthucthanhtoan',
+                        'khuyenmai',
+                        'tongtien',
+                    ], [
+                        $id_donhang,
+                        $email,
+                        $hoten,
+                        $dienthoai,
+                        $diachi,
+                        $tinhthanh,
+                        $quanhuyen,
+                        $phuongxa,
+                        $ghichu,
+                        $diachikhac,
+                        $hoten_khac,
+                        $dienthoai_khac,
+                        $diachi_khac,
+                        $tinhthanh_khac,
+                        $quanhuyen_khac,
+                        $phuongxa_khac,
+                        $ghichu_khac,
+                        $id_phuongthucthanhtoan,
+                        $tiengiamgia,
+                        $tongtien,
+                    ])){
+                        $flag = true;
+                    }
+                }else{
+                    if($khmod->insert("tb_donhang", [
+                        'id_donhang',
+                        'email',
+                        'hoten',
+                        'sodienthoai',
+                        'diachi',
+                        'tinhthanh',
+                        'quanhuyen',
+                        'phuongxa',
+                        'ghichu',
+                        'diachikhac',
+                        'id_phuongthucthanhtoan',
+                        'khuyenmai',
+                        'tongtien',
+                    ], [
+                        $id_donhang,
+                        $email,
+                        $hoten,
+                        $dienthoai,
+                        $diachi,
+                        $tinhthanh,
+                        $quanhuyen,
+                        $phuongxa,
+                        $ghichu,
+                        0,
+                        $id_phuongthucthanhtoan,
+                        $tiengiamgia,
+                        $tongtien,
+                    ])){
+                        $flag = true;
+                    }
+                }
+            }
+            if($flag == true){
+                foreach($sanPham as $item){
+                    $id_nuochoa = $item['id_nuochoa'];
+                    $dungtich = $item['dungtich'];
+                    $dongia = $item['dongia'];
+                    $soluong = $item['soluong'];
+                    $count = 0;
+                    if($magiamgia != ""){
+                        if($mgg[0]['id_nuochoa'] == $item['id_nuochoa']){
+                            $tong = $item['dongia']*$item['soluong'];
+                            $giam = $tong*($mgg[0]['giam']/100);
+                            $tong = $tong - $giam;
+                            if($khmod->insert("tb_donhang_nuochoa", [
+                                'id_donhang',
+                                'id_nuochoa',
+                                'dungtich',
+                                'dongia',
+                                'soluong',
+                                'giamgia',
+                                'tong',
+                                'magiamgia',
+                            ],
+                            [
+                                $id_donhang,
+                                $id_nuochoa,
+                                $dungtich,
+                                $dongia,
+                                $soluong,
+                                $giam,
+                                $tong,
+                                $magiamgia,
+                            ])){
+                                $count++;
+                            }
+                        }else{
+                            $tong = $item['dongia']*$item['soluong'];
+                            if($khmod->insert("tb_donhang_nuochoa", [
+                                'id_donhang',
+                                'id_nuochoa',
+                                'dungtich',
+                                'dongia',
+                                'soluong',
+                                'giamgia',
+                                'tong',
+                            ],
+                            [
+                                $id_donhang,
+                                $id_nuochoa,
+                                $dungtich,
+                                $dongia,
+                                $soluong,
+                                0,
+                                $tong,
+                            ])){
+                                $count++;
+                            }
+                        }
+                    }else{
+                        $tong = $item['dongia']*$item['soluong'];
+                        if($khmod->insert("tb_donhang_nuochoa", [
+                            'id_donhang',
+                            'id_nuochoa',
+                            'dungtich',
+                            'dongia',
+                            'soluong',
+                            'giamgia',
+                            'tong',
+                        ],
+                        [
+                            $id_donhang,
+                            $id_nuochoa,
+                            $dungtich,
+                            $dongia,
+                            $soluong,
+                            0,
+                            $tong,
+                        ])){
+                            $count++;
+                        }
+                    }
+                }
+                if($count == count($sanPham)){
+                    $_SESSION['success'] = "Đặt hàng thành công!";
+                    setcookie("myCart", "", time() - 3600);
+                    header("location: index.php?controller=khachhang&action=HoanTatDatHang&id_donhang=$id_donhang");
+                }else{
+                    $_SESSION['error'] = "Đặt hàng chưa thành công!";
+                    header("location: index.php?controller=khachhang&action=HoanTatDatHang&id_donhang=$id_donhang");
+                }
+            }else{
+                
+            }
+        }else{
+            header("location: index.php");
+        }
     }
     function HoanTatDatHang(){
-        require_once 'views/KhachHang/HoanTatDatHang.php';
+        if(isset($_GET['id_donhang'])){
+            $khmodel = new KhachHangModel();
+            $id_donhang = $_GET['id_donhang'];
+            $donhang = $khmodel->get("tb_donhang", ['id_donhang'], [$id_donhang], ['and']);
+            if(count($donhang) > 0){
+                $donhang = $donhang[0];
+                $donhang_sanpham = $khmodel->getDonHangSanPham($id_donhang);
+                $soluongsanpham = array_reduce($donhang_sanpham, function($carry, $item) { return $carry + $item['soluong']; }, 0);
+                $tongtien = array_reduce($donhang_sanpham, function($carry, $item) { return $carry + $item['soluong']*$item['dongia']; }, 0);
+                $tongtien_dagiamgia = $donhang['tongtien'];
+                $pTTT = $khmodel->get("tb_phuongthucthanhtoan", ['id_phuongthucthanhtoan'], [$donhang['id_phuongthucthanhtoan']], ['and'])[0];
+                if($donhang['email'] != "" && $donhang['email'] != null && $donhang['thongbao'] == 0){
+                    $email = $donhang['email'];
+                    $subject = "[PARFUMERIE] Đơn hàng ".$id_donhang." của bạn đã được đặt trên hệ thống.";
+                    ob_start();
+                    include 'views/KhachHang/Mailer.php';
+                    $message = ob_get_clean();
+                    sendemailforAccount($email, $subject, $message);
+                    $khmodel->update("tb_donhang", ['thongbao'], [1], ['id_donhang'], [$id_donhang], ['and']);
+                }
+                
+                require 'views/KhachHang/HoanTatDatHang.php';
+            }else{
+                header("location: index.php");
+            }
+        }else{
+            header("location: index.php");
+        }
+    }
+    function DonHang(){
+        if(isset($_SESSION['LoginOK'])){
+            $kh = explode("_", $_SESSION['LoginOK']);
+            $id_nguoidung = $kh[1];
+            $khmodel = new KhachHangModel();
+            $data = $khmodel->get("tb_diachi", ['id_nguoidung'], [$id_nguoidung], ['and']);
+            echo "<script> var id_khachhang = '".$id_nguoidung."'</script>";
+            require_once 'views/KhachHang/DonHang.php';
+        }else{
+            header("location: index.php");
+        }
+    }
+    function getDonHang(){
+        if(isset($_GET['id_khachhang']) && isset($_SESSION['LoginOK']) && $_GET['id_khachhang'] == explode("_", $_SESSION['LoginOK'])[1] ){
+            $id_khachhang = $_GET['id_khachhang'];
+            $khmodel = new KhachHangModel();
+            echo $khmodel->getALLDH($id_khachhang);
+        }
     }
     function ChiTietDonHang(){
-        require_once 'views/KhachHang/ChiTietDonHang.php';
+        if(isset($_SESSION['LoginOK'])){
+            $kh = explode("_", $_SESSION['LoginOK']);
+            $id_nguoidung = $kh[1];
+            $khmodel = new KhachHangModel();
+            $data = $khmodel->get("tb_diachi", ['id_nguoidung'], [$id_nguoidung], ['and']);
+            echo "<script> var id_khachhang = '".$id_nguoidung."'</script>";
+            if(isset($_GET['id_donhang'])){
+                $id_donhang = $_GET['id_donhang'];
+                $donhang = $khmodel->get("tb_donhang", ['id_donhang'], [$id_donhang], ['and']);
+                if(count($donhang) > 0){
+                    $donhang = $donhang[0];
+                    $donhang_sanpham = $khmodel->getDonHangSanPham($id_donhang);
+                    $soluongsanpham = array_reduce($donhang_sanpham, function($carry, $item) { return $carry + $item['soluong']; }, 0);
+                    $tongtien = array_reduce($donhang_sanpham, function($carry, $item) { return $carry + $item['soluong']*$item['dongia']; }, 0);
+                    $tongtien_dagiamgia = $donhang['tongtien'];
+                    $pTTT = $khmodel->get("tb_phuongthucthanhtoan", ['id_phuongthucthanhtoan'], [$donhang['id_phuongthucthanhtoan']], ['and'])[0];
+                    require_once 'views/KhachHang/ChiTietDonHang.php';
+                }else{
+                    header("location: index.php");
+                }
+            }else{
+                header("location: index.php");
+            }
+        }else{
+            header("location: index.php");
+        }
     }
 }
 ?>

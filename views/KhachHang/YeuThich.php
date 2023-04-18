@@ -1,6 +1,9 @@
 <?php
 require("views/template/header.php");
 ?>
+<head>
+    <title>Sản phẩm yêu thích</title>
+</head>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
         <div class="container">

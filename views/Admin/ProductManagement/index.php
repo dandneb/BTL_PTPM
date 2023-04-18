@@ -9,6 +9,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
 
 <head>
 <link href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/date-1.4.0/fc-4.2.2/fh-3.3.2/r-2.4.1/rg-1.3.1/sc-2.1.1/sb-1.4.2/sl-1.6.2/datatables.min.css" rel="stylesheet"/>
+<title>Nước hoa</title>
 </head>
 <!-- Start Content-->
 <div class="container-fluid">
@@ -49,10 +50,14 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     <div class="row mb-2">
                         <div class="col-sm-12">
                             <?php
-                                if(isset($_GET['success']))
-                                    echo '<span class="text-success">Thêm sản phẩm nước hoa thành công</span>';
-                                else if(isset($_GET['error']))
-                                    echo '<span class="text-danger">Thêm sản phẩm nước hoa thất bại</span>';
+                                if(isset($_SESSION['success'])){
+                                    echo '<span class="text-success">'.$_SESSION['success'].'</span>';
+                                    unset($_SESSION['success']);
+                                }
+                                else if(isset($_SESSION['error'])){
+                                    echo '<span class="text-danger">'.$_SESSION['error'].'</span>';
+                                    unset($_SESSION['error']);
+                                }
                             ?>
                         </div>
                     </div>
@@ -64,8 +69,9 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                                     <th class="all">Sản phẩm</th>
                                     <th>Thương Hiệu</th>
                                     <th>Giá nhập</th>
+                                    <th>Giới tính</th>
                                     <th>Giá bán</th>
-                                    <th>Còn lại</th>
+                                    <th>Số lượng sản phẩm</th>
                                     <th>Đã bán</th>
                                     <th>Status</th>
                                     <th style="width: 85px;">Action</th>
@@ -87,6 +93,9 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                                     </td>
                                     <td>
                                         Aeron Chairs
+                                    </td>
+                                    <td>
+                                        09/12/2018
                                     </td>
                                     <td>
                                         09/12/2018
@@ -134,7 +143,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
             "columns":[
                 {"data":"ten_nuochoa",
                     "render": function ( data, type, row ) {
-                    return `<img src="images/${row.id_thuonghieu}/${row.id_nuochoa}/${row.id_nuochoa}_1.jpeg" alt="contact-img" title="contact-img" class="rounded me-3" height="48">
+                    return `<img src="images/NuocHoa/${row.id_nuochoa}/${row.id_nuochoa}_1.jpeg" alt="contact-img" title="contact-img" class="rounded me-3" height="48">
                                             <p class="m-0 d-inline-block align-middle font-16" data-toggle="tooltip" data-placement="top" title="${data}"><a>${data.length > 10 ? data.substring(0, 10)+"..." : data}</a><br>
                                             <span class="text-warning mdi mdi-star"></span>
                                             <span class="text-warning mdi mdi-star"></span>
@@ -151,13 +160,30 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     str_2 = formatStringPrice(str[1]);
                     return str_1+" - "+str_2;
                 }},
+                {"data": "gioitinh",
+                "render": function ( data, type, row ) {
+                    if ( data == 0 ) {
+                        return '<span class="badge bg-success">Nam</span>';
+                    } else if ( data == 1 ) {
+                        return '<span class="badge bg-info">Nữ</span>';
+                    }
+                    else if ( data == 2 ) {
+                        return '<span class="badge bg-danger">Unisex</span>';
+                    }
+                }},
                 {"data":"gia_ban", "render": function(data, type, row){
                     str = data.split("-");
                     str_1 = formatStringPrice(str[0]);
                     str_2 = formatStringPrice(str[1]);
                     return str_1+" - "+str_2;
                 }},
-                {"data":"soluong"},
+                {"data":"soluong", "render": function(data, type, row){
+                    if(data <= 2){
+                        return '<span class="badge bg-success">Còn hàng</span>';
+                    }else{
+                        return '<span class="badge bg-danger">Hết hàng</span>';
+                    }
+                }},
                 {"data":"soluongdaban"},
                 {"data": "status",
                 "render": function ( data, type, row ) {

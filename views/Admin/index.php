@@ -1,7 +1,9 @@
 ﻿<?php
 require "views/Admin/templates/header.php";
 ?>
-
+<head>
+    <title>Trang chủ quản lý</title>
+</head>
 <!-- Start Content-->
 <div class="container-fluid">
 

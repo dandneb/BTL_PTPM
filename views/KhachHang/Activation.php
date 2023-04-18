@@ -15,6 +15,7 @@
     <link href="../BTL_PTPM/views/Admin/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="../BTL_PTPM/views/Admin/assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
     <link href="../BTL_PTPM/views/Admin/assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style" />
+    <title>Xác thực tài khoản</title>
     <style>
         .bg-success{
             background-color: #07503d !important;

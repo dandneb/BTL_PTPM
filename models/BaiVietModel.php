@@ -1,4 +1,9 @@
 <?php
+if(!isset($_SESSION)) {
+    session_start();
+}
+if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['LoginOK'][0] == "2") {
+
 require_once 'configs/database.php';
 require_once 'model.php';
 class BaiVietModel extends Model{
@@ -48,3 +53,5 @@ class BaiVietModel extends Model{
         }
     }
 }
+}
+?>

@@ -9,7 +9,9 @@ $characters = '01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRS
 $randomString = str_shuffle($characters);
 $id_thuonghieu = substr($randomString, 0, 11);
 ?>
-
+<head>
+    <title>Thêm thương hiệu</title>
+</head>
 <!-- Start Content-->
 <div class="container-fluid">
     <div class="row">

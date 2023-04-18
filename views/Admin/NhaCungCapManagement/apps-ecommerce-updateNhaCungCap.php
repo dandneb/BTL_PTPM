@@ -6,7 +6,9 @@ if(!isset($_SESSION)) {
 if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['LoginOK'][0] == "2") {
     $ql = explode("_", $_SESSION['LoginOK']);
 ?>
-
+<head>
+    <title>Sửa nhà cung cấp</title>
+</head>
 <!-- Start Content-->
 <div class="container-fluid">
     <div class="row">

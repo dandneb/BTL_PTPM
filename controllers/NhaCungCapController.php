@@ -7,7 +7,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
     require_once 'models/NhaCungCapModel.php';
 class NhaCungCapController{
     //Quản lý nhà cung cấp
-    function nhaCungCap(){
+    function index(){
         require_once 'views/Admin/NhaCungCapManagement/index.php';
     }
     function getNhaCungCap(){
@@ -17,8 +17,6 @@ class NhaCungCapController{
     function addNhaCungCap(){
         $error = "";
         if(isset($_POST['submit'])){
-            $success="Thêm nhà cung cấp thành công!";
-            $error="Thêm nhà cung cấp thất bại!";
             $id_nhacungcap = $_POST['id_nhacungcap'];
             $ten_nhacungcap = $_POST['ten_nhacungcap'];
             $diachi = $_POST['diachi'];
@@ -30,9 +28,11 @@ class NhaCungCapController{
                 $NhaCungCapModel = new NhaCungCapModel();
                 $ql = explode("_", $_SESSION['LoginOK']);
                 if($NhaCungCapModel->insert("tb_nhacungcap", ['id_nhacungcap', 'ten_nhacungcap', 'diachi', 'sodienthoai', 'email', 'id_nguoiquanly'], [$id_nhacungcap, $ten_nhacungcap, $diachi, $sodienthoai, $email, $ql[1]])){
-                    header("location: index.php?controller=NhaCungCap&action=nhacungcap&success=$success");
+                    $_SESSION['success'] = "Thêm nhà cung cấp thành công!";
+                    header("location: index.php?controller=NhaCungCap");
                 }else{
-                    header("location: index.php?controller=NhaCungCap&action=nhacungcap&error=$error");
+                    $_SESSION['error'] = "Thêm nhà cung cấp thất bại!";
+                    header("location: index.php?controller=NhaCungCap");
                 }
             }
         }
@@ -62,32 +62,33 @@ class NhaCungCapController{
     }
     function deleteNhaCungCap(){
         if(isset($_GET['id_nhacungcap'])){
-            $success="Xóa nhà cung cấp thành công!";
-            $error="Xóa nhà cung cấp thất bại!";
             $id_nhacungcap = $_GET['id_nhacungcap'];
             $NhaCungCap = new NhaCungCapModel();
             $nhModel = new NuocHoaModel();
             if(count($nhModel->get("tb_nuochoa", ["id_nhacungcap"], [$id_nhacungcap], ['and']))<1){
                 if($NhaCungCap->delete("tb_nhacungcap", ["id_nhacungcap"], [$id_nhacungcap], ['and'])){
-                    header("location: index.php?controller=NhaCungCap&action=nhacungcap&success=$success");
+                    $_SESSION['success'] = "Xóa nhà cung cấp thành công!";
+                    header("location: index.php?controller=NhaCungCap");
                 }else{
-                    header("location: index.php?controller=NhaCungCap&action=nhacungcap&error=$error");
+                    $_SESSION['error'] = "Xóa nhà cung cấp thất bại!";
+                    header("location: index.php?controller=NhaCungCap");
                 }
             }else{
-                header("location: index.php?controller=NhaCungCap&action=nhacungcap&error=$error");
+                $_SESSION['error'] = "Xóa nhà cung cấp thất bại!";
+                header("location: index.php?controller=NhaCungCap");
             }
         }
     }
     function lockNhaCungCap(){
         if(isset($_GET['id_nhacungcap'])){
-            $success="Khóa nhà cung cấp thành công!";
-            $error="Khóa nhà cung cấp thất bại!";
             $id_nhacungcap = $_GET['id_nhacungcap'];
             $NhaCungCap = new NhaCungCapModel();
             if($NhaCungCap->update("tb_nhacungcap", ["status"],[1],['id_nhacungcap'], [$id_nhacungcap], ['and'])){
-                header("location: index.php?controller=NhaCungCap&action=nhacungcap&success=$success");
+                $_SESSION['success'] = "Khóa nhà cung cấp thành công!";
+                header("location: index.php?controller=NhaCungCap");
             }else{
-                header("location: index.php?controller=NhaCungCap&action=nhacungcap&error=$error");
+                $_SESSION['error'] = "Khóa nhà cung cấp thất bại!";
+                header("location: index.php?controller=NhaCungCap");
             }
         }
     }
@@ -98,9 +99,11 @@ class NhaCungCapController{
             $id_nhacungcap = $_GET['id_nhacungcap'];
             $NhaCungCap = new NhaCungCapModel();
             if($NhaCungCap->update("tb_nhacungcap", ["status"],[0],['id_nhacungcap'], [$id_nhacungcap], ['and'])){
-                header("location: index.php?controller=NhaCungCap&action=nhacungcap&success=$success");
+                $_SESSION['success'] = "Mở khóa nhà cung cấp thành công!";
+                header("location: index.php?controller=NhaCungCap");
             }else{
-                header("location: index.php?controller=NhaCungCap&action=nhacungcap&error=$error");
+                $_SESSION['error'] = "Mở khóa nhà cung cấp thất bại!";
+                header("location: index.php?controller=NhaCungCap");
             }
         }
     }
@@ -121,9 +124,11 @@ class NhaCungCapController{
             $sodienthoai = $_POST['sodienthoai'];
             $email = $_POST['email'];
             if($NhaCungCap->update("tb_nhacungcap", ['ten_nhacungcap', 'diachi' , 'sodienthoai' , 'email'], [$ten_nhacungcap, $diachi, $sodienthoai, $email], ['id_nhacungcap'], [$id_nhacungcap])){
-                header("location: index.php?controller=NhaCungCap&action=nhacungcap&success=$success");
+                $_SESSION['success'] = "Cập nhật nhà cung cấp thành công!";
+                header("location: index.php?controller=NhaCungCap");
             }else{
-                header("location: index.php?controller=NhaCungCap&action=nhacungcap&error=$error");
+                $_SESSION['error'] = "Cập nhật nhà cung cấp thất bại!";
+                header("location: index.php?controller=NhaCungCap");
             }
 
         }

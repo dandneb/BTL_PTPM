@@ -10,12 +10,11 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
 
 <head>
     <meta charset="utf-8">
-    <title>Analytics Dashboard | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
     <meta content="Coderthemes" name="author">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="../BTL_PTPM/views/Admin/assets/images/favicon.ico">
+    <link rel="shortcut icon" href="../BTL_PTPM/views/Admin/assets/images/users/unnamed.jpg">
 
     <!-- third party css -->
     <link href="../BTL_PTPM/views/Admin/assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css">
@@ -36,7 +35,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
         <div class="leftside-menu">
 
             <!-- LOGO -->
-            <a href="index.html" class="logo text-center logo-light">
+            <a href="index.php?controller=NhanVien" class="logo text-center logo-light">
                 <span class="logo-lg">
                     <img src="../../../BTL_PTPM/images/header/logo.png" alt="" height="16">
                 </span>
@@ -109,7 +108,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         <div class="collapse" id="sidebarThuongHieu">
                             <ul class="side-nav-second-level">
                                 <li>
-                                    <a href="index.php?controller=ThuongHieu&action=thuonghieu">Danh sách thương hiệu</a>
+                                    <a href="index.php?controller=ThuongHieu">Danh sách thương hiệu</a>
                                 </li>
                                 <li>
                                     <a href="index.php?controller=ThuongHieu&action=addthuonghieu">Thêm thương hiệu</a>
@@ -128,7 +127,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         <div class="collapse" id="sidebarNhaCungCap">
                             <ul class="side-nav-second-level">
                                 <li>
-                                    <a href="index.php?controller=NhaCungCap&action=nhacungcap">Danh sách nhà cung cấp</a>
+                                    <a href="index.php?controller=NhaCungCap">Danh sách nhà cung cấp</a>
                                 </li>
                                 <li>
                                     <a href="index.php?controller=NhaCungCap&action=addnhacungcap">Thêm nhà cung cấp</a>
@@ -147,7 +146,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         <div class="collapse" id="sidebarBaiViet">
                             <ul class="side-nav-second-level">
                                 <li>
-                                    <a href="index.php?controller=BaiViet&action=baiviet">Danh sách blog/kiến thức</a>
+                                    <a href="index.php?controller=BaiViet">Danh sách blog/kiến thức</a>
                                 </li>
                                 <li>
                                     <a href="index.php?controller=BaiViet&action=addbaiviet">Thêm blog/kiến thức</a>
@@ -166,10 +165,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         <div class="collapse" id="sidebarDonHang">
                             <ul class="side-nav-second-level">
                                 <li>
-                                    <a href="index.php?controller=NhanVien&action=nhacungcap">Danh sách nhà cung cấp</a>
-                                </li>
-                                <li>
-                                    <a href="index.php?controller=NhanVien&action=addnhacungcap">Thêm nhà cung cấp</a>
+                                    <a href="index.php?controller=DonHang">Danh sách đơn hàng</a>
                                 </li>
                             </ul>
                         </div>
@@ -192,6 +188,65 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                             </ul>
                         </div>
                     </li>
+
+                    <!-- Quản lý cho chủ cửa hàng -->
+                    <?php
+                    if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "2") {
+                    ?>
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarMaGiamGia" aria-expanded="false" aria-controls="sidebarMaGiamGia" class="side-nav-link">
+                            <i class="mdi mdi-sticker-minus-outline"></i>
+                            <span> Quản lý mã giảm giá </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarMaGiamGia">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="index.php?controller=MaGiamGia">Danh sách mã giảm giá</a>
+                                </li>
+                                <li>
+                                    <a href="index.php?controller=MaGiamGia&action=addmagiamgia">Thêm mã giảm giá</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- Quản lý phương thức thanh toán -->
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarThanhToan" aria-expanded="false" aria-controls="sidebarThanhToan" class="side-nav-link">
+                            <i class="mdi mdi-bank-transfer"></i>
+                            <span> Quản lý phương thức thanh toán </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarThanhToan">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="index.php?controller=ThanhToan">Danh sách phương thức thanh toán</a>
+                                </li>
+                                <li>
+                                    <a href="index.php?controller=ThanhToan&action=addThanhToan">Thêm phương thức thanh toán</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Quản lý tài khoản -->
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarTaiKhoan" aria-expanded="false" aria-controls="sidebarTaiKhoan" class="side-nav-link">
+                            <i class="mdi mdi-briefcase-account-outline"></i>
+                            <span> Quản lý tài khoản </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarTaiKhoan">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="index.php?controller=ChuCuaHang">Danh sách khách hàng</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <?php
+                    }
+                    ?>
                     </ul>
 
                 <!-- Help Box -->
@@ -387,7 +442,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         <li class="dropdown notification-list">
                             <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <span class="account-user-avatar">
-                                    <img src="../BTL_PTPM/views/Admin/assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle">
+                                    <img src="../BTL_PTPM/views/Admin/assets/images/users/unnamed.jpg" alt="user-image" class="rounded-circle">
                                 </span>
                                 <span>
                                     <span class="account-user-name"><?php echo $ql[2] ?></span>

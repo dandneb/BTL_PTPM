@@ -11,10 +11,10 @@ require("views/template/header.php");
         .list-item ul li::marker {
             font-size: 1px;
         }
-        main{
-
-        }
     </style>
+</head>
+<head>
+    <title>Giới thiệu</title>
 </head>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">

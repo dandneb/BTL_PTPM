@@ -1,10 +1,14 @@
 <?php
+if(!isset($_SESSION)) {
+    session_start();
+}
+if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['LoginOK'][0] == "2") {
 require_once 'configs/database.php';
 require_once 'model.php';
 class ThuongHieuModel extends Model{
     public function getALLTH(){
         $dbh = $this->connectDb();
-        $stmt = $dbh->prepare("Select * from tb_thuonghieu where status = 0");
+        $stmt = $dbh->prepare("Select * from tb_thuonghieu where status = 0 order by ten_thuonghieu ASC");
         $data = [];
         if($stmt->execute()){
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -25,5 +29,6 @@ class ThuongHieuModel extends Model{
 
         echo json_encode(array("data" => $data));
     }
+}
 }
 ?>

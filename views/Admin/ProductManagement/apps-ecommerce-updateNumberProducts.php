@@ -6,7 +6,9 @@ if (!isset($_SESSION)) {
 if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['LoginOK'][0] == "2") {
     $ql = explode("_", $_SESSION['LoginOK']);
 ?>
-
+<head>
+    <title>Sửa số lượng nước hoa</title>
+</head>
     <!-- Start Content-->
     <div class="container-fluid">
         <div class="row">
@@ -18,10 +20,10 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                             <li class="breadcrumb-item"><a href="index.php?controller=nhanvien">Quản lý cửa hàng</a></li>
                             <li class="breadcrumb-item"><a href="index.php?controller=nhanvien&action=sanpham">Nước hoa</a></li>
                             <li class="breadcrumb-item active">Sửa nước hoa</li>
-                            <li class="breadcrumb-item active">Cập nhật số lượng nước hoa</li>
+                            <li class="breadcrumb-item active">Cập nhật tình trạng số lượng nước hoa</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">Cập nhật số lượng nước hoa</h4>
+                    <h4 class="page-title">Cập nhật tình trạng số lượng nước hoa</h4>
                 </div>
             </div>
         </div>
@@ -31,12 +33,16 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                 <a class="btn btn-outline-secondary mt-2 mb-2" id="my_link">Mã nước hoa: <?php echo $id_nuochoa ?></a>
                 <div class="row mb-2">
                     <div class="col-sm-12">
-                        <?php
-                        if (isset($_GET['success']))
-                            echo '<span class="text-success">Cập nhật số lượng sản phẩm thành công!</span>';
-                        else if (isset($_GET['error']))
-                            echo '<span class="text-danger">Cập nhật số lượng sản phẩm thất bại!</span>';
-                        ?>
+                    <?php
+                        if(isset($_SESSION['success'])){
+                            echo '<span class="text-success">'.$_SESSION['success'].'</span>';
+                            unset($_SESSION['success']);
+                        }
+                        else if(isset($_SESSION['error'])){
+                            echo '<span class="text-danger">'.$_SESSION['error'].'</span>';
+                            unset($_SESSION['error']);
+                        }
+                    ?>
                     </div>
                 </div>
             </div>
@@ -57,12 +63,13 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                             </div>
                         </div>
                         <div class="col-md-6 me-0">
+                            <label class="form-label" id="label_soluong" for="dungtich">Chọn tình trạng số lượng sản phẩm cần sửa</label>
                             <div class="mb-3">
-                                <label class="form-label" for="validationCustom01">Chỉnh số lượng sản phẩm <label id="label_soluong"></label></label>
-                                <input type="text" class="form-control" name="soluong" value="" id="soluong" placeholder="Nhập số lượng cần đổi" readonly required>
-                                <div class="invalid-feedback">
-                                    Hãy số lượng sản phẩm cần cập nhật!
-                                </div>
+                                <select class="form-select" name="soluong" id="soluong" disabled required>
+                                    <option disabled selected value="">---</option>
+                                    <option value="0">Còn hàng</option>
+                                    <option value="1">Hết hàng</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row mb-2">

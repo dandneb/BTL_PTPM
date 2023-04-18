@@ -6,7 +6,9 @@ if(!isset($_SESSION)) {
 if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['LoginOK'][0] == "2") {
     $ql = explode("_", $_SESSION['LoginOK']);
 ?>
-
+<head>
+    <title>Bài viết</title>
+</head>
 <head>
 <link href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/date-1.4.0/fc-4.2.2/fh-3.3.2/r-2.4.1/rg-1.3.1/sc-2.1.1/sb-1.4.2/sl-1.6.2/datatables.min.css" rel="stylesheet"/>
 </head>
@@ -49,10 +51,14 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     <div class="row mb-2">
                         <div class="col-sm-12">
                             <?php
-                                if(isset($_GET['success']))
-                                    echo '<span class="text-success">'.$_GET['success'].'</span>';
-                                else if(isset($_GET['error']))
-                                    echo '<span class="text-danger">'.$_GET['error'].'</span>';
+                                if(isset($_SESSION['success'])){
+                                    echo '<span class="text-success">'.$_SESSION['success'].'</span>';
+                                    unset($_SESSION['success']);
+                                }
+                                else if(isset($_SESSION['error'])){
+                                    echo '<span class="text-danger">'.$_SESSION['error'].'</span>';
+                                    unset($_SESSION['error']);
+                                }
                             ?>
                         </div>
                     </div>

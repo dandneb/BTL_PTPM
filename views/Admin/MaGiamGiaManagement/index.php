@@ -9,6 +9,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
 
 <head>
 <link href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/date-1.4.0/fc-4.2.2/fh-3.3.2/r-2.4.1/rg-1.3.1/sc-2.1.1/sb-1.4.2/sl-1.6.2/datatables.min.css" rel="stylesheet"/>
+    <title>Mã giảm giá</title>
 </head>
 <!-- Start Content-->
 <div class="container-fluid">
@@ -21,10 +22,10 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="index.php">Parfumerie</a></li>
                         <li class="breadcrumb-item"><a href="index.php?controller=NhanVien">Quản lý cửa hàng</a></li>
-                        <li class="breadcrumb-item active">Nhà cung cấp</li>
+                        <li class="breadcrumb-item active">Mã giảm giá</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Nhà cung cấp</h4>
+                <h4 class="page-title">Mã giảm giá</h4>
             </div>
         </div>
     </div>
@@ -36,7 +37,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <a href="index.php?controller=NhaCungCap&action=addNhaCungCap" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i>Thêm mã giảm giá</a>
+                            <a href="index.php?controller=MaGiamGia&action=addMaGiamGia" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i>Thêm mã giảm giá</a>
                         </div>
                         <div class="col-sm-8">
                             <div class="text-sm-end">
@@ -49,10 +50,14 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     <div class="row mb-2">
                         <div class="col-sm-12">
                             <?php
-                                if(isset($_GET['success']))
-                                    echo '<span class="text-success">'.$_GET['success'].'</span>';
-                                else if(isset($_GET['error']))
-                                    echo '<span class="text-danger">'.$_GET['error'].'</span>';
+                                if(isset($_SESSION['success'])){
+                                    echo '<span class="text-success">'.$_SESSION['success'].'</span>';
+                                    unset($_SESSION['success']);
+                                }
+                                else if(isset($_SESSION['error'])){
+                                    echo '<span class="text-danger">'.$_SESSION['error'].'</span>';
+                                    unset($_SESSION['error']);
+                                }
                             ?>
                         </div>
                     </div>
@@ -132,7 +137,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                 {"data":"ngaybatdau"},
                 {"data":"hansudung"},
                 {"data":"soluotsudung"},
-                {"data":"soluongdonhangapdung"},
+                {"data":"soluotdasudung"},
                 {"data":"giam"},
                 {"data": "trangthai",
                 "render": function ( data, type, row ) {
@@ -156,9 +161,9 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     data: 'magiamgia',
                     targets: 5,
                     render: function ( data, type, row, meta ) {
-                        a = (row.soluongdonhangapdung < 1) ? `<a onclick="return confirm('Bạn có chắc chắn muốn xóa mã giảm giá này?')" href="index.php?controller=MaGiamGia&action=deleteMaGiamGia&magiamgia=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Xóa mã giảm giá"><i class="mdi mdi-delete-outline"></i></a>` : "";
-                        return a+`<a href="index.php?controller=MaGiamGia&action=updateMaGiamGia&magiamgia=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Chỉnh sửa"><i class="mdi mdi-square-edit-outline"></i></a>
-                                        `;
+                        a = (row.soluotdasudung < 1 && row.trangthai == 1) ? `<a onclick="return confirm('Bạn có chắc chắn muốn xóa mã giảm giá này?')" href="index.php?controller=MaGiamGia&action=deleteMaGiamGia&magiamgia=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Xóa mã giảm giá"><i class="mdi mdi-delete-outline"></i></a>` : "";
+                        b = (row.trangthai == 1) ? `<a href="index.php?controller=MaGiamGia&action=updateMaGiamGia&magiamgia=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Chỉnh sửa"><i class="mdi mdi-square-edit-outline"></i></a>` : "";
+                        return a+b;
                     }
                 },
             ],

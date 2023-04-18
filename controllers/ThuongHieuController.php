@@ -7,7 +7,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
 require_once 'models/ThuongHieuModel.php';
 class ThuongHieuController{
     //Quản lý thương hiệu.
-    function thuonghieu(){
+    function index(){
         require_once 'views/Admin/ThuongHieuManagement/index.php';
     }
     function getThuongHieu(){
@@ -24,9 +24,11 @@ class ThuongHieuController{
                 $_POST['ten_thuonghieu'],
                 $ql[1]
             ])){
-                header("location: index.php?controller=ThuongHieu&action=thuonghieu&success=");
+                $_SESSION['success'] = "Thêm thương hiệu thành công!";
+                header("location: index.php?controller=ThuongHieu");
             }else{
-                header("location: index.php?controller=ThuongHieu&action=thuonghieu&error=");
+                $_SESSION['error'] = "Thêm thương hiệu thất bại!";
+                header("location: index.php?controller=ThuongHieu");
             }
         }
         require_once 'views/Admin/ThuongHieuManagement/apps-ecommerce-addThuongHieu.php';
@@ -36,9 +38,11 @@ class ThuongHieuController{
             $thModel = new ThuongHieuModel();
             $id_thuonghieu = $_GET['id_thuonghieu'];
             if($thModel->delete("tb_thuonghieu",['id_thuonghieu'], [$id_thuonghieu], ['and'])){
-                header("location: index.php?controller=ThuongHieu&action=thuonghieu&delete_success=");
+                $_SESSION['success'] = "Xóa thương hiệu thành công!";
+                header("location: index.php?controller=ThuongHieu");
             }else{
-                header("location: index.php?controller=ThuongHieu&action=thuonghieu&delete_error=");
+                $_SESSION['error'] = "Xóa thương hiệu thất bại!";
+                header("location: index.php?controller=ThuongHieu");
             }
         }
     }
@@ -47,9 +51,11 @@ class ThuongHieuController{
             $thModel = new ThuongHieuModel();
             $id_thuonghieu = $_GET['id_thuonghieu'];
             if($thModel->update("tb_thuonghieu", ['status'], [1], ['id_thuonghieu'], [$id_thuonghieu], ['and'])){
-                header("location: index.php?controller=ThuongHieu&action=thuonghieu&lock_success=");
+                $_SESSION['success'] = "Khóa thương hiệu thành công!";
+                header("location: index.php?controller=ThuongHieu");
             }else{
-                header("location: index.php?controller=ThuongHieu&action=thuonghieu&lock_error=");
+                $_SESSION['error'] = "Khóa thương hiệu thất bại!";
+                header("location: index.php?controller=ThuongHieu");
             }
         }
     }
@@ -58,9 +64,11 @@ class ThuongHieuController{
             $thModel = new ThuongHieuModel();
             $id_thuonghieu = $_GET['id_thuonghieu'];
             if($thModel->update("tb_thuonghieu", ['status'], [0], ['id_thuonghieu'], [$id_thuonghieu], ['and'])){
-                header("location: index.php?controller=ThuongHieu&action=thuonghieu&unlock_success=");
+                $_SESSION['success'] = "Mở khóa thương hiệu thành công!";
+                header("location: index.php?controller=ThuongHieu");
             }else{
-                header("location: index.php?controller=ThuongHieu&action=thuonghieu&unlock_error=");
+                $_SESSION['error'] = "Mở khóa thương hiệu thất bại!";
+                header("location: index.php?controller=ThuongHieu");
             }
         }
     }
@@ -78,9 +86,11 @@ class ThuongHieuController{
             $id_thuonghieu = $_GET['id_thuonghieu'];
             $ten_thuonghieu = $_POST['ten_thuonghieu'];
             if($thModel->update("tb_thuonghieu", ['ten_thuonghieu'], [$ten_thuonghieu], ['id_thuonghieu'], [$id_thuonghieu], ['and'])){
-                header("location: index.php?controller=ThuongHieu&action=thuonghieu&update_success=");
+                $_SESSION['success'] = "Cập nhật thương hiệu thành công!";
+                header("location: index.php?controller=ThuongHieu");
             }else{
-                header("location: index.php?controller=ThuongHieu&action=thuonghieu&update_error=");
+                $_SESSION['error'] = "Cập nhật thương hiệu thất bại!";
+                header("location: index.php?controller=ThuongHieu");
             }
         }
     }

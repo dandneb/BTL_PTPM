@@ -12,6 +12,9 @@ require("views/template/header.php");
         background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
     }
 </style>
+<head>
+    <title>Đổi mật khẩu</title>
+</head>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
         <div class="container">

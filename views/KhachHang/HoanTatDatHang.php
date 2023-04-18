@@ -8,7 +8,7 @@
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <link rel="stylesheet" href="style/header.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>Bootstrap Example</title>
+    <title>Hoàn tất đơn hàng</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style\swiper-bundle.min.css">
@@ -61,7 +61,17 @@
                         </div>
                         <div>
                             <h5>Cảm ơn bạn đã đặt hàng</h5>
-                            <span class="p-14">Một email xác nhận đã được gửi tới daodan2612@gmail.com. Xin vui lòng kiểm tra email của bạn</span>
+                            <?php
+                            if($donhang['email'] != null || $donhang['email'] != ""){
+                            ?>
+                                <span class="p-14">Một email xác nhận đã được gửi tới <?php echo $donhang['email'] ?>. Xin vui lòng kiểm tra email của bạn và chúng tôi sẽ sớm liên hệ qua số điện thoại của bạn!</span>
+                            <?php
+                            }else{
+                            ?>
+                                <span class="p-14">Chúng tôi sẽ sớm liên hệ với bạn thông qua số điện thoại của bạn!</span>
+                            <?php
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -70,18 +80,31 @@
                         <div class="col-md-6">
                             <div>
                                 <p class="p-16-bold">Thông tin mua hàng</p>
-                                <p class="p-14">Đào Duy Đán</p>
-                                <p class="p-14">Daodan2612@gmail.com</p>
-                                <p class="p-14">+84366887398</p>
+                                <p class="p-14"><?php echo $donhang['hoten'] ?></p>
+                                <p class="p-14"><?php echo $donhang['email'] ?></p>
+                                <p class="p-14"><?php echo $donhang['sodienthoai'] ?></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div>
                                 <p class="p-16-bold">Địa chỉ nhận hàng</p>
-                                <p class="p-14">Đào Duy Đán</p>
-                                <p class="p-14">Ha Noi</p>
-                                <p class="p-14">Xã Phú Yên, Huyện Phú Xuyên, Hà Nội</p>
-                                <p class="p-14">+84366887398</p>
+                                <?php
+                                if($donhang['diachikhac'] == 1){
+                                ?>
+                                <p class="p-14"><?php echo $donhang['hoten_khac'] ?></p>
+                                <p class="p-14"><?php echo $donhang['diachi_khac'] ?></p>
+                                <p class="p-14"><?php echo $donhang['phuongxa_khac'].", ".$donhang['quanhuyen_khac'].", ".$donhang['tinhthanh_khac'] ?></p>
+                                <p class="p-14"><?php echo $donhang['sodienthoai_khac'] ?></p>
+                                <?php
+                                }else{
+                                ?>
+                                <p class="p-14"><?php echo $donhang['hoten'] ?></p>
+                                <p class="p-14"><?php echo $donhang['diachi'] ?></p>
+                                <p class="p-14"><?php echo $donhang['phuongxa'].", ".$donhang['quanhuyen'].", ".$donhang['tinhthanh'] ?></p>
+                                <p class="p-14"><?php echo $donhang['sodienthoai_khac'] ?></p>
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -89,7 +112,22 @@
                         <div class="col-md-6">
                             <div>
                                 <p class="p-16-bold">Phương thức thanh toán</p>
-                                <p class="p-14">Giao hàng khi thanh toán (COD)</p>
+                                <?php
+                                if($pTTT['ten'] == "Thanh toán qua VNPAY-QR"){
+                                    $mota = preg_split('/\r\n|\r|\n/', $pTTT['mota']);
+                                ?>
+                                <p class="p-14"><?php echo $pTTT['ten'] ?></p>
+                                <img src="<?php echo $pTTT['image_link'] ?>" alt="" style="max-width: 300px; max-height: 300px">
+                                <?php
+                                foreach($mota as $item){
+                                    echo '<p class="p-14">'.$item.'</p>';
+                                }
+                                }else{
+                                ?>
+
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -97,7 +135,7 @@
                                 <p class="p-16-bold">Phương thức vận chuyển</p>
                                 <div class="d-flex flex-row justify-content-between">
                                     <p class="p-14">Phí vận chuyển</p>
-                                    <p class="p-14">29.000đ</p>
+                                    <p class="p-14">-</p>
                                 </div>
                             </div>
                         </div>
@@ -105,41 +143,65 @@
                 </div>
                 <div class="container mt-3 p-3">
                     <div class="d-flex justify-content-end">
-                        <button class="btn btn-success" type="button">Tiếp tục mua hàng</button>
-                        <button class="btn btn-xt d-flex align-items-center" type="button"><span class="material-icons me-1">
-                                picture_as_pdf
-                            </span> <span>In</span></button>
+                        <a class="btn btn-success" href="index.php">Tiếp tục mua hàng</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-5 bg-white p-2">
-                <h6>Đơn hàng #2738 (1)</h6>
+                <h6>Đơn hàng #<?php echo $donhang['id_donhang']." (".$soluongsanpham.")"; ?></h6>
                 <hr>
                 <div class="card-thanh-toan mb-2">
+                    <?php
+                    foreach($donhang_sanpham as $item){
+                    ?>
                     <div class="row">
                         <div class="col-md-2">
                             <div style="position: relative;">
-                                <img src="images\nuocHoaNam\Roja Dove\Roja Dove Elysium Pour Homme Parfum Cologne\7.jpg" alt="">
-                                <p class="p-12-bold so_luong">1</p>
+                                <img src="<?php echo $item['img_link'] ?>" alt="">
+                                <p class="p-12-bold so_luong"><?php echo $item['soluong'] ?></p>
                             </div>
                         </div>
                         <div class="col-md-7">
                             <div>
-                                <p class="p-14-bold">Le Labo Santal 33 EDP</p>
-                                <p class="p-12">Unisex / USA / Chiết 10ml</p>
+                                <p class="p-14-bold"><?php echo $item['ten_nuochoa'] ?></p>
+                                <p class="p-12"><?php echo $item['gioitinh']." / ".$item['xuatxu']." / Chiết ".$item['dungtich']."ml" ?></p>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <p class="p_cost">675.000₫</p>
+                            <?php
+                            if($item['magiamgia'] != "" && $item['magiamgia'] != null){
+                            ?>
+                            <p class="p_cost text-decoration-line-through mb-0"><?php echo number_format($item['soluong']*$item['dongia'], 0, ",", ".") . " ₫"; ?></p>
+                            <p class="p_cost mb-0"><?php echo number_format($item['tong'], 0, ",", ".") . " ₫"; ?></p>
+                            <?php
+                            }else{
+                                ?>
+                            <p class="p_cost mb-0"><?php echo number_format($item['tong'], 0, ",", ".") . " ₫"; ?></p>
+                                <?php
+                            }
+                            ?>
                         </div>
                     </div>
+                    <?php
+                    }
+                    ?>
                 </div>
                 <hr>
                 <div class="col-md-12 mb-2 p-0 pb-2">
                     <div class="d-flex justify-content-between">
                         <p class="p_cost">Tạm tính</p>
-                        <p class="p_cost">1.345.000₫</p>
+                        <p class="p_cost"><?php echo number_format($tongtien, 0, ",", ".") . " ₫"; ?></p>
                     </div>
+                    <?php
+                    if($donhang['khuyenmai'] > 0){
+                    ?>
+                    <div class="d-flex justify-content-between">
+                        <p class="p_cost">Giảm giá</p>
+                        <p class="p_cost"><?php echo number_format($donhang['khuyenmai'], 0, ",", ".") . " ₫"; ?></p>
+                    </div>
+                    <?php
+                    }
+                    ?>
                     <div class="d-flex justify-content-between">
                         <p class="p_cost">Phí vận chuyển</p>
                         <p class="p_cost">-</p>
@@ -149,7 +211,7 @@
                 <div class="col-md-12 mb-2 p-0 pb-2">
                     <div class="d-flex justify-content-between">
                         <p class="p_cost" style="font-size:16px;">Tổng cộng</p>
-                        <p class="p_cost" style="font-size:21px; color:#07503d;">1.345.000₫</p>
+                        <p class="p_cost" style="font-size:21px; color:#07503d;"><?php echo number_format($donhang['tongtien'], 0, ",", ".") . " ₫"; ?></p>
                     </div>
                 </div>
             </div>

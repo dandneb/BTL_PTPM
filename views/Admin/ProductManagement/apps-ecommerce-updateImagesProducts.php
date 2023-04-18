@@ -23,6 +23,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
     <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" /> -->
     <!-- MDB -->
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" /> -->
+    <title>Sửa ảnh cho nước hoa</title>
     <style>
         .card-image-nuochoa{
             max-width: 100%;
@@ -57,16 +58,14 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     <div class="row mb-2">
                         <div class="col-sm-12">
                             <?php
-                            if (isset($_GET['success']))
-                                echo '<span class="text-success">Cập nhật ảnh cho nước hoa thành công</span>';
-                            else if (isset($_GET['error']))
-                                echo '<span class="text-danger">Cập nhật ảnh cho nước hoa thất bại</span>';
-                            if (isset($_GET['delete_success']))
-                                echo '<span class="text-success">Xóa ảnh cho nước hoa thành công</span>';
-                            else if (isset($_GET['delete_error']))
-                                echo '<span class="text-danger">Xóa ảnh cho nước hoa thất bại</span>';
-                            if (isset($_GET['file_not_exists']))
-                                echo '<span class="text-danger">File không tồn tại!</span>';
+                                if(isset($_SESSION['success'])){
+                                    echo '<span class="text-success">'.$_SESSION['success'].'</span>';
+                                    unset($_SESSION['success']);
+                                }
+                                else if(isset($_SESSION['error'])){
+                                    echo '<span class="text-danger">'.$_SESSION['error'].'</span>';
+                                    unset($_SESSION['error']);
+                                }
                             ?>
                         </div>
                     </div>
@@ -124,9 +123,20 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                                                     <p class="card-text">
                                                         Mã ảnh: <?php echo $anh['id_anh'] ?>.
                                                     </p>
-                                                    <form action="index.php?controller=nhanvien&action=xoaAnh" method="POST">
-                                                        <button class="btn btn-success" name="submit" value="<?php echo $anh['id_anh']."_".$id_nuochoa ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa ảnh này khỏi hệ thống?')" type="submit">Xóa ảnh</button>
-                                                    </form>
+                                                    <div class="d-flex flex-row justify-content-center">
+                                                        <form class="me-2" action="index.php?controller=nhanvien&action=xoaAnh" method="POST">
+                                                            <button class="btn btn-danger" name="submit" value="<?php echo $anh['id_anh']."_".$id_nuochoa ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa ảnh này khỏi hệ thống?')" type="submit">Xóa ảnh</button>
+                                                        </form>
+                                                        <?php
+                                                        if($anh['anhdaidien'] == 0){
+                                                        ?>
+                                                            <form class="ms-2" action="index.php?controller=nhanvien&action=setAnhDaiDien" method="POST">
+                                                                <button class="btn btn-primary" name="submit-set" value="<?php echo $anh['id_anh']."_".$id_nuochoa ?>" onclick="return confirm('Bạn có chắc chắn muốn đặt ảnh này làm ảnh đại diện cho nước hoa?')" type="submit">Set ảnh đại diện</button>
+                                                            </form>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
