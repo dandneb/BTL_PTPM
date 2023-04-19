@@ -13,7 +13,7 @@
     $object = new $classController();
     if (!method_exists($object, $action)) {
         header("location: index.php?controller=error"); //Nếu đoạn này xảy ra, chương trình dừng thực hiện //Kiểm tra action có tồn tại trong Controller ko
-        die();
+        die(); //OK
     }
     $object->$action();
 ?>
