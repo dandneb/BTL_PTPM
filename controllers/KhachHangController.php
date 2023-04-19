@@ -345,9 +345,13 @@ class KhachHangController{
         if(isset($_POST['data'])){
             $khmodel = new KhachHangModel();
             $magiamgia = $_POST['data'];
-            $mgg = $khmodel->get("tb_magiamgia", ['magiamgia'], [$magiamgia], ['and']);
-            if(count($mgg) > 0){
-                echo json_encode($mgg);
+            $mgg = $khmodel->checkMaGiamGia($magiamgia);
+            if(!empty($mgg)){
+                if(count($mgg) > 0){
+                    echo json_encode($mgg);
+                }else{
+                    echo 0;
+                }
             }else{
                 echo 0;
             }
@@ -403,14 +407,19 @@ class KhachHangController{
             $tongtien = array_reduce($sanPham, function($carry, $item) { return $carry + $item['soluong']*$item['dongia']; }, 0);
             if(!empty($_POST['magiamgia'])){
                 $magiamgia = $_POST['magiamgia'];
-                $mgg = $khmod->get("tb_magiamgia", ['magiamgia'], [$magiamgia], ['and']);
-                $id_nuochoaGG = $mgg[0]['id_nuochoa'];
-                if(count($mgg) > 0){
-                    $sanpham_giamgia = array_filter($sanPham, function($item) use ($id_nuochoaGG){
-                        return $item['id_nuochoa'] == $id_nuochoaGG;
-                    }, 1);
-                    $tiengiamgia = array_reduce($sanpham_giamgia, function($carry, $item) { return $carry + $item['soluong']*$item['dongia']; }, 0)*$mgg[0]['giam']/100;
-                    $tongtien = $tongtien - $tiengiamgia;
+                $mgg = $khmod->getMaGiamGia($magiamgia);
+                if($mgg != false){
+                    $id_nuochoaGG = $mgg[0]['id_nuochoa'];
+                    if(count($mgg) > 0){
+                        $sanpham_giamgia = array_filter($sanPham, function($item) use ($id_nuochoaGG){
+                            return $item['id_nuochoa'] == $id_nuochoaGG;
+                        }, 1);
+                        $tiengiamgia = array_reduce($sanpham_giamgia, function($carry, $item) { return $carry + $item['soluong']*$item['dongia']; }, 0)*$mgg[0]['giam']/100;
+                        $tongtien = $tongtien - $tiengiamgia;
+                    }else{
+                        $magiamgia = '';
+                        $tiengiamgia = 0;
+                    }
                 }else{
                     $magiamgia = '';
                     $tiengiamgia = 0;
@@ -587,12 +596,12 @@ class KhachHangController{
                 }
             }
             if($flag == true){
+                $count = 0;
                 foreach($sanPham as $item){
                     $id_nuochoa = $item['id_nuochoa'];
                     $dungtich = $item['dungtich'];
                     $dongia = $item['dongia'];
                     $soluong = $item['soluong'];
-                    $count = 0;
                     if($magiamgia != ""){
                         if($mgg[0]['id_nuochoa'] == $item['id_nuochoa']){
                             $tong = $item['dongia']*$item['soluong'];
@@ -619,6 +628,7 @@ class KhachHangController{
                                 $magiamgia,
                             ])){
                                 $count++;
+                                $khmod->updateSoLuotSuDung($mgg[0]['magiamgia']);
                             }
                         }else{
                             $tong = $item['dongia']*$item['soluong'];
@@ -668,11 +678,7 @@ class KhachHangController{
                     }
                 }
                 if($count == count($sanPham)){
-                    $_SESSION['success'] = "Đặt hàng thành công!";
                     setcookie("myCart", "", time() - 3600);
-                    header("location: index.php?controller=khachhang&action=HoanTatDatHang&id_donhang=$id_donhang");
-                }else{
-                    $_SESSION['error'] = "Đặt hàng chưa thành công!";
                     header("location: index.php?controller=khachhang&action=HoanTatDatHang&id_donhang=$id_donhang");
                 }
             }else{
@@ -729,7 +735,12 @@ class KhachHangController{
             $id_khachhang = $_GET['id_khachhang'];
             $khmodel = new KhachHangModel();
             echo $khmodel->getALLDH($id_khachhang);
+        }else{
+
         }
+    }
+    function Test(){
+        setcookie("myCart", "", time() - 3600);
     }
     function ChiTietDonHang(){
         if(isset($_SESSION['LoginOK'])){

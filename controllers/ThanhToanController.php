@@ -94,6 +94,8 @@ class ThanhToanController{
         }
     }
 }
+}else{
+    header("location: index.php");
 }
 
 ?>

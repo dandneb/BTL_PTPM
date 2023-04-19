@@ -132,4 +132,6 @@ class TaiKhoanController{
         }
     }
 }
+}else{
+    header("location: index.php");
 }

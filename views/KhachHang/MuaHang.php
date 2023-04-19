@@ -61,7 +61,7 @@ if(!isset($_SESSION)) {
         <div class="row d-flex justify-content-center">
             <img class="logo" src="images\header\checkout_logo.png" alt="">
         </div>
-        <form class="row g-3 needs-validation mt-3" action="index.php?controller=khachhang&action=DatHang" method="post" style="display: flex;" novalidate>
+        <form class="row g-3 needs-validation mt-3" onsubmit="return validateForm()" action="index.php?controller=khachhang&action=DatHang" method="post" style="display: flex;" novalidate>
             <div class="col-md-4 pe-4">
                 <div class="row g-3 thong-tin">
                     <div class="col-md-12 d-flex justify-content-between">

@@ -13,8 +13,8 @@ require("views/template/header.php");
         </div>
         <div class="swiper-pagination"></div>
     </a>
-    <div class="container mt-4 border">
-        <a class="card text-decoration-none" style="transform: translateX(-13px); width: 102%" href="index.php?controller=nuochoa&action=sanpham">
+    <div class="container mt-4 ps-0 pe-0 border">
+        <a class="card text-decoration-none" href="index.php?controller=nuochoa&action=sanpham&gioitinh=Nam">
             <div class="card-body bg-success">
                 <p class="card-text p-15-bold text-white">NƯỚC HOA NAM</p>
             </div>
@@ -24,24 +24,22 @@ require("views/template/header.php");
                 </div>
             </div>
         </a>
-        <div class="row">
+        <div class="row" style="width: 100%; margin: 0px">
             <div class="swiper slide-product1" style="background-color: #FFF">
                 <div class="swiper-wrapper">
                 
                     <?php
-                    for($i = 0; $i < count($nuocHoaNam); $i++){
-                        $nam = $nuocHoaNam[$i];
-                        
-                        $anh = $nHModel->get("tb_anhnuochoa", ['id_nuochoa'], [$nam['id_nuochoa']], ['and'], "order by anhdaidien DESC, id_anh ASC");
-                        $anh = $anh[0];
+                    for($i = 0; $i < count($nuocHoaNam)-1; $i+=2){
+                        $item1 = $nuocHoaNam[$i];
+                        $item2 = $nuocHoaNam[$i+1];
                     ?>
                     <div class="swiper-slide">
                         <div class="card rounded-0 pduct">
-                            <a style="height: 232px" href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $nam['id_nuochoa'] ?>">
-                                <img src="<?php echo $anh['img_link'] ?>" alt="" class="product-img">
+                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>">
+                                <img src="<?php echo $item1['img_link'] ?>" alt="" class="product-img">
                             </a>
                             <div class="card-body">
-                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $nam['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $nam['ten_nuochoa'] ?></p></a>
+                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item1['ten_nuochoa'] ?></p></a>
                                 <div class="vote">
                                     <i class="bi bi-star text-warning"></i>
                                     <i class="bi bi-star text-warning"></i>
@@ -51,8 +49,35 @@ require("views/template/header.php");
                                 </div>
                                 <div>
                                     <div class="product-price p-14-bold text-success">
-                                        <?php echo $nHModel->ps_price($nHModel->getPrice('min', $nam['id_nuochoa'])).' - '.
-                                        $nHModel->ps_price($nHModel->getPrice('max', $nam['id_nuochoa']));
+                                        <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item1['id_nuochoa'])).' - '.
+                                        $nHModel->ps_price($nHModel->getPrice('max', $item1['id_nuochoa']));
+                                        ?>
+                                    </div>
+                                    <div class="product-menu hidden-menu">
+                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
+                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
+                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card rounded-0 pduct">
+                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>">
+                                <img src="<?php echo $item2['img_link'] ?>" alt="" class="product-img">
+                            </a>
+                            <div class="card-body">
+                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item2['ten_nuochoa'] ?></p></a>
+                                <div class="vote">
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                </div>
+                                <div>
+                                    <div class="product-price p-14-bold text-success">
+                                        <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item2['id_nuochoa'])).' - '.
+                                        $nHModel->ps_price($nHModel->getPrice('max', $item2['id_nuochoa']));
                                         ?>
                                     </div>
                                     <div class="product-menu hidden-menu">
@@ -87,8 +112,9 @@ require("views/template/header.php");
             </div>
         </div>
     </div>
-    <div class="container mt-5 border">
-        <div class="card" style="transform: translateX(-13px); width: 102%">
+
+    <div class="container mt-5 border ps-0 pe-0">
+        <a class="card text-decoration-none" href="index.php?controller=nuochoa&action=sanpham&gioitinh=Nam">
             <div class="card-body bg-success">
                 <p class="card-text p-15-bold text-white">NƯỚC HOA NỮ</p>
             </div>
@@ -97,15 +123,22 @@ require("views/template/header.php");
                     <img src="images\nuocHoaNu\sec_group_product_banner_2.webp" class="" alt="...">
                 </div>
             </div>
-        </div>
-        <div class="row">
+        </a>
+        <div class="row" style="width: 100%; margin: 0px">
             <div class="swiper slide-product2">
                 <div class="swiper-wrapper">
+                    <?php
+                    foreach ($nuocHoaNu as $item){
+                        $anh = $nHModel->get("tb_anhnuochoa", ['id_nuochoa'], [$item['id_nuochoa']], ['and'], "order by anhdaidien DESC, id_anh ASC");
+                        $anh = $anh[0];
+                    ?>
                     <div class="swiper-slide">
                         <div class="card rounded-0 pduct">
-                            <img src="images\nuocHoaNu\Maison Francis\Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum.jpg" class="" alt="...">
+                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item['id_nuochoa'] ?>">
+                                <img src="<?php echo $anh['img_link'] ?>" alt="" class="product-img">
+                            </a>
                             <div class="card-body">
-                                <p class="card-text p-14-bold">Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum 1</p>
+                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item['ten_nuochoa'] ?></p></a>
                                 <div class="vote">
                                     <i class="bi bi-star text-warning"></i>
                                     <i class="bi bi-star text-warning"></i>
@@ -115,7 +148,9 @@ require("views/template/header.php");
                                 </div>
                                 <div>
                                     <div class="product-price p-14-bold text-success">
-                                        995.000đ - 8.900.000đ
+                                        <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item['id_nuochoa'])).' - '.
+                                            $nHModel->ps_price($nHModel->getPrice('max', $item['id_nuochoa']));
+                                        ?>
                                     </div>
                                     <div class="product-menu hidden-menu">
                                         <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
@@ -126,131 +161,9 @@ require("views/template/header.php");
                             </div>
                         </div>
                     </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\nuocHoaNu\Maison Francis\Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum 2</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        995.000đ - 8.900.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\nuocHoaNu\Maison Francis\Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum 3</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        995.000đ - 8.900.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\nuocHoaNu\Maison Francis\Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum 4</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        995.000đ - 8.900.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\nuocHoaNu\Maison Francis\Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum 5</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        995.000đ - 8.900.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\nuocHoaNu\Maison Francis\Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Maison Francis Kurkdjian Baccarat Rouge 540 Extrait De Parfum 6</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        995.000đ - 8.900.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                    }
+                    ?>
                 </div>
                 <div class="swiper-button-next next2"></div>
                 <div class="swiper-button-prev prev2"></div>
@@ -265,8 +178,9 @@ require("views/template/header.php");
             </div>
         </div>
     </div>
-    <div class="container mt-5 border">
-        <div class="card" style="transform: translateX(-13px); width: 102%">
+
+    <div class="container mt-5 border ps-0 pe-0">
+        <div class="card">
             <div class="card-body bg-success">
                 <p class="card-text p-15-bold text-white">NƯỚC HOA UNISEX</p>
             </div>
@@ -276,14 +190,21 @@ require("views/template/header.php");
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="width: 100%; margin: 0px">
             <div class="swiper slide-product3">
                 <div class="swiper-wrapper">
+                    <?php
+                    foreach ($nuocHoaUnisex as $item){
+                        $anh = $nHModel->get("tb_anhnuochoa", ['id_nuochoa'], [$item['id_nuochoa']], ['and'], "order by anhdaidien DESC, id_anh ASC");
+                        $anh = $anh[0];
+                    ?>
                     <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\Unisex\Maison Francis\Maison Francis Kurkdjian Grand Soir EDP.jpg" class="" alt="...">
+                        <div class="card rounded-0 pduct">
+                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item['id_nuochoa'] ?>">
+                                <img src="<?php echo $anh['img_link'] ?>" alt="" class="product-img">
+                            </a>
                             <div class="card-body">
-                                <p class="card-text p-14-bold">Maison Francis Kurkdjian Grand Soir EDP 1</p>
+                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item['ten_nuochoa'] ?></p></a>
                                 <div class="vote">
                                     <i class="bi bi-star text-warning"></i>
                                     <i class="bi bi-star text-warning"></i>
@@ -293,7 +214,9 @@ require("views/template/header.php");
                                 </div>
                                 <div>
                                     <div class="product-price p-14-bold text-success">
-                                        585.000đ - 5.100.000đ
+                                        <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item['id_nuochoa'])).' - '.
+                                            $nHModel->ps_price($nHModel->getPrice('max', $item['id_nuochoa']));
+                                        ?>
                                     </div>
                                     <div class="product-menu hidden-menu">
                                         <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
@@ -304,131 +227,10 @@ require("views/template/header.php");
                             </div>
                         </div>
                     </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\Unisex\Maison Francis\Maison Francis Kurkdjian Grand Soir EDP.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Maison Francis Kurkdjian Grand Soir EDP 2</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        585.000đ - 5.100.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\Unisex\Maison Francis\Maison Francis Kurkdjian Grand Soir EDP.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Maison Francis Kurkdjian Grand Soir EDP 3</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        585.000đ - 5.100.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\Unisex\Maison Francis\Maison Francis Kurkdjian Grand Soir EDP.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Maison Francis Kurkdjian Grand Soir EDP 4</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        585.000đ - 5.100.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\Unisex\Maison Francis\Maison Francis Kurkdjian Grand Soir EDP.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Maison Francis Kurkdjian Grand Soir EDP 5</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        585.000đ - 5.100.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 product">
-                            <img src="images\Unisex\Maison Francis\Maison Francis Kurkdjian Grand Soir EDP.jpg" class="" alt="...">
-                            <div class="card-body">
-                                <p class="card-text p-14-bold">Maison Francis Kurkdjian Grand Soir EDP 6</p>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        585.000đ - 5.100.000đ
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                    }
+                    ?>
+                    
                 </div>
                 <div class="swiper-button-next next3"></div>
                 <div class="swiper-button-prev prev3"></div>
@@ -564,10 +366,10 @@ require("views/template/header.php");
                 0: {
                     slidesPerView: 2,
                 },
-                520: {
+                768: {
                     slidesPerView: 3,
                 },
-                950: {
+                992: {
                     slidesPerView: 5,
                 },
             },

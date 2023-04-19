@@ -54,4 +54,6 @@ class ChuCuaHangController{
         }
     }
 }
+}else{
+    header("location: index.php");
 }

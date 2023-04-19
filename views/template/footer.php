@@ -75,41 +75,9 @@
             <p class="p-12 mt-2">Parfumerie.vn | Cung cấp bởi <a class="p-12 span-footer" href="">Sapo</a></p>
         </div>
     </footer>
-    <script src="js\swiper-bundle.min.js"></script>
+    <script src="js/swiper-bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/d9aa9ca0fe.js" crossorigin="anonymous"></script>
-    <script>
-        $card = $(".card");
-        $product_price = $(".product-price");
-        $card.on("mouseleave", function() {
-            $product_price.css({
-                transition: '0.4s ease-in-out',
-            });
-        })
-        var tongSanPham = 0;
-        if (document.cookie.indexOf("myCart") != -1) {
-            var myArrayCookie = document.cookie.replace(/(?:(?:^|.*;\s*)myCart\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-            var myArray = JSON.parse(myArrayCookie);
-            tongSanPham = myArray.reduce((tong, arr) => tong + arr.soluong, 0);
-        }
-        $(".numberOfCart").text(tongSanPham);
-        $(".slsp").text("("+tongSanPham+") sản phẩm.")
-
-    </script>
-    <script>
-    (() => {
-        'use strict'
-        const forms = document.querySelectorAll('.needs-validation')
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
-    </script>
+    <script src="js/footer.js"></script>
     </body>
 
     </html>

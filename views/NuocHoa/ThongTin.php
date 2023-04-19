@@ -695,13 +695,10 @@ require("views/template/header.php");
         $("#btn-addGioHang, #btn-muaNgay").click(function() {
             var dungtichValue = $('input[name=dungtich]:checked').val().split("_");
             if(parseInt($("#soluong").val()) > 0 && parseInt($("#soluong").val()) <= 20){
-                $("#helpSoLuong").text("Số lượng sản phẩm hợp lệ").css("color", "green");
-                $(".noticedGioHang").text("Thêm vào giỏ hàng thành công!").css("color", "white");
-                $("#imgNoticedGioHang").attr("src", "images/ticket/check.png");
                 if (document.cookie.indexOf("myCart") != -1) {
                     sp = {
                     'id_nuochoa' : '<?php echo $nuochoa['id_nuochoa'] ?>',
-                    'ten_nuochoa' : '<?php echo $nuochoa['ten_nuochoa'] ?>',
+                    'ten_nuochoa' : "<?php echo $nuochoa['ten_nuochoa'] ?>",
                     'gioitinh' : '<?php echo $gt ?>',
                     'xuatxu' : '<?php echo $nuochoa['xuatxu'] ?>',
                     'dungtich' : dungtichValue[0],
@@ -713,16 +710,26 @@ require("views/template/header.php");
                     var myArray = JSON.parse(myArrayCookie);
                     console.log(myArray);
                     var check = false;
-                    
+                    var checkSL = false;
+                    $("#helpSoLuong").text("Số lượng sản phẩm hợp lệ").css("color", "green");
+                    $(".noticedGioHang").text("Thêm vào giỏ hàng thành công!").css("color", "white");
+                    $("#imgNoticedGioHang").attr("src", "images/ticket/check.png");
                     myArray.forEach(function(item) {
                         if(item.id_nuochoa == sp.id_nuochoa && item.ten_nuochoa == sp.ten_nuochoa &&
                         item.gioitinh == sp.gioitinh && item.xuatxu == sp.xuatxu && item.dungtich == sp.dungtich
                         && item.dongia == sp.dongia && check == false){
-                            item.soluong = parseInt(item.soluong) + parseInt(sp.soluong);
-                            check = true;
+                            if(parseInt(item.soluong) <= 20 - parseInt(sp.soluong)){
+                                item.soluong = parseInt(item.soluong) + parseInt(sp.soluong);
+                                check = true;
+                            }else{
+                                checkSL = true;
+                                $("#helpSoLuong").text("Số lượng sản phẩm chưa hợp lệ (Tối đa 20 sản phẩm)").css("color", "red");
+                                $("#imgNoticedGioHang").attr("src", "images/ticket/169779.png");
+                                $(".noticedGioHang").text("Thêm vào giỏ hàng chưa thành công do số lượng sản phẩm chưa hợp lệ!").css("color", "red");
+                            }
                         }
                     })
-                    if(check==false){
+                    if(check==false && checkSL==false){
                         myArray.push(sp);
                         check = true;
                     }
@@ -734,7 +741,7 @@ require("views/template/header.php");
                 }else{
                     sp = [{
                     'id_nuochoa' : '<?php echo $nuochoa['id_nuochoa'] ?>',
-                    'ten_nuochoa' : '<?php echo $nuochoa['ten_nuochoa'] ?>',
+                    'ten_nuochoa' : "<?php echo $nuochoa['ten_nuochoa'] ?>",
                     'gioitinh' : '<?php echo $gt ?>',
                     'xuatxu' : '<?php echo $nuochoa['xuatxu'] ?>',
                     'dungtich' : dungtichValue[0],

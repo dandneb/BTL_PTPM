@@ -3,12 +3,37 @@ require_once 'models/NuocHoaModel.php';
 class NuocHoaController{
     function index(){
         $nHModel = new NuocHoaModel();
-        $nuocHoaNam = $nHModel->getNuocHoa(0);
+        $nuocHoaNam = $nHModel->getNuocHoaSanPham(0);
+        $nuocHoaNu = $nHModel->getNuocHoaSanPham(1);
+        $nuocHoaUnisex = $nHModel->getNuocHoaSanPham(2);
+        $th = $nHModel->get("tb_thuonghieu", ['status'], [0], ['and'], "order by ten_thuonghieu asc");
         require_once 'views/NuocHoa/index.php';
     }
-    function SanPham(){
 
-        require_once 'views/NuocHoa/SanPham.php';
+    function getNuocHoa(){
+        if(isset($_GET['filter'])){
+            $gioitinh = $_GET['filter'];
+            $nHModel = new NuocHoaModel();
+            echo $nHModel->getNH($gioitinh);
+        }
+    }
+
+    function SanPham(){
+        if(isset($_GET['gioitinh'])){
+            $gioitinh = $_GET['gioitinh'];
+            $nHModel = new NuocHoaModel();
+            if($gioitinh == "Nam"){
+                echo '<script> var gt = 0; </script>';
+                $nuocHoa = $nHModel->getNuocHoaSanPham(0);
+            }else if($gioitinh == "Nu"){
+                echo '<script> var gt = 1; </script>';
+                $nuocHoa = $nHModel->getNuocHoaSanPham(1);
+            }else{
+                $nuocHoa = $nHModel->getNuocHoaSanPham(2);
+                echo '<script> var gt = 2; </script>';
+            }
+            require_once 'views/NuocHoa/SanPham.php';
+        }
     }
     function ThongTin(){
         if(isset($_GET['id_nuochoa'])){

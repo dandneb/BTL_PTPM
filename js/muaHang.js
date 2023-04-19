@@ -65,7 +65,6 @@ $(document).ready(function(){
             $(".thongTinNhanHang").remove();
         }
     })
-    console.log(diachi);
     var callApiDistrict_k = (api) => {
         return axios.get(api).then((response) => {
             renderData(response.data.districts, "district");
@@ -139,38 +138,43 @@ $(document).ready(function(){
     $("#btn-maGiamGia").click(function() {
         get("magiamgia", "index.php?controller=khachhang&action=getMaGiamGia", "helpMGG", 
         "Mã giảm giá hợp lệ!", "Mã giảm giá không hợp lệ hoặc đã hết lượt sử dụng!").then(function(res) {
-            var mgg = JSON.parse(res);
-            if (document.cookie.indexOf("myCart") != -1) {
-                var myArrayCookie = document.cookie.replace(/(?:(?:^|.*;\s*)myCart\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-                var myArray = JSON.parse(myArrayCookie);
-                var sp = myArray.filter(function(item) { return item.id_nuochoa == mgg[0].id_nuochoa})
-                if(mgg.length > 0){
-                    if(sp.length == 0){
-                        $("#helpMGG").text("Mã giảm giá hợp lệ nhưng không áp dụng cho bất cứ sản phẩm nào trong giỏ hàng!").css("color","red");;
-                    }else{
-                        var tongtien = parseInt(myArray.reduce(function(tong, item){
-                            return tong + item.soluong*item.dongia;
-                        }, 0));
-                        var tongtien_giamgia = parseInt(sp.reduce(function(tong, item){
-                            return tong + item.soluong*item.dongia;
-                        }, 0));
-                        var tiengiamgia = tongtien_giamgia * (parseInt(mgg[0].giam)/100);
-                        $(".thanh-tien").append(`
-                        <div class="d-flex justify-content-between">
-                            <p class="p_cost">Giảm giá</p>
-                            <p class="p_cost">${tiengiamgia.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
-                        </div>
-                        `);
-                        $(".tong-tien").text((tongtien-tiengiamgia).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
-                        sp.forEach(function(item){
-                            var class_ = item.id_nuochoa+item.dungtich;
-                            tien_giam = item.soluong*item.dongia - item.soluong*item.dongia*(mgg[0].giam/100);
-                            console.log(tien_giam);
-                            $("."+class_).append(`<p class="p_cost mb-0">${tien_giam.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>`)
-                            $("."+class_+"p").addClass("text-decoration-line-through")
-                        })
+            if(res != 0){
+                var mgg = JSON.parse(res);
+                if (document.cookie.indexOf("myCart") != -1) {
+                    var myArrayCookie = document.cookie.replace(/(?:(?:^|.*;\s*)myCart\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+                    var myArray = JSON.parse(myArrayCookie);
+                    var sp = myArray.filter(function(item) { return item.id_nuochoa == mgg[0].id_nuochoa})
+                    if(mgg.length > 0){
+                        if(sp.length == 0){
+                            $("#helpMGG").text("Mã giảm giá hợp lệ nhưng không áp dụng cho bất cứ sản phẩm nào trong giỏ hàng!").css("color","red");;
+                            $("#magiamgia").val("");
+                        }else{
+                            var tongtien = parseInt(myArray.reduce(function(tong, item){
+                                return tong + item.soluong*item.dongia;
+                            }, 0));
+                            var tongtien_giamgia = parseInt(sp.reduce(function(tong, item){
+                                return tong + item.soluong*item.dongia;
+                            }, 0));
+                            var tiengiamgia = tongtien_giamgia * (parseInt(mgg[0].giam)/100);
+                            $(".thanh-tien").append(`
+                            <div class="d-flex justify-content-between">
+                                <p class="p_cost">Giảm giá</p>
+                                <p class="p_cost">${tiengiamgia.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+                            </div>
+                            `);
+                            $(".tong-tien").text((tongtien-tiengiamgia).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+                            sp.forEach(function(item){
+                                var class_ = item.id_nuochoa+item.dungtich;
+                                tien_giam = item.soluong*item.dongia - item.soluong*item.dongia*(mgg[0].giam/100);
+                                console.log(tien_giam);
+                                $("."+class_).append(`<p class="p_cost mb-0">${tien_giam.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>`)
+                                $("."+class_+"p").addClass("text-decoration-line-through")
+                            })
+                        }
                     }
                 }
+            }else{
+                $("#magiamgia").val("");
             }
         })
     })
@@ -181,4 +185,19 @@ $(document).ready(function(){
             $("#btn-maGiamGia").prop('disabled', true);
         }
     })
+    function validateForm(){
+        if($("#magiamgia").val() != ""){
+            get("magiamgia", "index.php?controller=khachhang&action=getMaGiamGia", "helpMGG", 
+            "Mã giảm giá hợp lệ!", "Mã giảm giá không hợp lệ hoặc đã hết lượt sử dụng!").then(function(res) {
+                if(res != 0){
+                    return true;
+                }else{
+                    $("#helpMGG").text("Mã giảm giá không hợp lệ hãy xem xét lại hoặc xóa đi để đi đến thanh toán!").css("color","red");;
+                    return false;
+                }
+            })
+        }else{
+            return true;
+        }
+    }
 })

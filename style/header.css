@@ -3,6 +3,7 @@ body{
     font-family: "Segoe UI","Roboto","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol" !important;
     font-weight: 500 !important;
     background-color: #f5f5f5;
+    opacity: 1 !important;
 }
 
 .logo{
@@ -98,7 +99,7 @@ body{
 }
 
 .nav-link:hover{
-    font-weight: 850;
+    font-weight: 750;
 }
 
 .btn_xemThem{
@@ -603,11 +604,19 @@ img{
     font-weight: normal;
 }
 
-@media (min-width: 992px){
+@media (min-width: 991.2px){
     .navbar-expand-lg .offcanvas {
         display: none;
     }
     .navbar-expand-lg .btn-sidebar{
+        display: none;
+    }
+    .nav{
+        display: flex;
+    }
+}
+@media (max-width: 991.2px){
+    .nav{
         display: none;
     }
 }
@@ -631,4 +640,123 @@ img{
     transform: translateY(6px);
     width: 13px;
     text-align: center;
+}
+
+.thuonghieu:hover .content-th, .nuochoa:hover .content-gt{
+    display: block;
+}
+
+.content-th{
+    position: absolute;
+    padding: 8px;
+    z-index: 2;
+    width: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    display: none;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 14px;
+    font-weight:400;
+}
+
+.content-th:hover{
+    font-weight:400;
+}
+
+@media (min-width: 992px){
+    .col-md-15 {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 460px){ 
+    .swiper-slide a{
+        height: 186px;
+    }
+}
+
+
+@media (max-width: 460px){ 
+        @media (min-width: 312px){ 
+        .swiper-slide a{
+            height: 130px;
+        }
+    }
+}
+
+@media (max-width: 312px){ 
+    .swiper-slide a{
+        height: 110px;
+    }
+}
+
+@media (max-width: 376px){ 
+    .card-body{
+        padding: 4px;
+    }
+}
+
+@media (max-width: 376px){ 
+    .p-14-bold{
+        font-size: 11px !important;
+    }
+}
+
+.hide{
+    display: none;
+}
+
+.col-xs-15, .col-sm-15, .col-md-15, .col-lg-15 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+
+.thuonghieu a, .content-gt li, .content-gt a, .thuonghieu li, .left-side-ds li, .left-side-ds a{
+    list-style-type: none;
+    color: black;
+}
+
+.left-side-ds a{
+    padding: 10px 20px 10px 5px;
+    font-size: 14px;
+    color: #444444;
+    font-weight:400;
+    display: block;
+    width: 100%;
+}
+
+.content-gt li{
+    padding: 6px;
+}
+
+.content-gt ul{
+    padding-left: 12px;
+    
+}
+.my-ul{
+    display: none;
+    transition: opacity 1s;
+}
+
+.content-gt{
+    position: absolute;
+    padding: 8px;
+    z-index: 2;
+    width: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    display: none;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 14px;
+    font-weight:400;
+}
+
+.offcanvas, .offcanvas-lg, .offcanvas-md, .offcanvas-sm, .offcanvas-xl, .offcanvas-xxl {
+    --bs-offcanvas-width: 300px;
 }

@@ -2,7 +2,6 @@ $(document).ready(function(){
     if (document.cookie.indexOf("myCart") != -1) {
         var myArrayCookie = document.cookie.replace(/(?:(?:^|.*;\s*)myCart\s*\=\s*([^;]*).*$)|^.*$/, "$1");
         var myArray = JSON.parse(myArrayCookie);
-        console.log(myArray);
         if(myArray.length > 0){
             myArray.forEach(function(item){
                 $('.gio_hang').append(`
@@ -85,6 +84,15 @@ $(document).ready(function(){
                 document.cookie = "myCart=" + myArrayJSON;
                 $(this).closest(".row-sp").html("");
                 re_caculator(newArray);
+                if(newArray.length < 1){
+                    $(".row-main-giohang").html(`
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <img src="images/ticket/empty-bags.jpg" style="max-width: 200px;" class="ms-auto me-auto">
+                        <a href="index.php" class="btn btn-success mb-2 rounded-0" style="width: 20%;height: 100%;" >TIẾP TỤC MUA SẮM</a>
+                    </div>
+                    `);
+                    document.cookie = "myCart=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                }
             })
         }else{
             $(".row-main-giohang").html(`
@@ -94,5 +102,13 @@ $(document).ready(function(){
             </div>
             `);
         }
+    }else{
+        $(".row-main-giohang").html(`
+        <div class="d-flex flex-column justify-content-center align-items-center">
+            <img src="images/ticket/empty-bags.jpg" style="max-width: 200px;" class="ms-auto me-auto">
+            <a href="index.php" class="btn btn-success mb-2 rounded-0" style="width: 20%;height: 100%;" >TIẾP TỤC MUA SẮM</a>
+        </div>
+        `);
+        console.log("OK");
     }
 })

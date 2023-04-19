@@ -2,8 +2,11 @@
 if(!isset($_SESSION)) {
     session_start();
 }
+$Model = new Model();
+$th = $Model->get("tb_thuonghieu", ['status'], [0], ['and'], "order by ten_thuonghieu asc");
 if (isset($_SESSION['LoginOK'])) {
     $kh = explode("_", $_SESSION['LoginOK']);
+    require_once 'models/Model.php';
 }
 ?>
 
@@ -83,47 +86,73 @@ if (isset($_SESSION['LoginOK'])) {
                                 </span>
                             </a>
                             <a href="index.php?controller=khachhang&action=giohang" style="color: white; position:relative">
-                                <div class="soLuongGioHang"><p class="numberOfCart">0</p></div> 
+                                <div class="soLuongGioHang" style="transform: translateY(-8px)"><p class="numberOfCart">0</p></div> 
                                 <span class="material-icons">
                                     shopping_cart
                                 </span>
                             </a>
                         </div>
                     </div>
-                    <div>
+                    <div class="left-side-ds">
                         <div style="background-color:#F6F6F7" class="p-2">
-                            <p class="p-13 m-0">Danh mục</p>
+                            <a class="p-13 m-0 text-black">Danh mục</a>
                         </div>
                         <div style="background-color:white" class="p-2 border-bottom">
-                            <p class="p-14 m-0">Trang chủ</p>
+                            <a class="p-14 m-0 text-black">Trang chủ</a>
                         </div>
                         <div style="background-color:white" class="p-2 border-bottom">
-                            <p class="p-14 m-0">Giới thiệu</p>
+                            <a class="p-14 m-0 text-black">Giới thiệu</a>
                         </div>
                         <div style="background-color:white" class="p-2 border-bottom">
-                            <p class="p-14 m-0">Thương hiệu</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a class="p-14 m-0 text-black">Thương hiệu</a>
+                                <span class="material-icons btn-add" style="cursor:pointer">add</span>
+                            </div>
+                            <ul style="display: none;">
+                                <?php
+                                foreach ($th as $item){
+                                ?>
+                                <li>
+                                    <a href=""><?php echo $item['ten_thuonghieu'] ?></a>
+                                </li>
+                                <?php
+                                }
+                                ?>
+                            </ul>
                         </div>
                         <div style="background-color:white" class="p-2 border-bottom">
-                            <p class="p-14 m-0">Nước hoa</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a class="p-14 m-0 text-black">Nước hoa</a>
+                                <span class="material-icons btn-add" style="cursor:pointer">add</span>
+                            </div>
+                            <ul style="display:none">
+                                <li>
+                                    <a href="">Nước hoa Nam.</a>
+                                </li>
+                                <li>
+                                    <a href="">Nước hoa Nữ.</a>
+                                </li>
+                                <li>
+                                    <a href="">Nước hoa Unisex.</a>
+                                </li>
+                            </ul>
+                            
                         </div>
                         <div style="background-color:white" class="p-2 border-bottom">
-                            <p class="p-14 m-0">Nước hoa chiết</p>
+                            <a class="p-14 m-0 text-black">Kiến thức</a>
                         </div>
                         <div style="background-color:white" class="p-2 border-bottom">
-                            <p class="p-14 m-0">Kiến thức</p>
+                            <a class="p-14 m-0 text-black">Blog</a>
                         </div>
                         <div style="background-color:white" class="p-2 border-bottom">
-                            <p class="p-14 m-0">Blog</p>
-                        </div>
-                        <div style="background-color:white" class="p-2 border-bottom">
-                            <p class="p-14 m-0">Liên hệ</p>
+                            <a class="p-14 m-0 text-black">Liên hệ</a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form class="d-flex input-group" role="search" style="max-width: 250px;">
-                    <input class="form-control" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
+                <form class="d-flex input-group" role="search" style="max-width: 27%;">
+                    <input class="form-control" type="search" placeholder="Tìm kiếm sản phẩm/đơn hàng" aria-label="Search">
                     <button class="btn" style="background-color: #FFFFFF;" type="submit"><span class="material-icons">
                             search
                         </span></button>
@@ -159,18 +188,46 @@ if (isset($_SESSION['LoginOK'])) {
             </div>
         </div>
     </nav>
-    <ul class="nav justify-content-center p-15-bold" style="background-color:#FFFFFF">
+    <ul class="nav justify-content-center p-15-bold" style="background-color:#FFFFFF; position:relative">
         <li class="nav-item">
             <a class="nav-link active text-dark" href="#">TRANG CHỦ</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" href="index.php?controller=nuochoa&action=gioithieu">GIỚI THIỆU</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item thuonghieu">
             <a class="nav-link text-dark" href="#">THƯƠNG HIỆU ></a>
+            <div class="content-th shadow">
+                <div class="container-fluid" style="background-color: #F9F9F9">
+                    <ul class="row p-3">
+                        <?php
+                        foreach ($th as $item){
+                        ?>
+                        <li class="col-md-15"><a href=""><?php echo $item['ten_thuonghieu'] ?></a></li>
+                        <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
+            </div>
         </li>
-        <li class="nav-item">
+        <li class="nav-item nuochoa" style="position: relative;">
             <a class="nav-link text-dark" href="#">NƯỚC HOA ></a>
+            <div class="content-gt shadow" style="background-color: #FFFFFF">
+                <ul>
+                    <li>
+                        <a href="">Nước hoa Nam</a>
+                    </li>
+                    <hr style="margin: 0">
+                    <li>
+                        <a href="">Nước hoa Nữ</a>
+                    </li>
+                    <hr style="margin: 0">
+                    <li>
+                        <a href="">Nước hoa Unisex</a>
+                    </li>
+                </ul>
+            </div>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" href="#">KIẾN THỨC</a>

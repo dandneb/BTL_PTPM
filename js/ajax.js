@@ -99,6 +99,7 @@ function get(id_input, url_, id_help_, text_help_success, text_help_error){
                 data: form_datas,
                 type: 'post',
                 success: function(res) {
+                    console.log(res);
                     if(res == 0){
                         $("#"+id_help_).text(text_help_error).css("color","red");
                         resolve(res);

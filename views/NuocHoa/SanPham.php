@@ -95,17 +95,19 @@ require("views/template/header.php");
                         </div>
                     </map>
                     <hr>
-                    <div class="container-fluid">
+                    <div class="container-fluid" id="myList">
                         <div class="row">
                             <?php
-                            for ($i = 0; $i < 12; $i++) {
+                            foreach ($nuocHoa as $item){
                             ?>
-                                <div class="col-md-3">
-                                    <a class="swiper-slide text-decoration-none" href="index.php?controller=nuochoa&action=thongtin">
+                                <div class="col-md-4">
+                                    <div class="swiper-slide text-decoration-none">
                                         <div class="card rounded-0 product border-0">
-                                            <img src="images\Unisex\Maison Francis\Maison Francis Kurkdjian Grand Soir EDP.jpg" class="" alt="...">
+                                            <a style="height: 232px; display: flex; justify-content:center;" href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item['id_nuochoa'] ?>">
+                                                <img src="<?php echo $item['img_link'] ?>" alt="" class="product-img">
+                                            </a>
                                             <div class="card-body">
-                                                <p class="card-text p-14-bold">Maison Francis Kurkdjian Grand Soir EDP 4</p>
+                                                <p class="card-text p-14-bold text-black"><?php echo $item['ten_nuochoa'] ?></p>
                                                 <div class="vote">
                                                     <i class="bi bi-star text-warning"></i>
                                                     <i class="bi bi-star text-warning"></i>
@@ -118,14 +120,14 @@ require("views/template/header.php");
                                                         585.000đ - 5.100.000đ
                                                     </div>
                                                     <div class="product-menu hidden-menu">
-                                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
+                                                        <button class="btn-menu" style="padding: 6px;"><i class="bi bi-cart-plus text-success"></i></button>
+                                                        <button class="btn-menu" style="padding: 6px;"><i class="bi bi-eye text-success"></i></button>
+                                                        <button class="btn-menu" style="padding: 6px;"><i class="bi bi-heart text-success"></i></i></button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </a>
+                                    </div>
                                 </div>
                             <?php
                             }
@@ -390,6 +392,8 @@ require("views/template/header.php");
         });
     });
 </script>
+<script src="js/pagination.js"></script>
+<script src="js/danhSachSanPham.js"></script>
 <?php
 require("views/template/footer.php");
 ?>

@@ -6,7 +6,6 @@ var callAPI = (api) => {
     });
 }
 
-
 callAPI('https://provinces.open-api.vn/api/?depth=1');
 
 var callApiDistrict = (api) => {

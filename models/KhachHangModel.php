@@ -88,5 +88,44 @@ class KhachHangModel extends Model{
         }
         return false;
     }
+    function updateSoLuotSuDung($magiamgia){
+        $dbh = $this->connectDb();
+        $stmt = $dbh->prepare("UPDATE `tb_magiamgia` SET `soluotdasudung`= `soluotdasudung` + 1  WHERE `magiamgia` = ?");
+        $stmt->bindValue(1, $magiamgia);
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
+    function checkMaGiamGia($magiamgia){
+        $dbh = $this->connectDb();
+        $stmt = $dbh->prepare('SELECT * FROM `tb_magiamgia` t1 WHERE t1.hansudung >= now() and soluotdasudung < soluotsudung and magiamgia = ?');
+        $stmt->bindValue(1, $magiamgia);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if(!empty($data)){
+                if(count($data) > 0)    return $data;
+                else return 0;
+            }else{
+                return 0;
+            }
+        }
+    }
+    function getMaGiamGia($magiamgia){
+        $dbh = $this->connectDb();
+        $stmt = $dbh->prepare('SELECT * FROM `tb_magiamgia` t1 WHERE t1.hansudung >= now() and soluotdasudung < soluotsudung and magiamgia = ?');
+        $stmt->bindValue(1, $magiamgia);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if(!empty($data)){
+                if(count($data) > 0)    return $data;
+                else return false;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
 }
 ?>

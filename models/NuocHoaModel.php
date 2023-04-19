@@ -10,6 +10,22 @@ class NuocHoaModel extends Model{
         $sql = "SELECT t1.* FROM `tb_nuochoa` t1
         INNER JOIN `tb_thuonghieu` t2 on t1.id_thuonghieu = t2.id_thuonghieu and t2.status = 0
         INNER JOIN `tb_nhacungcap` t3 on t1.id_nhacungcap = t3.id_nhacungcap and t3.status = 0
+        where t1.gioitinh = ? and t1.status = 0 LIMIT 20";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(1, $gioitinh);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }else{
+            return false;
+        }
+    }
+
+    function getNuocHoaSanPham($gioitinh){
+        $dbh = $this->connectDb();
+        $sql = "SELECT t1.*, (SELECT img_link from `tb_anhnuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa order by id_anh ASC limit 1, 1) as img_link FROM `tb_nuochoa` t1
+        INNER JOIN `tb_thuonghieu` t2 on t1.id_thuonghieu = t2.id_thuonghieu and t2.status = 0
+        INNER JOIN `tb_nhacungcap` t3 on t1.id_nhacungcap = t3.id_nhacungcap and t3.status = 0
         where t1.gioitinh = ? and t1.status = 0";
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(1, $gioitinh);
@@ -19,6 +35,20 @@ class NuocHoaModel extends Model{
         }else{
             return false;
         }
+    }
+
+    function getNH($gioitinh){
+        $dbh = $this->connectDb();
+        $sql = "SELECT t1.* FROM `tb_nuochoa` t1
+        INNER JOIN `tb_thuonghieu` t2 on t1.id_thuonghieu = t2.id_thuonghieu and t2.status = 0
+        INNER JOIN `tb_nhacungcap` t3 on t1.id_nhacungcap = t3.id_nhacungcap and t3.status = 0
+        where t1.gioitinh = ? and t1.status = 0";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(1, $gioitinh);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        echo json_encode(array("data" => $data));
     }
 
     function getGiaBan($id_nuochoa){

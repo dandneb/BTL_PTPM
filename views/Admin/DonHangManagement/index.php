@@ -22,10 +22,10 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="index.php">Parfumerie</a></li>
                         <li class="breadcrumb-item"><a href="index.php?controller=NhanVien">Quản lý cửa hàng</a></li>
-                        <li class="breadcrumb-item active">Nhà cung cấp</li>
+                        <li class="breadcrumb-item active">Đơn hàng</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Nhà cung cấp</h4>
+                <h4 class="page-title">Danh sách đơn hàng</h4>
             </div>
         </div>
     </div>
@@ -37,7 +37,6 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <a href="index.php?controller=NhaCungCap&action=addNhaCungCap" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i>Thêm nhà cung cấp</a>
                         </div>
                         <div class="col-sm-8">
                             <div class="text-sm-end">
@@ -76,6 +75,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                                     <th>Trạng thái đơn hàng</th>
                                     <th>Trạng thái thanh toán</th>
                                     <th>Trạng thái vận chuyển</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -150,6 +150,20 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         return '<span class="badge bg-danger">Đã hủy</span>';
                     }
                 }},
+                {
+                    data: 'id_donhang',
+                    targets: 5,
+                    render: function ( data, type, row, meta ) {
+                        if(row.trangthaidonhang == 2 || row.trangthaidonhang == 3){
+                            return "";
+                        }else{
+                            a = (row.trangthaidonhang == 0) ? `<a onclick="return confirm('Bạn có chắc chắn muốn duyệt đơn hàng này?')" href="index.php?controller=DonHang&action=duyetDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Duyệt đơn hàng"><i class="mdi mdi-cash-check"></i></a>` : "";
+                            b = (row.trangthaivanchuyen == 0 && row.trangthaithanhtoan == 0) ? `<a onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')" href="index.php?controller=DonHang&action=huyDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Hủy đơn hàng"><i class="uil uil-file-times-alt"></i></a>` : "";
+                            c = (row.trangthaidonhang == 1) ? `<a href="index.php?controller=DonHang&action=updateVanChuyenDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Cập nhật trạng thái giao hàng"><i class="mdi mdi-truck-delivery-outline"></i></a>` : "";
+                            return a+b+c;
+                        }
+                    }
+                },
             ],
         });
     } );

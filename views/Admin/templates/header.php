@@ -244,22 +244,24 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                             </ul>
                         </div>
                     </li>
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarQLNhanVien" aria-expanded="false" aria-controls="sidebarQLNhanVien" class="side-nav-link">
+                            <i class="mdi mdi-briefcase-account-outline"></i>
+                            <span> Quản lý nhân viên </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarQLNhanVien">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="index.php?controller=TaiKhoan">Danh sách nhân viên</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                     <?php
                     }
                     ?>
                     </ul>
-
-                <!-- Help Box -->
-                <div class="help-box text-white text-center">
-                    <a href="javascript: void(0);" class="float-end close-btn text-white">
-                        <i class="mdi mdi-close"></i>
-                    </a>
-                    <img src="../BTL_PTPM/views/Admin/assets/images/help-icon.svg" height="90" alt="Helper Icon Image">
-                    <h5 class="mt-3">Unlimited Access</h5>
-                    <p class="mb-3">Upgrade to plan to get access to unlimited reports</p>
-                    <a href="javascript: void(0);" class="btn btn-outline-light btn-sm">Upgrade</a>
-                </div>
-                <!-- end Help Box -->
                 <!-- End Sidebar -->
 
                 <div class="clearfix"></div>
