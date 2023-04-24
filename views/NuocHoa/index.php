@@ -3,6 +3,15 @@ require("views/template/header.php");
 ?>
 <head>
     <title>Trang chủ</title>
+    <style>
+        @media (min-width: 992px){
+            .img-thongtin{
+                height: 149px;
+                width: auto;
+                object-fit: cover;
+            }
+        }
+    </style>
 </head>
 <main style="margin-bottom: 100px">
     <a class="swiper mySwiper" href="">
@@ -76,8 +85,8 @@ require("views/template/header.php");
                                 </div>
                                 <div>
                                     <div class="product-price p-14-bold text-success">
-                                        <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item2['id_nuochoa'])).' - '.
-                                        $nHModel->ps_price($nHModel->getPrice('max', $item2['id_nuochoa']));
+                                        <?php
+                                            echo number_format($item1['min_gia'], 0, ",", ".") . " ₫ - ".number_format($item1['max_gia'], 0, ",", ".") . " ₫";
                                         ?>
                                     </div>
                                     <div class="product-menu hidden-menu">
@@ -114,7 +123,7 @@ require("views/template/header.php");
     </div>
 
     <div class="container mt-5 border ps-0 pe-0">
-        <a class="card text-decoration-none" href="index.php?controller=nuochoa&action=sanpham&gioitinh=Nam">
+        <a class="card text-decoration-none" href="index.php?controller=nuochoa&action=sanpham&gioitinh=Nu">
             <div class="card-body bg-success">
                 <p class="card-text p-15-bold text-white">NƯỚC HOA NỮ</p>
             </div>
@@ -127,43 +136,70 @@ require("views/template/header.php");
         <div class="row" style="width: 100%; margin: 0px">
             <div class="swiper slide-product2">
                 <div class="swiper-wrapper">
-                    <?php
-                    foreach ($nuocHoaNu as $item){
-                        $anh = $nHModel->get("tb_anhnuochoa", ['id_nuochoa'], [$item['id_nuochoa']], ['and'], "order by anhdaidien DESC, id_anh ASC");
-                        $anh = $anh[0];
-                    ?>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 pduct">
-                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item['id_nuochoa'] ?>">
-                                <img src="<?php echo $anh['img_link'] ?>" alt="" class="product-img">
-                            </a>
-                            <div class="card-body">
-                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item['ten_nuochoa'] ?></p></a>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item['id_nuochoa'])).' - '.
-                                            $nHModel->ps_price($nHModel->getPrice('max', $item['id_nuochoa']));
-                                        ?>
+                        <?php
+                        for($i = 0; $i < count($nuocHoaNu)-1; $i+=2){
+                            $item1 = $nuocHoaNu[$i];
+                            $item2 = $nuocHoaNu[$i+1];
+                        ?>
+                        <div class="swiper-slide">
+                            <div class="card rounded-0 pduct">
+                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>">
+                                    <img src="<?php echo $item1['img_link'] ?>" alt="" class="product-img">
+                                </a>
+                                <div class="card-body">
+                                    <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item1['ten_nuochoa'] ?></p></a>
+                                    <div class="vote">
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
                                     </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
+                                    <div>
+                                        <div class="product-price p-14-bold text-success">
+                                            <?php
+                                            echo number_format($item1['min_gia'], 0, ",", ".") . " ₫ - ".number_format($item1['max_gia'], 0, ",", ".") . " ₫";
+                                            ?>
+                                        </div>
+                                        <div class="product-menu hidden-menu">
+                                            <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
+                                            <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
+                                            <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card rounded-0 pduct">
+                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>">
+                                    <img src="<?php echo $item2['img_link'] ?>" alt="" class="product-img">
+                                </a>
+                                <div class="card-body">
+                                    <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item2['ten_nuochoa'] ?></p></a>
+                                    <div class="vote">
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                    </div>
+                                    <div>
+                                        <div class="product-price p-14-bold text-success">
+                                            <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item2['id_nuochoa'])).' - '.
+                                            $nHModel->ps_price($nHModel->getPrice('max', $item2['id_nuochoa']));
+                                            ?>
+                                        </div>
+                                        <div class="product-menu hidden-menu">
+                                            <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
+                                            <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
+                                            <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <?php
-                    }
-                    ?>
+                        <?php
+                        }
+                        ?>
                 </div>
                 <div class="swiper-button-next next2"></div>
                 <div class="swiper-button-prev prev2"></div>
@@ -180,7 +216,7 @@ require("views/template/header.php");
     </div>
 
     <div class="container mt-5 border ps-0 pe-0">
-        <div class="card">
+        <a class="card text-decoration-none" href="index.php?controller=nuochoa&action=sanpham&gioitinh=Unisex">
             <div class="card-body bg-success">
                 <p class="card-text p-15-bold text-white">NƯỚC HOA UNISEX</p>
             </div>
@@ -189,22 +225,23 @@ require("views/template/header.php");
                     <img src="images\Unisex\sec_group_product_banner_3.webp" class="" alt="...">
                 </div>
             </div>
-        </div>
+        </a>
         <div class="row" style="width: 100%; margin: 0px">
             <div class="swiper slide-product3">
                 <div class="swiper-wrapper">
+                    
                     <?php
-                    foreach ($nuocHoaUnisex as $item){
-                        $anh = $nHModel->get("tb_anhnuochoa", ['id_nuochoa'], [$item['id_nuochoa']], ['and'], "order by anhdaidien DESC, id_anh ASC");
-                        $anh = $anh[0];
+                    for($i = 0; $i < count($nuocHoaUnisex)-1; $i+=2){
+                        $item1 = $nuocHoaUnisex[$i];
+                        $item2 = $nuocHoaUnisex[$i+1];
                     ?>
                     <div class="swiper-slide">
                         <div class="card rounded-0 pduct">
-                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item['id_nuochoa'] ?>">
-                                <img src="<?php echo $anh['img_link'] ?>" alt="" class="product-img">
+                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>">
+                                <img src="<?php echo $item1['img_link'] ?>" alt="" class="product-img">
                             </a>
                             <div class="card-body">
-                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item['ten_nuochoa'] ?></p></a>
+                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item1['ten_nuochoa'] ?></p></a>
                                 <div class="vote">
                                     <i class="bi bi-star text-warning"></i>
                                     <i class="bi bi-star text-warning"></i>
@@ -214,8 +251,35 @@ require("views/template/header.php");
                                 </div>
                                 <div>
                                     <div class="product-price p-14-bold text-success">
-                                        <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item['id_nuochoa'])).' - '.
-                                            $nHModel->ps_price($nHModel->getPrice('max', $item['id_nuochoa']));
+                                        <?php
+                                            echo number_format($item1['min_gia'], 0, ",", ".") . " ₫ - ".number_format($item1['max_gia'], 0, ",", ".") . " ₫";
+                                        ?>
+                                    </div>
+                                    <div class="product-menu hidden-menu">
+                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
+                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
+                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card rounded-0 pduct">
+                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>">
+                                <img src="<?php echo $item2['img_link'] ?>" alt="" class="product-img">
+                            </a>
+                            <div class="card-body">
+                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item2['ten_nuochoa'] ?></p></a>
+                                <div class="vote">
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                </div>
+                                <div>
+                                    <div class="product-price p-14-bold text-success">
+                                        <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item2['id_nuochoa'])).' - '.
+                                        $nHModel->ps_price($nHModel->getPrice('max', $item2['id_nuochoa']));
                                         ?>
                                     </div>
                                     <div class="product-menu hidden-menu">
@@ -230,7 +294,6 @@ require("views/template/header.php");
                     <?php
                     }
                     ?>
-                    
                 </div>
                 <div class="swiper-button-next next3"></div>
                 <div class="swiper-button-prev prev3"></div>
@@ -253,84 +316,29 @@ require("views/template/header.php");
             <div class="slide-container swiper" style="background-color: #FFF">
                 <div class="slide-content1">
                     <div class="card-wrapper swiper-wrapper">
-                        <a class="card-container swiper-slide text-decoration-none" style="text-align:start; color: black;" href="">
+                        <?php
+                        foreach($kienthuc as $item){
+                        ?>
+                        <a class="card-container swiper-slide text-decoration-none" href="index.php?controller=NuocHoa&action=BaiViet&id_baiviet=<?php echo $item['id_baiviet_blog'] ?>" style="text-align:start; color: black;" href="">
                             <div class="image-content">
                                 <span class="overlay"></span>
                                 <div class="card-image">
-                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img" style="width: 100%">
+                                    <img src="<?php echo $item['img_link'] ?>" alt="" class="card-img img-thongtin" style="width: auto; height: 149px;">
                                 </div>
                             </div>
                             <div class="card-content d-flex flex-column justify-content-start mt-2">
-                                <p class="card-title p-14-bold">Những mùi hương nước hoa mang đến may mắn đầu năm mới</p>
-                                <span class="card-time p-12 ms-0 me-0 mt-2" style="opacity:0.5;">Đăng bởi PARFUMERIEVN - 27/01/2023</span>
-                                <p class="p-12 mt-2">Parfumerie muốn giới thiệu đến các bạn những chai nước hoa "đỏ" từ hương thơm đến ngoại hình...</p>
+                                <p class="card-title p-14-bold"><?php echo $item['tieude'] ?></p>
+                                <?php
+                                $timestamp = strtotime($item['ngaydang']);
+                                $date = date("d/m/Y", $timestamp);
+                                ?>
+                                <span class="card-time p-12 ms-0 me-0 mt-2" style="opacity:0.5;">Đăng bởi PARFUMERIEVN - <?php echo $date ?></span>
+                                <p class="p-12 mt-2" data-toggle="tooltip" title="<?php echo $item['mota'] ?>"><?php echo (strlen($item['mota']) > 92) ? substr($item['mota'], 0, 92) : $item['mota']?></p>
                             </div>
                         </a>
-                        <a class="card-container swiper-slide text-decoration-none" style="text-align:start; color: black;" href="">
-                            <div class="image-content">
-                                <span class="overlay"></span>
-                                <div class="card-image">
-                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img" style="width: 100%">
-                                </div>
-                            </div>
-                            <div class="card-content d-flex flex-column justify-content-start mt-2">
-                                <p class="card-title p-14-bold">Những mùi hương nước hoa mang đến may mắn đầu năm mới</p>
-                                <span class="card-time p-12 ms-0 me-0 mt-2" style="opacity:0.5;">Đăng bởi PARFUMERIEVN - 27/01/2023</span>
-                                <p class="p-12 mt-2">Parfumerie muốn giới thiệu đến các bạn những chai nước hoa "đỏ" từ hương thơm đến ngoại hình...</p>
-                            </div>
-                        </a>
-                        <a class="card-container swiper-slide text-decoration-none" style="text-align:start; color: black;" href="">
-                            <div class="image-content">
-                                <span class="overlay"></span>
-                                <div class="card-image">
-                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img" style="width: 100%">
-                                </div>
-                            </div>
-                            <div class="card-content d-flex flex-column justify-content-start mt-2">
-                                <p class="card-title p-14-bold">Những mùi hương nước hoa mang đến may mắn đầu năm mới</p>
-                                <span class="card-time p-12 ms-0 me-0 mt-2" style="opacity:0.5;">Đăng bởi PARFUMERIEVN - 27/01/2023</span>
-                                <p class="p-12 mt-2">Parfumerie muốn giới thiệu đến các bạn những chai nước hoa "đỏ" từ hương thơm đến ngoại hình...</p>
-                            </div>
-                        </a>
-                        <a class="card-container swiper-slide text-decoration-none" style="text-align:start; color: black;" href="">
-                            <div class="image-content">
-                                <span class="overlay"></span>
-                                <div class="card-image">
-                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img" style="width: 100%">
-                                </div>
-                            </div>
-                            <div class="card-content d-flex flex-column justify-content-start mt-2">
-                                <p class="card-title p-14-bold">Những mùi hương nước hoa mang đến may mắn đầu năm mới</p>
-                                <span class="card-time p-12 ms-0 me-0 mt-2" style="opacity:0.5;">Đăng bởi PARFUMERIEVN - 27/01/2023</span>
-                                <p class="p-12 mt-2">Parfumerie muốn giới thiệu đến các bạn những chai nước hoa "đỏ" từ hương thơm đến ngoại hình...</p>
-                            </div>
-                        </a>
-                        <a class="card-container swiper-slide text-decoration-none" style="text-align:start; color: black;" href="">
-                            <div class="image-content">
-                                <span class="overlay"></span>
-                                <div class="card-image">
-                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img" style="width: 100%">
-                                </div>
-                            </div>
-                            <div class="card-content d-flex flex-column justify-content-start mt-2">
-                                <p class="card-title p-14-bold">Những mùi hương nước hoa mang đến may mắn đầu năm mới</p>
-                                <span class="card-time p-12 ms-0 me-0 mt-2" style="opacity:0.5;">Đăng bởi PARFUMERIEVN - 27/01/2023</span>
-                                <p class="p-12 mt-2">Parfumerie muốn giới thiệu đến các bạn những chai nước hoa "đỏ" từ hương thơm đến ngoại hình...</p>
-                            </div>
-                        </a>
-                        <a class="card-container swiper-slide text-decoration-none" style="text-align:start; color: black;" href="">
-                            <div class="image-content">
-                                <span class="overlay"></span>
-                                <div class="card-image">
-                                    <img src="images\ThongTin\nhung-huong-thom-nuoc-hoa-may-man-dau-nam-parfumerievn.jpg" alt="" class="card-img" style="width: 100%">
-                                </div>
-                            </div>
-                            <div class="card-content d-flex flex-column justify-content-start mt-2">
-                                <p class="card-title p-14-bold">Những mùi hương nước hoa mang đến may mắn đầu năm mới</p>
-                                <span class="card-time p-12 ms-0 me-0 mt-2" style="opacity:0.5;">Đăng bởi PARFUMERIEVN - 27/01/2023</span>
-                                <p class="p-12 mt-2">Parfumerie muốn giới thiệu đến các bạn những chai nước hoa "đỏ" từ hương thơm đến ngoại hình...</p>
-                            </div>
-                        </a>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="swiper-button-next next4"></div>

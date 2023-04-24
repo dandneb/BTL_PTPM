@@ -120,11 +120,6 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     } else if ( data == 1 ) {
                         return '<span class="badge bg-success">Đã xác nhận</span>';
                     }
-                    else if ( data == 2 ) {
-                        return '<span class="badge bg-success">Hoàn tất</span>';
-                    }else {
-                        return '<span class="badge bg-danger">Đã hủy</span>';
-                    }
                 }},
                 {"data": "trangthaithanhtoan",
                 "render": function ( data, type, row ) {
@@ -133,8 +128,6 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                             return '<span class="badge bg-danger">Chưa thanh toán</span>';
                         else
                             return '<span class="badge bg-success">Đã thanh toán</span>';
-                    }else{
-                        return '<span class="badge bg-danger">Đã hủy</span>';
                     }
                 }},
                 {"data": "trangthaivanchuyen",
@@ -146,8 +139,6 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                             return '<span class="badge bg-success">Đang vận chuyển</span>';
                         else
                             return '<span class="badge bg-success">Đã giao</span>';
-                    }else{
-                        return '<span class="badge bg-danger">Đã hủy</span>';
                     }
                 }},
                 {
@@ -155,12 +146,13 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     targets: 5,
                     render: function ( data, type, row, meta ) {
                         if(row.trangthaidonhang == 2 || row.trangthaidonhang == 3){
-                            return "";
+                            return `<a href="index.php?controller=DonHang&action=thongTinDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Xem thông tin đơn hàng"><i class="mdi mdi-eye-outline"></i></a>`;
                         }else{
                             a = (row.trangthaidonhang == 0) ? `<a onclick="return confirm('Bạn có chắc chắn muốn duyệt đơn hàng này?')" href="index.php?controller=DonHang&action=duyetDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Duyệt đơn hàng"><i class="mdi mdi-cash-check"></i></a>` : "";
                             b = (row.trangthaivanchuyen == 0 && row.trangthaithanhtoan == 0) ? `<a onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')" href="index.php?controller=DonHang&action=huyDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Hủy đơn hàng"><i class="uil uil-file-times-alt"></i></a>` : "";
-                            c = (row.trangthaidonhang == 1) ? `<a href="index.php?controller=DonHang&action=updateVanChuyenDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Cập nhật trạng thái giao hàng"><i class="mdi mdi-truck-delivery-outline"></i></a>` : "";
-                            return a+b+c;
+                            c = (row.trangthaidonhang == 1 && row.trangthaithanhtoan==1) ? `<a href="index.php?controller=DonHang&action=updateVanChuyenDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Cập nhật trạng thái giao hàng"><i class="mdi mdi-truck-delivery-outline"></i></a>` : "";
+                            d = `<a href="index.php?controller=DonHang&action=thongTinDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Xem thông tin đơn hàng"><i class="mdi mdi-eye-outline"></i></a>`;
+                            return a+b+c+d;
                         }
                     }
                 },

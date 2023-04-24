@@ -3,6 +3,7 @@ require("views/template/header.php");
 ?>
 <head>
     <title>Danh sách sản phẩm</title>
+    <link rel="stylesheet" href="style/pagination.css">
 </head>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
@@ -18,7 +19,7 @@ require("views/template/header.php");
     </div>
     <div class="container pb-3">
         <div class="row">
-            <div class="section-sp col-md-3 me-3 border p-0">
+            <div class="section-sp col-md-3 me-3 border p-0" style="max-height: 480px">
                 <div class="accordion" id="accordionPanelsStayOpenExample" style="padding: 10px;">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
@@ -28,16 +29,22 @@ require("views/template/header.php");
                         </h2>
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                             <div class="accordion-body">
+                                <?php
+                                if(isset($_GET['gioitinh']) || isset($_POST['query'])){
+                                ?>
                                 <div>
                                     <p class="p-14-bold">Thương hiệu</p>
-                                    <div class="trademark">
+                                    <div class="input-group input-group-sm mt-2 mb-2">
+                                        <input type="text" class="form-control" id="search" name="search" placeholder="Tìm kiếm thương hiệu" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                    </div>
+                                    <div class="trademark p-2">
                                         <?php
-                                        for ($i = 0; $i < 10; $i++) {
+                                        for ($i = 0; $i < count($th); $i++) {
                                         ?>
                                             <div class="form-check" style="height:35px">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                <input class="form-check-input check-box-th" type="checkbox" value="<?php echo $th[$i]['id_thuonghieu'] ?>">
                                                 <label class="form-check-label p-15" style="opacity: 0.8;" for="flexCheckDefault">
-                                                    Default checkbox
+                                                    <?php echo $th[$i]['ten_thuonghieu'] ?>
                                                 </label>
                                             </div>
                                         <?php
@@ -45,10 +52,13 @@ require("views/template/header.php");
                                         ?>
                                     </div>
                                 </div>
+                                <?php
+                                }
+                                ?>
                                 <div class="border-bottom mt-2"></div>
                                 <div style="margin-top:16px;">
                                     <p class="p-14-bold">Giá sản phẩm</p>
-                                    <div class="product-price-sp">
+                                    <div class="product-price-sp p-2">
                                         <?php
                                         $array = [
                                             'Giá dưới 100.000đ',
@@ -58,10 +68,18 @@ require("views/template/header.php");
                                             '500.000đ - 1.000.000đ',
                                             'Giá trên 1.000.000đ',
                                         ];
+                                        $costs = [
+                                            '0_100000',
+                                            '100000_200000',
+                                            '200000_300000',
+                                            '300000_500000',
+                                            '500000_1000000',
+                                            '1000000_1000000000',
+                                        ];
                                         for ($i = 0; $i < 6; $i++) {
                                         ?>
                                             <div class="form-check" style="height:35px">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                <input class="form-check-input price" type="checkbox" value="<?php echo $costs[$i] ?>">
                                                 <label class="form-check-label p-15" style="opacity: 0.8;" for="flexCheckDefault">
                                                     <?php echo $array[$i] ?>
                                                 </label>
@@ -78,82 +96,36 @@ require("views/template/header.php");
             </div>
             <div class="list-product-sp col-md-8 border">
                 <div style="padding: 10px;">
-                    <h4>Nước hoa Nam chính hãng</h4>
+                    <?php
+                    if($flags == 1){
+                    ?>
+                    <h4>Nước hoa <?php echo $name_filter ?> chính hãng</h4>
+                    <?php
+                    }else{
+                    ?>
+                    <h4>Kết quả tìm kiếm cho '<?php echo $query ?>'</h4>
+                    <?php
+                    }
+                    ?>
                     <span class="p-15-bold">Xếp theo: </span>
                     <map style="margin-top:10px; margin-left: 10px;">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                            <input class="form-check-input" type="radio" name="sorted" id="inlineRadio1" value="0">
                             <label class="form-check-label p-15" for="inlineRadio1">Hàng mới</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                            <input class="form-check-input" type="radio" name="sorted" id="inlineRadio2" value="1">
                             <label class="form-check-label p-15" for="inlineRadio2">Giá từ thấp đến cao</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                            <input class="form-check-input" type="radio" name="sorted" id="inlineRadio3" value="2">
                             <label class="form-check-label p-15" for="inlineRadio3">Giá từ cao đến thấp</label>
                         </div>
                     </map>
                     <hr>
-                    <div class="container-fluid" id="myList">
-                        <div class="row">
-                            <?php
-                            foreach ($nuocHoa as $item){
-                            ?>
-                                <div class="col-md-4">
-                                    <div class="swiper-slide text-decoration-none">
-                                        <div class="card rounded-0 product border-0">
-                                            <a style="height: 232px; display: flex; justify-content:center;" href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item['id_nuochoa'] ?>">
-                                                <img src="<?php echo $item['img_link'] ?>" alt="" class="product-img">
-                                            </a>
-                                            <div class="card-body">
-                                                <p class="card-text p-14-bold text-black"><?php echo $item['ten_nuochoa'] ?></p>
-                                                <div class="vote">
-                                                    <i class="bi bi-star text-warning"></i>
-                                                    <i class="bi bi-star text-warning"></i>
-                                                    <i class="bi bi-star text-warning"></i>
-                                                    <i class="bi bi-star text-warning"></i>
-                                                    <i class="bi bi-star text-warning"></i>
-                                                </div>
-                                                <div>
-                                                    <div class="product-price p-14-bold text-success">
-                                                        585.000đ - 5.100.000đ
-                                                    </div>
-                                                    <div class="product-menu hidden-menu">
-                                                        <button class="btn-menu" style="padding: 6px;"><i class="bi bi-cart-plus text-success"></i></button>
-                                                        <button class="btn-menu" style="padding: 6px;"><i class="bi bi-eye text-success"></i></button>
-                                                        <button class="btn-menu" style="padding: 6px;"><i class="bi bi-heart text-success"></i></i></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                        <div class="row">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination d-flex justify-content-center">
-                                    <li class="page-item">
-                                        <a class="page-link border-0" href="#" aria-label="Previous">
-                                            <span aria-hidden="true" class="text-dark">&laquo;</span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link text-dark border-0" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link text-dark border-0" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link text-dark border-0" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link border-0" href="#" aria-label="Next">
-                                            <span aria-hidden="true" class="text-dark">&raquo;</span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                    <div id="pagination-container"></div>
+                    <div id="myList" class="container">
+                        
                     </div>
                 </div>
             </div>
@@ -393,7 +365,7 @@ require("views/template/header.php");
     });
 </script>
 <script src="js/pagination.js"></script>
-<script src="js/danhSachSanPham.js"></script>
+<script src="js/danhSachSanPham.js" id="danhSachSanPham"></script>
 <?php
 require("views/template/footer.php");
 ?>

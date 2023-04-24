@@ -73,7 +73,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                 </div>
                 <div class="row mb-2">
                     <div class="col-12">
-                        <button class="btn btn-primary mt-2" id="submit-all" name="submit" type="submit">Thêm nhà cung cấp</button>
+                        <button class="btn btn-primary mt-2" id="submit-all" name="submit" type="submit">Thêm bài viết</button>
                     </div>
                 </div>
             </form>

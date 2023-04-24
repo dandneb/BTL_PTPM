@@ -71,9 +71,11 @@ if (isset($_SESSION['LoginOK'])) {
                             
                         </div>
                         <div class="d-flex justify-content-center mt-3">
-                            <form class="d-flex input-group" role="search" style="max-width: 250px;">
-                                <input class="form-control" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
-                                <button class="btn" style="background-color: #FFFFFF;" type="submit"><span class="material-icons">
+                            <form action="index.php" method="GET" class="d-flex input-group" role="search" style="max-width: 250px;">
+                                <input type="text" name="controller" value="NuocHoa" hidden>
+                                <input type="text" name="action" value="SanPham" hidden>
+                                <input class="form-control" type="search" name="query" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
+                                <button class="btn" style="background-color: #FFFFFF;" name="submit" type="submit"><span class="material-icons">
                                         search
                                     </span></button>
                             </form>
@@ -113,7 +115,7 @@ if (isset($_SESSION['LoginOK'])) {
                                 foreach ($th as $item){
                                 ?>
                                 <li>
-                                    <a href=""><?php echo $item['ten_thuonghieu'] ?></a>
+                                    <a href="index.php?controller=NuocHoa&action=SanPham&thuonghieu=<?php echo $item['id_thuonghieu'] ?>"><?php echo $item['ten_thuonghieu'] ?></a>
                                 </li>
                                 <?php
                                 }
@@ -127,13 +129,13 @@ if (isset($_SESSION['LoginOK'])) {
                             </div>
                             <ul style="display:none">
                                 <li>
-                                    <a href="">Nước hoa Nam.</a>
+                                    <a href="index.php?controller=NuocHoa&action=SanPham&gioitinh=Nam">Nước hoa Nam.</a>
                                 </li>
                                 <li>
-                                    <a href="">Nước hoa Nữ.</a>
+                                    <a href="index.php?controller=NuocHoa&action=SanPham&gioitinh=Nu">Nước hoa Nữ.</a>
                                 </li>
                                 <li>
-                                    <a href="">Nước hoa Unisex.</a>
+                                    <a href="index.php?controller=NuocHoa&action=SanPham&gioitinh=Unisex">Nước hoa Unisex.</a>
                                 </li>
                             </ul>
                             
@@ -147,13 +149,18 @@ if (isset($_SESSION['LoginOK'])) {
                         <div style="background-color:white" class="p-2 border-bottom">
                             <a class="p-14 m-0 text-black">Liên hệ</a>
                         </div>
+                        <div style="background-color:white" class="p-2 border-bottom">
+                            <a class="p-14 m-0 text-black">Đơn hàng</a>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form class="d-flex input-group" role="search" style="max-width: 27%;">
-                    <input class="form-control" type="search" placeholder="Tìm kiếm sản phẩm/đơn hàng" aria-label="Search">
-                    <button class="btn" style="background-color: #FFFFFF;" type="submit"><span class="material-icons">
+                <form action="index.php" method="GET" class="d-flex input-group" role="search" style="max-width: 30%;">
+                    <input type="text" name="controller" value="NuocHoa" hidden>
+                    <input type="text" name="action" value="SanPham" hidden>
+                    <input class="form-control" type="search" name="query" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
+                    <button class="btn rounded-0" style="background-color: #FFFFFF;" name="submit" type="submit"><span class="material-icons">
                             search
                         </span></button>
                 </form>
@@ -203,7 +210,7 @@ if (isset($_SESSION['LoginOK'])) {
                         <?php
                         foreach ($th as $item){
                         ?>
-                        <li class="col-md-15"><a href=""><?php echo $item['ten_thuonghieu'] ?></a></li>
+                        <li class="col-md-15"><a href="index.php?controller=NuocHoa&action=SanPham&thuonghieu=<?php echo $item['id_thuonghieu'] ?>"><?php echo $item['ten_thuonghieu'] ?></a></li>
                         <?php
                         }
                         ?>
@@ -216,26 +223,29 @@ if (isset($_SESSION['LoginOK'])) {
             <div class="content-gt shadow" style="background-color: #FFFFFF">
                 <ul>
                     <li>
-                        <a href="">Nước hoa Nam</a>
+                        <a href="index.php?controller=NuocHoa&action=SanPham&gioitinh=Nam">Nước hoa Nam</a>
                     </li>
                     <hr style="margin: 0">
                     <li>
-                        <a href="">Nước hoa Nữ</a>
+                        <a href="index.php?controller=NuocHoa&action=SanPham&gioitinh=Nu">Nước hoa Nữ</a>
                     </li>
                     <hr style="margin: 0">
                     <li>
-                        <a href="">Nước hoa Unisex</a>
+                        <a href="index.php?controller=NuocHoa&action=SanPham&gioitinh=Unisex">Nước hoa Unisex</a>
                     </li>
                 </ul>
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" href="#">KIẾN THỨC</a>
+            <a class="nav-link text-dark" href="index.php?controller=NuocHoa&action=KienThuc">KIẾN THỨC</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" href="#">BLOG</a>
+            <a class="nav-link text-dark" href="index.php?controller=NuocHoa&action=Blog">BLOG</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" href="index.php?controller=KhachHang&action=LienHe">LIÊN HỆ</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" href="index.php?controller=KhachHang&action=TimKiemDonHang">ĐƠN HÀNG</a>
         </li>
     </ul>

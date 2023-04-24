@@ -351,18 +351,22 @@ require("views/template/header.php");
                             <p class="title-paragraph">Hương thơm sang trọng nổi bật của nước hoa <?php echo $nuochoa['ten_nuochoa'] ?></p>
                             <div class="paragraph">
                                 <?php
-                                $loaihuongthom = $nuochoa['loai_huongthom'];
-                                $loaihuongthom = preg_split('/\r\n|\r|\n/', $loaihuongthom);
+                                if($nuochoa['loai_huongthom'] != "$"){
+                                    $loaihuongthom = $nuochoa['loai_huongthom'];
+                                    $loaihuongthom = preg_split('/\r\n|\r|\n/', $loaihuongthom);
+                                    ?>
+                                    <ul class="ps-3">
+                                        <?php
+                                        foreach ($loaihuongthom as $lht) {
+                                        ?>
+                                            <li><?php echo $lht; ?></li>
+                                        <?php
+                                        }
+                                        ?>
+                                    </ul>
+                                    <?php
+                                }
                                 ?>
-                                <ul class="ps-3">
-                                    <?php
-                                    foreach ($loaihuongthom as $lht) {
-                                    ?>
-                                        <li><?php echo $lht; ?></li>
-                                    <?php
-                                    }
-                                    ?>
-                                </ul>
                             </div>
                             <div class="d-flex justify-content-center mb-3">
                                 <img src="<?php echo $anh['4']['img_link'] ?>" class="d-block h-100" alt="..." data-type="image" style="max-width: 600px">

@@ -4,6 +4,29 @@ require("views/template/header.php");
 <head>
     <title>Chi tiết đơn hàng</title>
 </head>
+<style>
+    .btn{
+    cursor: pointer;
+    transition: 0.8s;
+    position: relative;
+    background-color: #09674f;
+    overflow: hidden;
+    z-index: 0;
+    }
+    .btn::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background-color: #BB2D3B;
+    z-index: -1;
+    transition: 0.8s;
+    }
+    .btn-danger {
+        --bs-btn-border-color: none;
+    }
+</style>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
         <div class="container">
@@ -30,7 +53,30 @@ require("views/template/header.php");
             </div>
             <div class="col-md-9 mb-4">
                 <p class="p-14 text-end">Ngày đặt hàng: <?php echo date("d/m/Y", strtotime($donhang['ngaydathang'])); ?></p>
-                <h5>Chi tiết đơn hàng #<?php echo $donhang['id_donhang'] ?></h5>
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <?php
+                            if(isset($_SESSION['success'])){
+                                echo '<span class="text-success">'.$_SESSION['success'].'</span>';
+                                unset($_SESSION['success']);
+                            }
+                            else if(isset($_SESSION['error'])){
+                                echo '<span class="text-danger">'.$_SESSION['error'].'</span>';
+                                unset($_SESSION['error']);
+                            }
+                        ?>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <h5>Chi tiết đơn hàng #<?php echo $donhang['id_donhang'] ?></h5>
+                    <?php
+                    if ($donhang['trangthaidonhang'] == 0 && $donhang['trangthaithanhtoan'] == 0 && $donhang['trangthaivanchuyen'] == 0) {
+                    ?>
+                    <a href="index.php?controller=KhachHang&action=HuyDonHang&id_donhang=<?php echo $donhang['id_donhang'] ?>" class="btn btn-danger">Hủy đơn hàng</a>
+                    <?php
+                    }
+                    ?>
+                </div>
                 <div class="row">
                     <?php
                     $flag = true;
@@ -49,12 +95,22 @@ require("views/template/header.php");
                     } else {
                         $ttvc = "Đã vận chuyển";
                     }
+                    if ($donhang['trangthaidonhang'] < 2) {
+                        $ttdh = "Chưa xác nhận";
+                    } else if ($donhang['trangthaidonhang'] == 3) {
+                        $ttdh = "Đã xác nhận";
+                    } else {
+                        $ttdh = "Hoàn tất";
+                    }
                     ?>
                     <div class="col-md-6">
                         <span class="p-14">Trạng thái thanh toán: <span class="p-15-bold fst-italic text-main"><?php echo ($flag == true) ? $tttt : "Đã hủy" ?></span></span>
                     </div>
                     <div class="col-md-6">
                         <span class="p-14">Trạng thái vận chuyển: <span class="p-15-bold fst-italic text-main"><?php echo ($flag == true) ? $ttvc : "Đã hủy" ?></span></span>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="p-14">Trạng thái đơn hàng: <span class="p-15-bold fst-italic text-main"><?php echo ($flag == true) ? $ttdh : "Đã hủy" ?></span></span>
                     </div>
                 </div>
                 <div class="row mt-3">

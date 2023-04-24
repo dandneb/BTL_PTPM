@@ -53,5 +53,7 @@ class BaiVietModel extends Model{
         }
     }
 }
+}else{
+    header("location:index.php");
 }
 ?>

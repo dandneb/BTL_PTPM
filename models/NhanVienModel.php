@@ -8,10 +8,7 @@ require_once 'model.php';
 class NhanVienModel extends Model{
     public function getALLProducts(){
         $dbh = $this->connectDb();
-        $stmt = $dbh->prepare("Select t1.id_nuochoa, ten_nuochoa, ten_thuonghieu, ngaybat_dauban, t1.gioitinh, t3.soluong, gia_ban, gia_nhap, t1.status, IFNULL(sum(t4.soluong),0) as soluongdaban, t1.id_thuonghieu from tb_nuochoa t1 
-        INNER JOIN tb_thuonghieu t2 on t1.id_thuonghieu = t2.id_thuonghieu
-        INNER JOIN (Select id_nuochoa, sum(soluong) as soluong, concat(min(gia_ban),'-',max(gia_ban)) as gia_ban, concat(min(gia_nhap),'-',max(gia_nhap)) as gia_nhap from tb_gianuochoa GROUP BY id_nuochoa) t3 on t1.id_nuochoa = t3.id_nuochoa
-        LEFT JOIN tb_donhang_nuochoa t4 on t4.id_nuochoa = t1.id_nuochoa group by id_nuochoa
+        $stmt = $dbh->prepare("Select t1.id_nuochoa, ten_nuochoa, ten_thuonghieu, ngaybat_dauban, t1.gioitinh, t3.soluong, gia_ban, gia_nhap, t1.status, IFNULL((SELECT sum(t4.soluong) FROM tb_donhang_nuochoa t4 INNER JOIN tb_donhang t5 on t4.id_donhang = t5.id_donhang WHERE t5.trangthaidonhang != 3 AND t4.id_nuochoa = t1.id_nuochoa), 0) as soluongdaban, t1.id_thuonghieu from tb_nuochoa t1 INNER JOIN tb_thuonghieu t2 on t1.id_thuonghieu = t2.id_thuonghieu INNER JOIN (Select id_nuochoa, sum(soluong) as soluong, concat(min(gia_ban),'-',max(gia_ban)) as gia_ban, concat(min(gia_nhap),'-',max(gia_nhap)) as gia_nhap from tb_gianuochoa GROUP BY id_nuochoa) t3 on t1.id_nuochoa = t3.id_nuochoa;
         ");
         if($stmt->execute()){
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -22,8 +19,8 @@ class NhanVienModel extends Model{
     public function insert_nuochoa($param = []) {
         $dbh = $this->connectDb();
         $stmt = $dbh->prepare("INSERT INTO `tb_nuochoa` (`id_nuochoa`, `ten_nuochoa`, `gioitinh`, `xuatxu`, `mota`, `thongtinchinh`, 
-        `tongquan`, `huongthom`, `loai_huongthom`, `thietke`, `dadanghoa`, `huongdansudung`, `nhomnuochoa`, `dotuoikhuyendung`, `namramat`, 
-        `nongdo`, `nhaphache`, `doluuhuong`, `phongcach`, `dotoahuong`, `thoidiemphuhop`, `id_thuonghieu`, `id_nhacungcap`, `id_nguoiquanly`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        `tongquan`, `huongthom`, `loai_huongthom`, `thietke`, `dadanghoa`, `nhomnuochoa`, `dotuoikhuyendung`, `namramat`, 
+        `nongdo`, `nhaphache`, `doluuhuong`, `phongcach`, `dotoahuong`, `thoidiemphuhop`, `id_thuonghieu`, `id_nhacungcap`, `id_nguoiquanly`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bindValue(1, $param['id_nuochoa']);
         $stmt->bindValue(2, $param['ten_nuochoa']);
         $stmt->bindValue(3, $param['gioitinh']);
@@ -35,19 +32,18 @@ class NhanVienModel extends Model{
         $stmt->bindValue(9, $param['loai_huongthom']);
         $stmt->bindValue(10, $param['thietke']);
         $stmt->bindParam(11, $param['dadanghoa']);
-        $stmt->bindValue(12, $param['huongdansudung']);
-        $stmt->bindValue(13, $param['nhomnuochoa']);
-        $stmt->bindValue(14, $param['dotuoikhuyendung']);
-        $stmt->bindValue(15, $param['namramat']);
-        $stmt->bindValue(16, $param['nongdo']);
-        $stmt->bindValue(17, $param['nhaphache']);
-        $stmt->bindValue(18, $param['doluuhuong']);
-        $stmt->bindValue(19, $param['phongcach']);
-        $stmt->bindValue(20, $param['dotoahuong']);
-        $stmt->bindValue(21, $param['thoidiemphuhop']);
-        $stmt->bindValue(22, $param['id_thuonghieu']);
-        $stmt->bindValue(23, $param['id_nhacungcap']);
-        $stmt->bindValue(24, $param['id_nguoiquanly']);
+        $stmt->bindValue(12, $param['nhomnuochoa']);
+        $stmt->bindValue(13, $param['dotuoikhuyendung']);
+        $stmt->bindValue(14, $param['namramat']);
+        $stmt->bindValue(15, $param['nongdo']);
+        $stmt->bindValue(16, $param['nhaphache']);
+        $stmt->bindValue(17, $param['doluuhuong']);
+        $stmt->bindValue(18, $param['phongcach']);
+        $stmt->bindValue(19, $param['dotoahuong']);
+        $stmt->bindValue(20, $param['thoidiemphuhop']);
+        $stmt->bindValue(21, $param['id_thuonghieu']);
+        $stmt->bindValue(22, $param['id_nhacungcap']);
+        $stmt->bindValue(23, $param['id_nguoiquanly']);
         return $stmt->execute();
     }
 

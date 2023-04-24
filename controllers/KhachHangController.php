@@ -739,9 +739,32 @@ class KhachHangController{
 
         }
     }
-    function Test(){
-        setcookie("myCart", "", time() - 3600);
+    function TimKiemDonHang(){
+        require_once 'views/KhachHang/TimKiemDonHang.php';
     }
+
+    function ThongTinDonHang(){
+        if(isset($_GET['id_donhang']) && !empty($_GET['id_donhang'])){
+            $id_donhang = $_GET['id_donhang'];
+            $khmodel = new KhachHangModel();
+            $donhang = $khmodel->get("tb_donhang", ['id_donhang'], [$id_donhang], ['and']);
+            if(count($donhang) > 0){
+                $donhang = $donhang[0];
+                $donhang_sanpham = $khmodel->getDonHangSanPham($id_donhang);
+                $soluongsanpham = array_reduce($donhang_sanpham, function($carry, $item) { return $carry + $item['soluong']; }, 0);
+                $tongtien = array_reduce($donhang_sanpham, function($carry, $item) { return $carry + $item['soluong']*$item['dongia']; }, 0);
+                $tongtien_dagiamgia = $donhang['tongtien'];
+                $pTTT = $khmodel->get("tb_phuongthucthanhtoan", ['id_phuongthucthanhtoan'], [$donhang['id_phuongthucthanhtoan']], ['and'])[0];
+                require_once 'views/KhachHang/ThongTinDonHang.php';
+            }else{
+                $_SESSION['error'] = "Không tìm thấy đơn hàng này!";
+                header("location: index.php?controller=KhachHang&action=TimKiemDonHang");
+            }
+        }else{
+            header("location: index.php");
+        }
+    }
+
     function ChiTietDonHang(){
         if(isset($_SESSION['LoginOK'])){
             $kh = explode("_", $_SESSION['LoginOK']);
@@ -765,6 +788,42 @@ class KhachHangController{
                 }
             }else{
                 header("location: index.php");
+            }
+        }else{
+            header("location: index.php");
+        }
+    }
+    function HuyDonHang(){
+        if(isset($_SESSION['LoginOK'])){
+            if(isset($_GET["id_donhang"])){
+                $id_donhang = $_GET['id_donhang'];
+                    $khmodel = new KhachHangModel();
+                    $donhang = $khmodel->get("tb_donhang", ['id_donhang'], [$id_donhang], ['and']);
+                if(count($donhang) > 0){
+                    if($donhang[0]['trangthaidonhang'] == 0 && $donhang[0]['trangthaithanhtoan'] == 0 && $donhang[0]['trangthaivanchuyen'] == 0){
+                        if($khmodel->update("tb_donhang", ['trangthaidonhang'], [3], ['id_donhang'], [$id_donhang], ['and'])){
+                            $donhang = $donhang[0];
+                            $donhang_sanpham = $khmodel->getDonHangSanPham($id_donhang);
+                            $soluongsanpham = array_reduce($donhang_sanpham, function($carry, $item) { return $carry + $item['soluong']; }, 0);
+                            $tongtien = array_reduce($donhang_sanpham, function($carry, $item) { return $carry + $item['soluong']*$item['dongia']; }, 0);
+                            $tongtien_dagiamgia = $donhang['tongtien'];
+                            $pTTT = $khmodel->get("tb_phuongthucthanhtoan", ['id_phuongthucthanhtoan'], [$donhang['id_phuongthucthanhtoan']], ['and'])[0];
+                            if($donhang['email'] != "" && $donhang['email'] != null){
+                                $email = $donhang['email'];
+                                $subject = "[PARFUMERIE] Đơn hàng ".$id_donhang." của bạn đã được hủy trên hệ thống.";
+                                ob_start();
+                                include 'views/KhachHang//Mailer_HuyDon.php';
+                                $message = ob_get_clean();
+                                sendemailforAccount($email, $subject, $message);
+                            }
+                            $_SESSION['success'] = "Hủy đơn hàng ".$id_donhang." thành công!";
+                            header("location: index.php?controller=KhachHang&action=ChiTietDonHang&id_donhang=$id_donhang");
+                        }else{
+                            $_SESSION['error'] = "Hủy đơn hàng ".$id_donhang." không thành công!";
+                            header("location: index.php?controller=KhachHang&action=ChiTietDonHang&id_donhang=$id_donhang");
+                        }
+                    }
+                }
             }
         }else{
             header("location: index.php");

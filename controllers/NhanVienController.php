@@ -55,7 +55,6 @@ class NhanVienController{
             $loai_huongthom = $_POST['loai_huongthom'];
             $thietke = $_POST['thietke'];
             $dadanghoa = $_POST['dadanghoa'];
-            $huongdansudung = $_POST['huongdansudung'];
             $nhomnuochoa = $_POST['nhomnuochoa'];
             $dotuoikhuyendung = $_POST['dotuoikhuyendung'];
             $namramat = $_POST['namramat'];
@@ -82,7 +81,7 @@ class NhanVienController{
             $gia_nhap100  = $_POST['gia_nhap100'];
             $gia_ban100  = $_POST['gia_ban100'];
             if(empty($id_nuochoa) && empty($ten_nuochoa) && empty($gioitinh) && empty($xuatxu) && empty($mota) && empty($thongtinchinh) && empty($tongquan) && empty($huongthom) && empty($loai_huongthom) && empty($thietke)
-            && empty($dadanghoa) && empty($huongdansudung) && empty($nhomnuochoa) && empty($dotuoikhuyendung) && empty($namramat) && empty($nongdo) && empty($nhaphache) && empty($doluuhuong) && empty($phongcach) && empty($dotoahuong) && empty($thoidiemphuhop)
+            && empty($dadanghoa) && empty($nhomnuochoa) && empty($dotuoikhuyendung) && empty($namramat) && empty($nongdo) && empty($nhaphache) && empty($doluuhuong) && empty($phongcach) && empty($dotoahuong) && empty($thoidiemphuhop)
             && empty($id_thuonghieu) && empty($id_nhacungcap) && empty($id_nguoiquanly) && empty($dungtich10) && empty($gia_nhap10)
             && empty($gia_ban10) && empty($dungtich20) && empty($gia_nhap20) && empty($gia_ban20) 
             && empty($dungtich100) && empty($gia_nhap100) && empty($gia_ban100)){
@@ -100,7 +99,6 @@ class NhanVienController{
                     "loai_huongthom" => $loai_huongthom,
                     "thietke" => $thietke,
                     "dadanghoa" => $dadanghoa,
-                    "huongdansudung" => $huongdansudung,
                     "nhomnuochoa" => $nhomnuochoa,
                     "dotuoikhuyendung" => $dotuoikhuyendung,
                     "namramat" => $namramat,
@@ -241,7 +239,6 @@ class NhanVienController{
             $loai_huongthom = $_POST['loai_huongthom'];
             $thietke = $_POST['thietke'];
             $dadanghoa = $_POST['dadanghoa'];
-            $huongdansudung = $_POST['huongdansudung'];
             $nhomnuochoa = $_POST['nhomnuochoa'];
             $dotuoikhuyendung = $_POST['dotuoikhuyendung'];
             $namramat = $_POST['namramat'];
@@ -267,7 +264,7 @@ class NhanVienController{
             $gia_nhap100  = $_POST['gia_nhap100'];
             $gia_ban100  = $_POST['gia_ban100'];
             if(empty($id_nuochoa) && empty($ten_nuochoa) && empty($gioitinh) && empty($xuatxu) && empty($mota) && empty($thongtinchinh) && empty($tongquan) && empty($huongthom) && empty($loai_huongthom) && empty($thietke)
-            && empty($dadanghoa) && empty($huongdansudung) && empty($nhomnuochoa) && empty($dotuoikhuyendung) && empty($namramat) && empty($nongdo) && empty($nhaphache) && empty($doluuhuong) && empty($phongcach) && empty($dotoahuong) && empty($thoidiemphuhop)
+            && empty($dadanghoa) && empty($nhomnuochoa) && empty($dotuoikhuyendung) && empty($namramat) && empty($nongdo) && empty($nhaphache) && empty($doluuhuong) && empty($phongcach) && empty($dotoahuong) && empty($thoidiemphuhop)
             && empty($id_thuonghieu) && empty($id_nhacungcap) && empty($id_nguoiquanly) && empty($dungtich10) && empty($gia_nhap10)
             && empty($gia_ban10) && empty($dungtich20) && empty($gia_nhap20) && empty($gia_ban20) 
             && empty($dungtich100) && empty($gia_nhap100) && empty($gia_ban100)){
@@ -284,7 +281,6 @@ class NhanVienController{
                     'loai_huongthom',
                     'thietke',
                     'dadanghoa',
-                    'huongdansudung',
                     'nhomnuochoa',
                     'dotuoikhuyendung',
                     'namramat',
@@ -307,7 +303,6 @@ class NhanVienController{
                     $loai_huongthom,
                     $thietke,
                     $dadanghoa,
-                    $huongdansudung,
                     $nhomnuochoa,
                     $dotuoikhuyendung,
                     $namramat,

@@ -91,7 +91,7 @@ function get(id_input, url_, id_help_, text_help_success, text_help_error){
             let form_datas = new FormData();
             form_datas.append('data',data);
             $.ajax({
-                url: url_, // gửi đến file upload.php 
+                url: url_,
                 dataType: 'text',
                 cache: false,
                 contentType: false,

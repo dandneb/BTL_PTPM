@@ -143,16 +143,36 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
             "columns":[
                 {"data":"ten_nuochoa",
                     "render": function ( data, type, row ) {
-                    return `<img src="images/NuocHoa/${row.id_nuochoa}/${row.id_nuochoa}_1.jpeg" alt="contact-img" title="contact-img" class="rounded me-3" height="48">
-                                            <p class="m-0 d-inline-block align-middle font-16" data-toggle="tooltip" data-placement="top" title="${data}"><a>${data.length > 10 ? data.substring(0, 10)+"..." : data}</a><br>
-                                            <span class="text-warning mdi mdi-star"></span>
-                                            <span class="text-warning mdi mdi-star"></span>
-                                            <span class="text-warning mdi mdi-star"></span>
-                                            <span class="text-warning mdi mdi-star"></span>
-                                            <span class="text-warning mdi mdi-star"></span></p>`
+                        if ( type === 'display' ) {
+                            if(data.length > 15){
+                                a = `<p class="m-0 d-inline-block align-middle font-16" data-toggle="tooltip" data-placement="top" title="${data}"><a>${data.substr(0, 15) + '...'}</a><br>`
+                            }else{
+                                a = `<p class="m-0 d-inline-block align-middle font-16" data-toggle="tooltip" data-placement="top" title="${data}"><a>${data}</a><br>`
+                            }
+                            return `<img src="images/NuocHoa/${row.id_nuochoa}/${row.id_nuochoa}_1.jpeg" alt="contact-img" title="contact-img" class="rounded me-3" height="48">
+                                                    `+a+`
+                                                    <span class="text-warning mdi mdi-star"></span>
+                                                    <span class="text-warning mdi mdi-star"></span>
+                                                    <span class="text-warning mdi mdi-star"></span>
+                                                    <span class="text-warning mdi mdi-star"></span>
+                                                    <span class="text-warning mdi mdi-star"></span></p>`
+                        }
+                        return `<img src="images/NuocHoa/${row.id_nuochoa}/${row.id_nuochoa}_1.jpeg" alt="contact-img" title="contact-img" class="rounded me-3" height="48">
+                                                    <p class="m-0 d-inline-block align-middle font-16" data-toggle="tooltip" data-placement="top" title="${data}"><a>${data}</a><br>
+                                                    <span class="text-warning mdi mdi-star"></span>
+                                                    <span class="text-warning mdi mdi-star"></span>
+                                                    <span class="text-warning mdi mdi-star"></span>
+                                                    <span class="text-warning mdi mdi-star"></span>
+                                                    <span class="text-warning mdi mdi-star"></span></p>`
                 }},
                 {"data":"ten_thuonghieu", "render": function(data, type, row){
-                    return `<p class="m-0 d-inline-block align-middle font-14" data-toggle="tooltip" data-placement="top" title="${data}">${data.length > 10 ? data.substring(0, 10)+"..." : data}</p>`;
+                    if ( type === 'display' ) {
+                        return data.length > 15 ?
+                            `<span data-tooltip="tooltip" title="${data}">${data.substr(0, 15) + '...'}</span>` :
+                            data;
+                    }
+                    return data;
+                    //return `<p class="m-0 d-inline-block align-middle font-14" data-toggle="tooltip" data-placement="top" title="${data}">${data.length > 10 ? data.substring(0, 10)+"..." : data}</p>`;
                 }},
                 {"data":"gia_nhap", "render": function(data, type, row){
                     str = data.split("-");

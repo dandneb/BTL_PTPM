@@ -52,7 +52,7 @@ require("views/template/header.php");
             </div>
             <div class="col-md-8">
                 <h5>GỬI THÔNG TIN</h5>
-                <form class="row g-3 needs-validation" novalidate>
+                <form class="row g-3 needs-validation" action="" method="POST" novalidate>
                     <div class="col-md-6">
                         <label for="validationCustom01 p-14-bold" class="form-label">Họ tên<span style="color:red;">*</span></label>
                         <input type="text" class="form-control" id="validationCustom01" required>

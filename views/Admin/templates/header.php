@@ -165,7 +165,13 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         <div class="collapse" id="sidebarDonHang">
                             <ul class="side-nav-second-level">
                                 <li>
-                                    <a href="index.php?controller=DonHang">Danh sách đơn hàng</a>
+                                    <a href="index.php?controller=DonHang">Danh sách đơn hàng đang xử lý</a>
+                                </li>
+                                <li>
+                                    <a href="index.php?controller=DonHang&action=DaHoanTat">Danh sách đơn hàng đã hoàn tất</a>
+                                </li>
+                                <li>
+                                    <a href="index.php?controller=DonHang&action=DaHuy">Danh sách đơn hàng đã hủy</a>
                                 </li>
                             </ul>
                         </div>
@@ -180,10 +186,13 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         <div class="collapse" id="sidebarEmail">
                             <ul class="side-nav-second-level">
                                 <li>
-                                    <a href="apps-email-inbox.html">Inbox</a>
+                                    <a href="index.php?controller=CauHoi">Danh sách câu hỏi chờ xử lý</a>
                                 </li>
                                 <li>
-                                    <a href="apps-email-read.html">Read Email</a>
+                                    <a href="index.php?controller=CauHoi&action=DaTraLoi">Danh sách câu hỏi đã xử lý</a>
+                                </li>
+                                <li>
+                                    <a href="index.php?controller=CauHoi&action=KhoLuuTru">Kho lưu trữ</a>
                                 </li>
                             </ul>
                         </div>
@@ -254,6 +263,9 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                             <ul class="side-nav-second-level">
                                 <li>
                                     <a href="index.php?controller=TaiKhoan">Danh sách nhân viên</a>
+                                </li>
+                                <li>
+                                    <a href="index.php?controller=TaiKhoan&action=addTaiKhoan">Thêm tài khoản</a>
                                 </li>
                             </ul>
                         </div>

@@ -54,11 +54,15 @@ $id_nuochoa = substr($randomString, 0, 11);
                     </div>
                     <div class="col-md-6 me-0">
                         <label class="form-label" for="validationCustom01">Giới tính</label>
-                        <select class="form-select mb-3" name="gioitinh">
-                            <option value="0" selected>Nam</option>
+                        <select class="form-control form-select mb-3" name="gioitinh" required>
+                            <option value="" disabled selected>---</option>
+                            <option value="0">Nam</option>
                             <option value="1">Nữ</option>
                             <option value="2">Unisex</option>
                         </select>
+                        <div class="invalid-feedback">
+                            Hãy chọn giới tính!
+                        </div>
                     </div>
                     <div class="col-md-6 me-0">
                         <div class="mb-3">
@@ -91,68 +95,13 @@ $id_nuochoa = substr($randomString, 0, 11);
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 me-0">
+                    <div class="col-md-12 me-0">
                         <div class="mb-3">
                             <div class="form-floating">
                                 <textarea class="form-control" name="tongquan" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" required></textarea>
                                 <label for="floatingTextarea">Tổng quan</label>
                                 <div class="invalid-feedback">
                                     Hãy nhập thông tin tổng quan của nước hoa!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 me-0">
-                        <div class="mb-3">
-                            <div class="form-floating">
-                                <textarea class="form-control" name="huongthom" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" required></textarea>
-                                <label for="floatingTextarea">Hương thơm</label>
-                                <div class="invalid-feedback">
-                                    Hãy nhập hương thơm của nước hoa!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 me-0">
-                        <div class="mb-3">
-                            <div class="form-floating">
-                                <textarea class="form-control" name="loai_huongthom" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" required></textarea>
-                                <label for="floatingTextarea">Loại hương thơm</label>
-                                <div class="invalid-feedback">
-                                    Hãy nhập loại hương thơm của nước hoa!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 me-0">
-                        <div class="mb-3">
-                            <div class="form-floating">
-                                <textarea class="form-control" name="thietke" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" required></textarea>
-                                <label for="floatingTextarea">Thiết kế</label>
-                                <div class="invalid-feedback">
-                                    Hãy nhập thiết kế của nước hoa!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 me-0">
-                        <div class="mb-3">
-                            <div class="form-floating">
-                                <textarea class="form-control" name="dadanghoa" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" required></textarea>
-                                <label for="floatingTextarea">Đa dạng hóa</label>
-                                <div class="invalid-feedback">
-                                    Hãy nhập thông tin đa dạng hóa của nước hoa!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 me-0">
-                        <div class="mb-3">
-                            <div class="form-floating">
-                                <textarea class="form-control" name="huongdansudung" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" required></textarea>
-                                <label for="floatingTextarea">Hướng dẫn sử dụng</label>
-                                <div class="invalid-feedback">
-                                    Hãy nhập hướng dẫn sử dụng của nước hoa!
                                 </div>
                             </div>
                         </div>
@@ -239,6 +188,50 @@ $id_nuochoa = substr($randomString, 0, 11);
                         </div>
                     </div>
                     <div class="col-md-12 me-0">
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <textarea class="form-control" name="huongthom" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" required></textarea>
+                                <label for="floatingTextarea">Hương thơm</label>
+                                <div class="invalid-feedback">
+                                    Hãy nhập hương thơm của nước hoa!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 me-0">
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <textarea class="form-control" name="loai_huongthom" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" required></textarea>
+                                <label for="floatingTextarea">Loại hương thơm</label>
+                                <div class="invalid-feedback">
+                                    Hãy nhập loại hương thơm của nước hoa!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 me-0">
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <textarea class="form-control" name="thietke" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" required></textarea>
+                                <label for="floatingTextarea">Thiết kế</label>
+                                <div class="invalid-feedback">
+                                    Hãy nhập thiết kế của nước hoa!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 me-0">
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <textarea class="form-control" name="dadanghoa" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" required></textarea>
+                                <label for="floatingTextarea">Đa dạng hóa</label>
+                                <div class="invalid-feedback">
+                                    Hãy nhập thông tin đa dạng hóa của nước hoa!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 me-0">
                         <label class="form-label" for="validationCustom01">Chọn thương hiệu của nước hoa</label>
                         <select class="form-select mb-3" name="id_thuonghieu">
                             <?php
@@ -270,13 +263,13 @@ $id_nuochoa = substr($randomString, 0, 11);
                         </select>
                     </div>
                     <!-- Dung tích 10 -->
-                    <div class="col-md-3 me-0">
+                    <div class="col-md-4 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 10ML</label>
                             <input type="text" class="form-control" name="ML_10" id="validationCustom01" value="10" readonly>
                         </div>
                     </div>
-                    <div class="col-md-3 me-0">
+                    <div class="col-md-4 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 10ML - Giá Nhập</label>
                             <input type="text" class="form-control" name="gia_nhap10" id="validationCustom01" required>
@@ -285,7 +278,7 @@ $id_nuochoa = substr($randomString, 0, 11);
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 me-0">
+                    <div class="col-md-4 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 10ML - Giá Bán</label>
                             <input type="text" class="form-control" name="gia_ban10" id="validationCustom01" required>
@@ -296,13 +289,13 @@ $id_nuochoa = substr($randomString, 0, 11);
                     </div>
 
                     <!-- Dung tích 20 -->
-                    <div class="col-md-3 me-0">
+                    <div class="col-md-4 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 20ML</label>
                             <input type="text" class="form-control" name="ML_20" id="validationCustom01" value="20" readonly>
                         </div>
                     </div>
-                    <div class="col-md-3 me-0">
+                    <div class="col-md-4 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 20ML - Giá Nhập</label>
                             <input type="text" class="form-control" name="gia_nhap20" id="validationCustom01" required>
@@ -311,7 +304,7 @@ $id_nuochoa = substr($randomString, 0, 11);
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 me-0">
+                    <div class="col-md-4 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 20ML - Giá Bán</label>
                             <input type="text" class="form-control" name="gia_ban20" id="validationCustom01" required>
@@ -322,13 +315,13 @@ $id_nuochoa = substr($randomString, 0, 11);
                     </div>
 
                     <!-- Dung tích 100  -->
-                    <div class="col-md-3 me-0">
+                    <div class="col-md-4 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 100ML</label>
                             <input type="text" class="form-control" name="ML_100" id="validationCustom01" value="100" readonly>
                         </div>
                     </div>
-                    <div class="col-md-3 me-0">
+                    <div class="col-md-4 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 100ML - Giá Nhập</label>
                             <input type="text" class="form-control" name="gia_nhap100" id="validationCustom01" required>
@@ -337,7 +330,7 @@ $id_nuochoa = substr($randomString, 0, 11);
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 me-0">
+                    <div class="col-md-4 me-0">
                         <div class="mb-3">
                             <label class="form-label" for="validationCustom01">Dung tích 100ML - Giá Bán</label>
                             <input type="text" class="form-control" name="gia_ban100" id="validationCustom01" required>

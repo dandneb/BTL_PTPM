@@ -122,7 +122,7 @@ $id_doanvan = substr($randomString, 0, 11);
                                     <div class="col-md-6 me-0">
                                         <div class="mb-3">
                                             <label class="form-label" for="validationCustom01">Mã bài viết</label>
-                                            <input type="text" class="form-control" name="id-baiviet-insert" id="id-baiviet-insert" placeholder="Mã bài viết" readonly required>
+                                            <input type="text" class="form-control" value="<?php echo $id_baiviet_blog ?>" name="id-baiviet-insert" id="id-baiviet-insert" placeholder="Mã bài viết" readonly required>
                                         </div>
                                     </div>
                                     <div class="col-md-6 me-0">
@@ -351,8 +351,8 @@ $id_doanvan = substr($randomString, 0, 11);
             $('#id-baiviet-update').val(id_baiviet);
             $('#id-doanvan-update').val($row.find('td:eq(1)').text());
             $('#sothutu-update').val($row.find('td:eq(0)').text());
-            $('#tieude-update').text($row.find('td:eq(2)').text());
-            $('#noidung-update').text($row.find('td:eq(3)').text());
+            $('#tieude-update').text($row.find('td:eq(2) span').attr("title"));
+            $('#noidung-update').text($row.find('td:eq(3) span').attr("title"));
         });
         $("#btn-delete-file").click(function (){
             $("#image_2").val("");
@@ -366,12 +366,23 @@ $id_doanvan = substr($randomString, 0, 11);
         const acceptedImageTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
 
         function validateForm_Insert(){
-            if($("#success-image-insert").html() == "Perfect" && check()){
-                return true;
+            var files = image.files;
+            file = files[0];
+            if (files.length === 1) {
+                if($("#success-image-insert").html() == "Perfect" && check()){
+                    return true;
+                }else{
+                    $("#error-image-insert").html("Hãy thêm ảnh cho đoạn văn!")
+                    return false;
+                }
             }else{
-                $("#error-image-insert").html("Hãy thêm ảnh cho đoạn văn!")
-                return false;
+                if(check()){
+                    return true;
+                }else{
+                    return false;
+                }
             }
+            
         }
         function check_soThuTu(thutu){
             $row = $(this).closest('tr');

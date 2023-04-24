@@ -5,28 +5,16 @@ if(!isset($_SESSION)) {
 require_once 'configs/database.php';
 require_once 'models/Model.php';
 class NuocHoaModel extends Model{
-    function getNuocHoa($gioitinh){
-        $dbh = $this->connectDb();
-        $sql = "SELECT t1.* FROM `tb_nuochoa` t1
-        INNER JOIN `tb_thuonghieu` t2 on t1.id_thuonghieu = t2.id_thuonghieu and t2.status = 0
-        INNER JOIN `tb_nhacungcap` t3 on t1.id_nhacungcap = t3.id_nhacungcap and t3.status = 0
-        where t1.gioitinh = ? and t1.status = 0 LIMIT 20";
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $gioitinh);
-        if($stmt->execute()){
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $data;
-        }else{
-            return false;
-        }
-    }
 
     function getNuocHoaSanPham($gioitinh){
         $dbh = $this->connectDb();
-        $sql = "SELECT t1.*, (SELECT img_link from `tb_anhnuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa order by id_anh ASC limit 1, 1) as img_link FROM `tb_nuochoa` t1
-        INNER JOIN `tb_thuonghieu` t2 on t1.id_thuonghieu = t2.id_thuonghieu and t2.status = 0
-        INNER JOIN `tb_nhacungcap` t3 on t1.id_nhacungcap = t3.id_nhacungcap and t3.status = 0
-        where t1.gioitinh = ? and t1.status = 0";
+        $sql = "SELECT t1.*, (SELECT max(gia_ban) from `tb_gianuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa GROUP by t4.id_nuochoa) as max_gia,
+                (SELECT min(gia_ban) from `tb_gianuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa GROUP by t4.id_nuochoa) as min_gia,
+                (SELECT img_link from `tb_anhnuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa order by id_anh ASC limit 1, 1) as img_link
+                FROM `tb_nuochoa` t1
+                INNER JOIN `tb_thuonghieu` t2 on t1.id_thuonghieu = t2.id_thuonghieu and t2.status = 0
+                INNER JOIN `tb_nhacungcap` t3 on t1.id_nhacungcap = t3.id_nhacungcap and t3.status = 0
+                where t1.gioitinh = ? and t1.status = 0 LIMIT 20";
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(1, $gioitinh);
         if($stmt->execute()){
@@ -37,14 +25,37 @@ class NuocHoaModel extends Model{
         }
     }
 
-    function getNH($gioitinh){
+    function getNH($column, $filter){
         $dbh = $this->connectDb();
-        $sql = "SELECT t1.* FROM `tb_nuochoa` t1
+        $sql = "SELECT t1.id_nuochoa, t1.ten_nuochoa, t1.gioitinh, t1.id_thuonghieu, t1.ngaybat_dauban,
+        (SELECT max(gia_ban) from `tb_gianuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa GROUP by t4.id_nuochoa) as max_gia,
+        (SELECT min(gia_ban) from `tb_gianuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa GROUP by t4.id_nuochoa) as min_gia,
+        (SELECT img_link from `tb_anhnuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa order by id_anh ASC limit 1, 1) as img_link
+        FROM `tb_nuochoa` t1
         INNER JOIN `tb_thuonghieu` t2 on t1.id_thuonghieu = t2.id_thuonghieu and t2.status = 0
         INNER JOIN `tb_nhacungcap` t3 on t1.id_nhacungcap = t3.id_nhacungcap and t3.status = 0
-        where t1.gioitinh = ? and t1.status = 0";
+        where t1.".$column." = ? and t1.status = 0";
         $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $gioitinh);
+        $stmt->bindValue(1, $filter);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        echo json_encode(array("data" => $data));
+    }
+
+    function queryNuocHoa($query){
+        $query = "%".$query."%";
+        $dbh = $this->connectDb();
+        $sql = "SELECT t1.id_nuochoa, t1.ten_nuochoa, t1.gioitinh, t1.id_thuonghieu, t1.ngaybat_dauban,
+        (SELECT max(gia_ban) from `tb_gianuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa GROUP by t4.id_nuochoa) as max_gia,
+        (SELECT min(gia_ban) from `tb_gianuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa GROUP by t4.id_nuochoa) as min_gia,
+        (SELECT img_link from `tb_anhnuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa order by id_anh ASC limit 1, 1) as img_link
+        FROM `tb_nuochoa` t1
+        INNER JOIN `tb_thuonghieu` t2 on t1.id_thuonghieu = t2.id_thuonghieu and t2.status = 0
+        INNER JOIN `tb_nhacungcap` t3 on t1.id_nhacungcap = t3.id_nhacungcap and t3.status = 0
+        where t1.ten_nuochoa LIKE ? and t1.status = 0";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(1, $query);
         if($stmt->execute()){
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -75,6 +86,53 @@ class NuocHoaModel extends Model{
         }else{
             return false;
         }
+    }
+
+    function getBaiVietTrangChu($phanloai){
+        $dbh = $this->connectDb();
+        $sql = "SELECT t1.id_baiviet_blog, t1.tieude, t1.ngaydang, t1.mota, t1.phanloai, (SELECT img_link from tb_doanvan t2 where t1.id_baiviet_blog = t2.id AND img_link IS NOT NULL ORDER BY t2.sothutu ASC limit 0, 1) as img_link FROM `tb_kienthuc_blog` t1 WHERE t1.phanloai = ? order by t1.ngaydang DESC limit 15";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(1, $phanloai);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }else{
+            return false;
+        }
+    }
+
+    function getBaiViet($phanloai){
+        $dbh = $this->connectDb();
+        $sql = "SELECT t1.id_baiviet_blog, t1.tieude, t1.ngaydang, t1.mota, t1.phanloai, (SELECT img_link from tb_doanvan t2 where t1.id_baiviet_blog = t2.id AND img_link IS NOT NULL ORDER BY t2.sothutu ASC limit 0, 1) as img_link FROM `tb_kienthuc_blog` t1 WHERE t1.phanloai = ?
+        order by t1.ngaydang DESC";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(1, $phanloai);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }else{
+            return false;
+        }
+    }
+    function getBaiVietNoiBat($phanloai){
+        $dbh = $this->connectDb();
+        $sql = "SELECT t1.id_baiviet_blog, t1.tieude, t1.ngaydang, t1.mota, t1.phanloai, (SELECT img_link from tb_doanvan t2 where t1.id_baiviet_blog = t2.id AND img_link IS NOT NULL ORDER BY t2.sothutu ASC limit 0, 1) as img_link FROM `tb_kienthuc_blog` t1 WHERE t1.phanloai = ?
+        order by t1.soluongnguoixem DESC limit 3";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(1, $phanloai);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }else{
+            return false;
+        }
+    }
+    function updateViewer($id_baiviet){
+        $dbh = $this->connectDb();
+        $sql = "UPDATE tb_kienthuc_blog SET soluongnguoixem=soluongnguoixem+1 WHERE id_baiviet_blog = ?";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(1, $id_baiviet);
+        return $stmt->execute();
     }
 }
 ?>

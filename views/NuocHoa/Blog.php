@@ -10,8 +10,7 @@ require("views/template/header.php");
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none p-14 text-dark">Trang chủ</a></li>
-                    <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none p-14 text-dark">Trang tài khoản</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><span class="p-14 text-dark">Sổ địa chỉ</span></li>
+                    <li class="breadcrumb-item active" aria-current="page"><span class="p-14 text-dark">Blog</span></li>
                 </ol>
             </nav>
         </div>
@@ -30,24 +29,53 @@ require("views/template/header.php");
                         <tr><td><a href="index.php" class="text-dark">Blog</a></td></tr>
                         <tr><td><a href="index.php" class="text-dark">Liên hệ</a></td></tr>
                         <tr><td class="text-uppercase" style="font-weight: bold;">Nổi bật</td></tr>
+                        <tr>
+                            <td>
+                                <?php
+                                    foreach($blognoibat as $item){
+                                ?>
+                                <a class="row text-black" href="index.php?controller=NuocHoa&action=BaiViet&id_baiviet=<?php echo $item['id_baiviet_blog'] ?>">
+                                    <div class="col-md-5">
+                                        <img src="<?php echo $item['img_link'] ?>" alt="" style="object-fit:fill; height: auto;">
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p class="p-12 mb-0" data-toggle="tooltip" title="<?php echo $item['tieude'] ?>"><?php echo (strlen($item['tieude'])>40)? substr($item['tieude'],0, 52)."...":$item['tieude']?></p>
+                                        <p class="p-12"><i><?php echo $item['ngaydang'] ?></i></p>
+                                    </div>
+                                </a>
+                                <?php
+                                    }
+                                ?>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <div class="col-md-9 border">
                 <div class="row mt-2">
                     <h5>Blog</h5>
+                    <?php
+                    foreach($blog as $item){
+                    ?>
                     <div class="col-md-12">
-                        <a class="blog-item-thumbnail" href="index.php?controller=NuocHoa&action=Blog_ThongTin">
-                            <img src="images\blog\20_02_2023_XGAUSH87\nuoc-hoa-huong-thom-da-thit-parfumerievn.jpg" alt="">
+                        <a class="blog-item-thumbnail" href="index.php?controller=NuocHoa&action=BaiViet&id_baiviet=<?php echo $item['id_baiviet_blog'] ?>">
+                            <img src="<?php echo $item['img_link'] ?>" alt="">
                         </a>
                         <div class="blog-items-main">
                             <div>
-                                <a><h6>Hương thơm da thịt - Xu hướng mùi hương đang rất được yêu thích</h6></a>
-                                <p class="post-time">20/02/2023 - PARFUMERIEVN</p>
+                                <a><h6><?php echo $item['tieude'] ?></h6></a>
+                                <?php
+                                $timestamp = strtotime($item['ngaydang']);
+                                $date = date("d/m/Y", $timestamp);
+                                ?>
+                                <p class="post-time"><?php echo $date ?> - PARFUMERIEVN</p>
                             </div>
-                            <p class="mt-3">Sở dĩ có tên gọi là mùi hương da thịt vì hương thơm của những chai nước hoa này vô cùng nhẹ nhàng, khi dùng sẽ hoà với mùi cơ thể tạo ra một hương thơm tự nhiên, nhẹ tênh, dễ chịu, đôi khi hương thơm nhẹ đến nỗi chỉ thoang thoảng trên da, những ai kề cận sát bên mới ...</p>
+                            <p class="mt-3" data-toggle="tooltip" title="<?php echo $item['mota'] ?>"><?php echo substr($item['mota'], 0, 360)."..." ?></p>
                         </div>
                     </div>
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>

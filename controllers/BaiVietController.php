@@ -78,7 +78,7 @@ class BaiVietController{
         }
     }
     function insertDoanVan(){
-        if(!empty($_FILES)){
+        if(isset($_POST['submit-insert'])){
             $success="Thêm đoạn văn thành công!";
             $error="Thêm đoạn văn thất bại!";
             $id_baiviet = $_POST['id-baiviet-insert'];
@@ -86,44 +86,61 @@ class BaiVietController{
             $sothutu = $_POST['sothutu-insert'];
             $tieude = $_POST['tieude-insert'];
             $noidung = $_POST['noidung-insert'];
-            $folder_name = "../BTL_PTPM/images/BaiViet/" . $id_baiviet . "/";
-            if (!file_exists($folder_name)) {
-                mkdir($folder_name, 0777, true);
-            }
-            $folder_name = "../BTL_PTPM/images/BaiViet/" . $id_baiviet . "/".$id_doanvan."/";
-            if (!file_exists($folder_name)) {
-                mkdir($folder_name, 0777, true);
-            }
-            $allowTypes = array('jpg', 'png', 'jpeg', 'pdf');
-            $link = "images/BaiViet/" . $id_baiviet . "/".$id_doanvan."/";
-            $newFilePath = $folder_name . $id_doanvan . "." . explode("/", $_FILES['file-insert']['type'])[1];
-            $new_link = $link . $id_doanvan . "." . explode("/", $_FILES['file-insert']['type'])[1];
-            $fileType = pathinfo($newFilePath, PATHINFO_EXTENSION);
-            if (in_array($fileType, $allowTypes)) {
-                if ($_FILES['file-insert']['size'] <= 5 * 1024 * 1024)
-                    $tmpFilePath = $_FILES['file-insert']['tmp_name'];
-                if ($tmpFilePath != "") {
-                    if (move_uploaded_file($tmpFilePath, $newFilePath)) {
-                        $bvModel = new BaiVietModel();
-                        if($bvModel->insert("tb_doanvan", ['id', 'id_doanvan', 'sothutu', 'tieude', 'noidung', 'img_link'], [
-                            $id_baiviet,
-                            $id_doanvan,
-                            $sothutu,
-                            $tieude,
-                            $noidung,
-                            $new_link,
-                        ])){
-                            $_SESSION['success'] = "Thêm đoạn văn thành công!";
-                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
-                        }else{
-                            $_SESSION['error'] = "Thêm đoạn văn thất bại!";
-                            header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
+            if($_FILES['file-insert']['name'] != ""){
+                $folder_name = "../BTL_PTPM/images/BaiViet/" . $id_baiviet . "/";
+                if (!file_exists($folder_name)) {
+                    mkdir($folder_name, 0777, true);
+                }
+                $folder_name = "../BTL_PTPM/images/BaiViet/" . $id_baiviet . "/".$id_doanvan."/";
+                if (!file_exists($folder_name)) {
+                    mkdir($folder_name, 0777, true);
+                }
+                $allowTypes = array('jpg', 'png', 'jpeg', 'pdf');
+                $link = "images/BaiViet/" . $id_baiviet . "/".$id_doanvan."/";
+                $newFilePath = $folder_name . $id_doanvan . "." . explode("/", $_FILES['file-insert']['type'])[1];
+                $new_link = $link . $id_doanvan . "." . explode("/", $_FILES['file-insert']['type'])[1];
+                $fileType = pathinfo($newFilePath, PATHINFO_EXTENSION);
+                if (in_array($fileType, $allowTypes)) {
+                    if ($_FILES['file-insert']['size'] <= 5 * 1024 * 1024)
+                        $tmpFilePath = $_FILES['file-insert']['tmp_name'];
+                    if ($tmpFilePath != "") {
+                        if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                            $bvModel = new BaiVietModel();
+                            if($bvModel->insert("tb_doanvan", ['id', 'id_doanvan', 'sothutu', 'tieude', 'noidung', 'img_link'], [
+                                $id_baiviet,
+                                $id_doanvan,
+                                $sothutu,
+                                $tieude,
+                                $noidung,
+                                $new_link,
+                            ])){
+                                $_SESSION['success'] = "Thêm đoạn văn thành công!";
+                                header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
+                            }else{
+                                $_SESSION['error'] = "Thêm đoạn văn thất bại!";
+                                header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
+                            }
                         }
                     }
+                }else{
+                    $_SESSION['error'] = "Ảnh của đoạn văn không hợp lệ!";
+                    header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
                 }
             }else{
-                $_SESSION['error'] = "Ảnh của đoạn văn không hợp lệ!";
-                header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
+                $bvModel = new BaiVietModel();
+                if($bvModel->insert("tb_doanvan", ['id', 'id_doanvan', 'sothutu', 'tieude', 'noidung'], [
+                    $id_baiviet,
+                    $id_doanvan,
+                    $sothutu,
+                    $tieude,
+                    $noidung,
+                ])){
+                    $_SESSION['success'] = "Thêm đoạn văn thành công!";
+                    header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
+                }else{
+                    $_SESSION['error'] = "Thêm đoạn văn thất bại!";
+                    header("location: index.php?controller=BaiViet&action=updateBaiViet&id_baiviet_blog=$id_baiviet");
+                }
             }
         }else{
             header("location: index.php?controller=BaiViet");
@@ -213,8 +230,7 @@ class BaiVietController{
             if($_FILES['file_update']['name'] != "")
                 $file = $_FILES['file_update'];
             $old = $bvModel->get("tb_doanvan", ['id_doanvan'], [$id_doanvan], ['and'])[0];
-            
-            if ($file != "" && file_exists($old['img_link'])) {
+            if ($file != "") {
                 $folder_name = "../BTL_PTPM/images/BaiViet/" . $id_baiviet . "/";
                 if (!file_exists($folder_name)) {
                     mkdir($folder_name, 0777, true);

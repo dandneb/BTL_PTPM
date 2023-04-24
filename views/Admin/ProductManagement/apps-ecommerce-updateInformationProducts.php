@@ -147,24 +147,13 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 me-0">
+                    <div class="col-md-12 me-0">
                         <div class="mb-3">
                             <div class="form-floating">
                                 <textarea class="form-control" name="dadanghoa" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" required><?php echo $nuochoa['dadanghoa'] ?></textarea>
                                 <label for="floatingTextarea">Đa dạng hóa</label>
                                 <div class="invalid-feedback">
                                     Hãy điền thông tin đa dạng hóa của nước hoa cần sửa!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 me-0">
-                        <div class="mb-3">
-                            <div class="form-floating">
-                                <textarea class="form-control" name="huongdansudung" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" required><?php echo $nuochoa['huongdansudung'] ?></textarea>
-                                <label for="floatingTextarea">Hướng dẫn sử dụng</label>
-                                <div class="invalid-feedback">
-                                    Hãy điền hướng dẫn sử dụng của nước hoa cần sửa!
                                 </div>
                             </div>
                         </div>

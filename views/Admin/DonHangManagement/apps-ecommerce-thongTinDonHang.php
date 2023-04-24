@@ -25,11 +25,82 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
         </div>
         <div class="row">
             <div class="col-md-10 ms-auto me-auto">
-                
+
                 <div style="color: warning" id="thong_bao">
                 </div>
-                <a class="btn btn-danger mt-2 mb-2">Phê duyệt đơn hàng</a>
+                <?php
+                if ($donhang['trangthaidonhang'] != 3 && $donhang['trangthaidonhang'] != 2 && $donhang['trangthaivanchuyen'] == 0) {
+                    if ($donhang['trangthaidonhang'] == 0) {
+                ?>
+                        <a class="btn btn-success mt-2 mb-2" href="index.php?controller=DonHang&action=duyetDonHang&id_donhang=<?php echo $donhang['id_donhang'] ?>">Phê duyệt đơn hàng</a>
+                    <?php
+                    } else if ($donhang['trangthaidonhang'] == 1) {
+                    ?>
+                        <a class="btn btn-danger mt-2 mb-2" href="index.php?controller=DonHang&action=huyDuyetDonHang&id_donhang=<?php echo $donhang['id_donhang'] ?>">Bỏ phê duyệt đơn hàng</a>
+                    <?php
+                    }
+                    ?>
+                    <form class="col-md-6 mb-2 me-0" action="index.php?controller=DonHang&action=updateThanhToan" method="POST">
+                        <label class="form-label" for="validationCustom01">Thay đổi thông tin thanh toán</label>
+                        <input type="text" value="<?php echo $id_donhang ?>" class="form-control" name="id_donhang" id="validationCustom01" placeholder="Mã đơn hàng" style="display: none;" readonly>
+                        <select class="form-select mb-1" name="trangthaithanhtoan" required>
+                            <option value="" disabled selected>---</option>
+                            <?php
+                            if ($donhang['trangthaithanhtoan'] == 1) {
+                            ?>
+                                <option value="0">Chưa thanh toán</option>
+                            <?php
+                            }
+                            if ($donhang['trangthaivanchuyen'] == 0) {
+                            ?>
+                                <option value="1">Đã thanh toán</option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <button class="btn btn-primary" type="submit" name="submit">Thay đổi</button>
+                    </form>
+                <?php
+                }
+                ?>
                 <div>
+                    <div class="col-md-6">
+                        <span class="p-14 text-info">Trạng thái thanh toán: <span class="p-15-bold fst-italic text-main"><?php echo ($donhang['trangthaithanhtoan'] != 3) ? ($donhang['trangthaithanhtoan']==0 ? "Chưa thanh toán" : "Đã thanh toán") : "Đã hủy" ?></span></span>
+                    </div>
+                    <div class="col-md-6">
+                        <?php
+                        $ttvc = "";
+                        if($donhang['trangthaivanchuyen']==0){
+                            $ttvc = "Chưa vận chuyển";
+                        }else if($donhang['trangthaivanchuyen']==1){
+                            $ttvc = "Đang vận chuyển";
+                        }else{
+                            $ttvc = "Đã vận chuyển";
+                        }
+                        ?>
+                        <span class="p-14 text-info">Trạng thái vận chuyển: <span class="p-15-bold fst-italic text-main"><?php echo ($donhang['trangthaivanchuyen'] != 3) ? $ttvc : "Đã hủy" ?></span></span><br>
+                        <?php
+                        if($donhang['trangthaidonhang'] < 2){
+                        ?>
+                        <span class="p-14 text-info">Trạng thái đơn hàng: <span class="p-15-bold fst-italic text-main">Chưa hoàn tất</span></span>
+                        <?php
+                        }
+                        ?>
+                        <?php
+                        if($donhang['trangthaidonhang'] == 2){
+                        ?>
+                        <span class="p-14 text-info">Trạng thái đơn hàng: <span class="p-15-bold fst-italic text-main">Đã hoàn tất</span></span>
+                        <?php
+                        }
+                        ?>
+                        <?php
+                        if($donhang['trangthaidonhang'] == 3){
+                        ?>
+                        <span class="p-14 text-info">Trạng thái đơn hàng: <span class="p-15-bold fst-italic text-main">Đã hủy</span></span>
+                        <?php
+                        }
+                        ?>
+                    </div>
                     <table style="width:100%;border-collapse:collapse">
                         <thead>
                             <tr>
