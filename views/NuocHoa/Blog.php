@@ -57,7 +57,7 @@ require("views/template/header.php");
                     <?php
                     foreach($blog as $item){
                     ?>
-                    <div class="col-md-12">
+                    <div class="col-md-12 mb-3">
                         <a class="blog-item-thumbnail" href="index.php?controller=NuocHoa&action=BaiViet&id_baiviet=<?php echo $item['id_baiviet_blog'] ?>">
                             <img src="<?php echo $item['img_link'] ?>" alt="">
                         </a>

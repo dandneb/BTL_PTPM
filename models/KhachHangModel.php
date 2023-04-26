@@ -35,6 +35,23 @@ class KhachHangModel extends Model{
             else return false;
         }
     }
+    function getSanPhamYeuThich($id_nguoidung){
+        $dbh = $this->connectDb();
+        $stmt = $dbh->prepare("SELECT `id_nguoidung`, `id_nuochoa`, `dungtich`, 
+        (SELECT img_link from tb_anhnuochoa t2 where t1.id_nuochoa = t2.id_nuochoa ORDER BY t2.id_anh limit 1) as img_link, 
+        (SELECT soluong from tb_gianuochoa t3 where t1.id_nuochoa = t3.id_nuochoa and t1.dungtich = t3.dungtich) as soluong, 
+        (SELECT gia_ban from tb_gianuochoa t3 where t1.id_nuochoa = t3.id_nuochoa and t1.dungtich = t3.dungtich) as gia_ban, 
+        (SELECT ten_nuochoa from tb_nuochoa t4 where t1.id_nuochoa = t4.id_nuochoa) as ten_nuochoa,
+        (SELECT xuatxu from tb_nuochoa t4 where t1.id_nuochoa = t4.id_nuochoa) as xuatxu,
+        (SELECT mota from tb_nuochoa t4 where t1.id_nuochoa = t4.id_nuochoa) as mota,
+        (SELECT IF(gioitinh=0, 'Nam', IF(gioitinh=1, 'Nữ', 'Unisex')) from tb_nuochoa t4 where t1.id_nuochoa = t4.id_nuochoa) as gioitinh
+        FROM `tb_yeuthich` t1 where t1.id_nguoidung = ? order by ngaythem desc");
+        $stmt->bindValue(1, $id_nguoidung);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    }
     function check($table, $column, $value){
         $dbh = $this->connectDb();
         $stmt = $dbh->prepare("SELECT ".$column." FROM `".$table."` WHERE ".$column." = ?");
@@ -123,6 +140,34 @@ class KhachHangModel extends Model{
             }else{
                 return false;
             }
+        }else{
+            return false;
+        }
+    }
+
+    function checkMGG($magiamgia){
+        $dbh = $this->connectDb();
+        $stmt = $dbh->prepare('SELECT * FROM `tb_magiamgia` t1 WHERE t1.hansudung >= now() and soluotdasudung <= soluotsudung and soluotdasudung > 0 and magiamgia = ?');
+        $stmt->bindValue(1, $magiamgia);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if(!empty($data)){
+                if(count($data) > 0)    return true;
+                else return false;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    function updateUseCoupon($magiamgia){
+        $dbh = $this->connectDb();
+        $stmt = $dbh->prepare('UPDATE `tb_magiamgia` SET `soluotdasudung`=`soluotdasudung`-1 WHERE magiamgia = ?');
+        $stmt->bindValue(1, $magiamgia);
+        if($stmt->execute()){
+            return true;
         }else{
             return false;
         }

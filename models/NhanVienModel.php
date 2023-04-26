@@ -8,14 +8,34 @@ require_once 'model.php';
 class NhanVienModel extends Model{
     public function getALLProducts(){
         $dbh = $this->connectDb();
-        $stmt = $dbh->prepare("Select t1.id_nuochoa, ten_nuochoa, ten_thuonghieu, ngaybat_dauban, t1.gioitinh, t3.soluong, gia_ban, gia_nhap, t1.status, IFNULL((SELECT sum(t4.soluong) FROM tb_donhang_nuochoa t4 INNER JOIN tb_donhang t5 on t4.id_donhang = t5.id_donhang WHERE t5.trangthaidonhang != 3 AND t4.id_nuochoa = t1.id_nuochoa), 0) as soluongdaban, t1.id_thuonghieu from tb_nuochoa t1 INNER JOIN tb_thuonghieu t2 on t1.id_thuonghieu = t2.id_thuonghieu INNER JOIN (Select id_nuochoa, sum(soluong) as soluong, concat(min(gia_ban),'-',max(gia_ban)) as gia_ban, concat(min(gia_nhap),'-',max(gia_nhap)) as gia_nhap from tb_gianuochoa GROUP BY id_nuochoa) t3 on t1.id_nuochoa = t3.id_nuochoa;
-        ");
+        $stmt = $dbh->prepare("Select t1.id_nuochoa, ten_nuochoa, ten_thuonghieu, ngaybat_dauban, t1.gioitinh, t3.soluong, gia_ban, gia_nhap, 
+        (SELECT img_link from tb_anhnuochoa t6 where t6.id_nuochoa = t1.id_nuochoa order by img_link asc limit 1, 1) as img_link, t1.status, 
+        IFNULL((SELECT sum(t4.soluong) FROM tb_donhang_nuochoa t4 INNER JOIN tb_donhang t5 on t4.id_donhang = t5.id_donhang WHERE t5.trangthaidonhang != 3 AND t4.id_nuochoa = t1.id_nuochoa), 0) as soluongdaban, 
+        t1.id_thuonghieu from tb_nuochoa t1 INNER JOIN tb_thuonghieu t2 on t1.id_thuonghieu = t2.id_thuonghieu  and t2.status != 1
+        INNER JOIN tb_nhacungcap t7 on t1.id_nhacungcap = t7.id_nhacungcap and t7.status != 1
+        INNER JOIN (Select id_nuochoa, sum(soluong) as soluong, concat(min(gia_ban),'-',max(gia_ban)) as gia_ban, concat(min(gia_nhap),'-',max(gia_nhap)) as gia_nhap from tb_gianuochoa GROUP BY id_nuochoa) t3 on t1.id_nuochoa = t3.id_nuochoa where t1.status = 0");
         if($stmt->execute()){
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         echo json_encode(array("data" => $data));
     }
+
+    public function getALLProductLock(){
+        $dbh = $this->connectDb();
+        $stmt = $dbh->prepare("Select t1.id_nuochoa, ten_nuochoa, ten_thuonghieu, ngaybat_dauban, t1.gioitinh, t3.soluong, gia_ban, gia_nhap, 
+        (SELECT img_link from tb_anhnuochoa t6 where t6.id_nuochoa = t1.id_nuochoa order by img_link asc limit 1, 1) as img_link, t1.status, 
+        IFNULL((SELECT sum(t4.soluong) FROM tb_donhang_nuochoa t4 INNER JOIN tb_donhang t5 on t4.id_donhang = t5.id_donhang WHERE t5.trangthaidonhang != 3 AND t4.id_nuochoa = t1.id_nuochoa), 0) as soluongdaban, 
+        t1.id_thuonghieu, t2.status as trangthaithuonghieu, t7.status as trangthainhacungcap from tb_nuochoa t1 INNER JOIN tb_thuonghieu t2 on t1.id_thuonghieu = t2.id_thuonghieu
+        INNER JOIN tb_nhacungcap t7 on t1.id_nhacungcap = t7.id_nhacungcap
+        INNER JOIN (Select id_nuochoa, sum(soluong) as soluong, concat(min(gia_ban),'-',max(gia_ban)) as gia_ban, concat(min(gia_nhap),'-',max(gia_nhap)) as gia_nhap from tb_gianuochoa GROUP BY id_nuochoa) t3 on t1.id_nuochoa = t3.id_nuochoa where t1.status != 0 or t7.status = 1 or t2.status = 1");
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        echo json_encode(array("data" => $data));
+    }
+
     public function insert_nuochoa($param = []) {
         $dbh = $this->connectDb();
         $stmt = $dbh->prepare("INSERT INTO `tb_nuochoa` (`id_nuochoa`, `ten_nuochoa`, `gioitinh`, `xuatxu`, `mota`, `thongtinchinh`, 

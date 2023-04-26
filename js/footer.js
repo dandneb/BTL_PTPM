@@ -28,6 +28,17 @@ $(".btn-add").click(function(){
     }
 })
 
+function validateForm(){
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if(filter.test($("#email").val())){
+        $(".helpEmail").text("Email của bạn đã hợp lệ!").css("color", "white");
+        return true;
+    }else{
+        $(".helpEmail").text("Email của bạn chưa hợp lệ!").css("color", "red");
+        return false;
+    }
+}
+
 (() => {
     'use strict'
     const forms = document.querySelectorAll('.needs-validation')
@@ -42,6 +53,6 @@ $(".btn-add").click(function(){
     })
 })()
 
-const offcanvasElementList = document.querySelectorAll('.offcanvas')
-const offcanvasList = [...offcanvasElementList].map(offcanvasEl => new bootstrap.Offcanvas(offcanvasEl))
+//const offcanvasElementList = document.querySelectorAll('.offcanvas')
+//const offcanvasList = [...offcanvasElementList].map(offcanvasEl => new bootstrap.Offcanvas(offcanvasEl))
 

@@ -2,6 +2,15 @@ $(document).ready(function(){
     if (document.cookie.indexOf("myCart") != -1) {
         var myArrayCookie = document.cookie.replace(/(?:(?:^|.*;\s*)myCart\s*\=\s*([^;]*).*$)|^.*$/, "$1");
         var myArray = JSON.parse(myArrayCookie);
+        myArray = myArray.map(item => {
+            return {
+                ...item,
+                soluong: Math.min(item.soluong, 20)
+            };
+        });
+        myArray.sort(function(a, b){
+            return new Date(b.time) - new Date(a.time);
+        })
         if(myArray.length > 0){
             myArray.forEach(function(item){
                 $('.gio_hang').append(`
@@ -23,7 +32,7 @@ $(document).ready(function(){
                                         <div class="input-group-prepend">
                                             <button class="btn btn-reduceSoLuong" type="button" style="border-radius: 0; background-color: unset !important; border: 1px solid #F1F1F1;">-</button>
                                         </div>
-                                        <input type="text" class="form-control" style="flex:none; width: 50px; border-left: 0; border-right: 0;" value="${item.soluong}">
+                                        <input type="text" class="form-control" style="flex:none; width: 50px; border-left: 0; border-right: 0;" value="${item.soluong}" readonly>
                                         <div class="input-group-prepend">
                                             <button class="btn btn-addSoLuong" type="button" style="border-radius: 0; background-color: unset !important; border: 1px solid #F1F1F1;">+</button>
                                         </div>
@@ -53,7 +62,10 @@ $(document).ready(function(){
                 var index = $('.btn-addSoLuong').index(this);
                 var myArrayCookie = document.cookie.replace(/(?:(?:^|.*;\s*)myCart\s*\=\s*([^;]*).*$)|^.*$/, "$1");
                 var myArray = JSON.parse(myArrayCookie);
-                if(myArray[index].soluong < 100){
+                myArray.sort(function(a, b){
+                    return new Date(b.time) - new Date(a.time);
+                })
+                if(myArray[index].soluong < 20){
                     myArray[index].soluong += parseInt(1);
                     var input = $(this).closest('.input-group').find('input');
                     input.val(parseInt(input.val())+1);
@@ -66,6 +78,9 @@ $(document).ready(function(){
                 var index = $('.btn-reduceSoLuong').index(this);
                 var myArrayCookie = document.cookie.replace(/(?:(?:^|.*;\s*)myCart\s*\=\s*([^;]*).*$)|^.*$/, "$1");
                 var myArray = JSON.parse(myArrayCookie);
+                myArray.sort(function(a, b){
+                    return new Date(b.time) - new Date(a.time);
+                })
                 if(myArray[index].soluong > 1){
                     myArray[index].soluong -= parseInt(1);
                     var input = $(this).closest('.input-group').find('input');
@@ -79,6 +94,9 @@ $(document).ready(function(){
                 var inx = parseInt($('.xoaSanPham').index(this));
                 var myArrayCookie = document.cookie.replace(/(?:(?:^|.*;\s*)myCart\s*\=\s*([^;]*).*$)|^.*$/, "$1");
                 var myArray = JSON.parse(myArrayCookie);
+                myArray.sort(function(a, b){
+                    return new Date(b.time) - new Date(a.time);
+                })
                 var newArray = myArray.filter((item, index) => index != inx);
                 var myArrayJSON = JSON.stringify(newArray);
                 document.cookie = "myCart=" + myArrayJSON;

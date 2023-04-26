@@ -10,10 +10,21 @@ class MaGiamGiaModel extends Model{
     public function getALLMaGiamGia(){
         $dbh = $this->connectDb();
         $stmt = $dbh->prepare("SELECT t1.magiamgia, DATE_FORMAT(ngaybatdau, '%d-%m-%Y') as ngaybatdau, DATE_FORMAT(hansudung, '%d-%m-%Y') as hansudung, 
-        soluotsudung, giam, ten_nuochoa, IF(hansudung < NOW(), 0, IF(soluotsudung=0, 2, 1)) as trangthai, 
+        soluotsudung, giam, ten_nuochoa, IF(hansudung < NOW(), 0, IF(soluotsudung = soluotdasudung, 2, 1)) as trangthai, 
         t1.soluotdasudung
-        FROM `tb_magiamgia` t1 INNER JOIN `tb_nuochoa` t2 on t1.id_nuochoa = t2.id_nuochoa
-        ");
+        FROM `tb_magiamgia` t1 INNER JOIN `tb_nuochoa` t2 on t1.id_nuochoa = t2.id_nuochoa where hansudung >= NOW() and soluotsudung > soluotdasudung");
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        echo json_encode(array("data" => $data));
+    }
+
+    public function getMGGHetHan(){
+        $dbh = $this->connectDb();
+        $stmt = $dbh->prepare("SELECT t1.magiamgia, DATE_FORMAT(ngaybatdau, '%d-%m-%Y') as ngaybatdau, DATE_FORMAT(hansudung, '%d-%m-%Y') as hansudung, 
+        soluotsudung, giam, ten_nuochoa, IF(hansudung < NOW(), 0, IF(soluotsudung=soluotdasudung, 2, 1)) as trangthai, 
+        t1.soluotdasudung
+        FROM `tb_magiamgia` t1 INNER JOIN `tb_nuochoa` t2 on t1.id_nuochoa = t2.id_nuochoa where hansudung < NOW() or soluotdasudung = soluotsudung");
         if($stmt->execute()){
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }

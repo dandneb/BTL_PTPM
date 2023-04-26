@@ -28,17 +28,19 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
 
                 <div style="color: warning" id="thong_bao">
                 </div>
+
                 <?php
-                if ($donhang['trangthaidonhang'] != 3 && $donhang['trangthaidonhang'] != 2 && $donhang['trangthaivanchuyen'] == 0) {
-                    if ($donhang['trangthaidonhang'] == 0) {
+                if ($donhang['trangthaidonhang'] != 3 && $donhang['trangthaidonhang'] != 2 && $donhang['trangthaivanchuyen'] == 0 || $donhang['trangthaivanchuyen'] == 1) {
+                    if ($donhang['trangthaidonhang'] == 0 && $donhang['trangthaivanchuyen'] == 0) {
                 ?>
                         <a class="btn btn-success mt-2 mb-2" href="index.php?controller=DonHang&action=duyetDonHang&id_donhang=<?php echo $donhang['id_donhang'] ?>">Phê duyệt đơn hàng</a>
                     <?php
-                    } else if ($donhang['trangthaidonhang'] == 1) {
+                    } else if ($donhang['trangthaidonhang'] == 1 && $donhang['trangthaivanchuyen'] == 0) {
                     ?>
                         <a class="btn btn-danger mt-2 mb-2" href="index.php?controller=DonHang&action=huyDuyetDonHang&id_donhang=<?php echo $donhang['id_donhang'] ?>">Bỏ phê duyệt đơn hàng</a>
                     <?php
                     }
+                    if($donhang['trangthaidonhang'] == 1){
                     ?>
                     <form class="col-md-6 mb-2 me-0" action="index.php?controller=DonHang&action=updateThanhToan" method="POST">
                         <label class="form-label" for="validationCustom01">Thay đổi thông tin thanh toán</label>
@@ -51,7 +53,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                                 <option value="0">Chưa thanh toán</option>
                             <?php
                             }
-                            if ($donhang['trangthaivanchuyen'] == 0) {
+                            if ($donhang['trangthaithanhtoan'] == 0) {
                             ?>
                                 <option value="1">Đã thanh toán</option>
                             <?php
@@ -61,6 +63,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         <button class="btn btn-primary" type="submit" name="submit">Thay đổi</button>
                     </form>
                 <?php
+                    }
                 }
                 ?>
                 <div>

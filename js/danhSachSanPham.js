@@ -381,11 +381,10 @@ $(document).ready(async function () {
                 search_product(myArr)
             }
         });
-        $("#search").on("input", function(){
+        var checker = false;
+        $("#click-search").click(function (){
             var flags = false;
-            checker = true;
-            console.log($("#search").val())
-            if($("#search").val() != ""){
+            if($("#search").val() !== ""){
                 $(".trademark").html("");
                 for(var i=0; i<thuonghieu.length; i++){
                     if (thuonghieu[i].ten_thuonghieu.toLowerCase().includes($("#search").val().toLowerCase())) {
@@ -399,10 +398,32 @@ $(document).ready(async function () {
                         `);
                     }
                 }
+                checker = true;
                 $("#danhSachSanPham").remove();
                 $(".trademark").append('<script src="js/danhSachSanPham.js" id="danhSachSanPham"></script>');
             }else{
                 if(checker == true){
+                    $(".trademark").html("");
+                    for(var i=0; i<thuonghieu.length; i++){
+                        $(".trademark").append(`
+                        <div class="form-check" style="height:35px">
+                            <input class="form-check-input check-box-th" type="checkbox" value="${thuonghieu[i].id_thuonghieu}">
+                            <label class="form-check-label p-15" style="opacity: 0.8;" for="flexCheckDefault">
+                                ${thuonghieu[i].ten_thuonghieu}
+                            </label>
+                        </div>
+                        `);
+                    }
+                    $("#danhSachSanPham").remove();
+                    $(".trademark").append('<script src="js/danhSachSanPham.js" id="danhSachSanPham"></script>');
+                    checker = false;
+                }
+            }
+        })
+        $("#search").on("input", function(){
+            if(checker == true){
+                if($("#search").val() == ""){
+                    $(".trademark").html("");
                     for(var i=0; i<thuonghieu.length; i++){
                         $(".trademark").append(`
                         <div class="form-check" style="height:35px">

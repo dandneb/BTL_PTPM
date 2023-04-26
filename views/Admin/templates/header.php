@@ -90,7 +90,10 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         <div class="collapse" id="sidebarEcommerce">
                             <ul class="side-nav-second-level">
                                 <li>
-                                    <a href="index.php?controller=NhanVien&action=sanpham">Danh sách sản phẩm</a>
+                                    <a href="index.php?controller=NhanVien&action=sanpham">Danh sách sản phẩm đang hoạt động</a>
+                                </li>
+                                <li>
+                                    <a href="index.php?controller=NhanVien&action=sanPhamLock">Danh sách sản phẩm ngừng kinh doanh</a>
                                 </li>
                                 <li>
                                     <a href="index.php?controller=NhanVien&action=addsanpham">Thêm sản phẩm</a>
@@ -212,6 +215,9 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                             <ul class="side-nav-second-level">
                                 <li>
                                     <a href="index.php?controller=MaGiamGia">Danh sách mã giảm giá</a>
+                                </li>
+                                <li>
+                                    <a href="index.php?controller=MaGiamGia&action=hetHan">Danh sách mã giảm giá đã hết hạn</a>
                                 </li>
                                 <li>
                                     <a href="index.php?controller=MaGiamGia&action=addmagiamgia">Thêm mã giảm giá</a>

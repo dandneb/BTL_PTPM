@@ -21,6 +21,11 @@ require("views/template/header.php");
             <div class="col-md-4"></div>
             <div class="col-md-4 ms-2 me-2 mt-5 shadow-lg mb-5 bg-white pt-3 pb-3">
                 <div>
+                    <?php
+                    if(isset($_GET['yeuthich'])){
+                        echo '<p class="p-14 text-center text-danger mt-4">Để thêm vào sản phẩm yêu thích bạn cần đăng nhập!</p>';
+                    }
+                    ?>
                     <h5 class="text-center">ĐĂNG NHẬP TÀI KHOẢN</h5>
                     <p class="p-14 text-center mt-4">Nếu bạn đã có tài khoản, đăng nhập tại đây.</p>
                 </div>

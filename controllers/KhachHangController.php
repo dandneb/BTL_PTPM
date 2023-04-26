@@ -35,6 +35,7 @@ class KhachHangController{
                             if($data['capbac'] == 0){
                                 $_SESSION['LoginOK'] = '0_'.$data['id_nguoidung'].'_'.$data['hoten'].'_'.$data['email'];
                                 if(isset($_GET['purchase']))    header("location: index.php?controller=khachhang&action=muahang");
+                                else if(isset($_GET['id_nuochoa'])){    $id_nuochoa = $_GET['id_nuochoa'];   header("location: index.php?controller=nuochoa&action=thongtin&id_nuochoa=$id_nuochoa"); }
                                 else    header("location: index.php");
                             }else if($data['capbac'] == 1){
                                 $_SESSION['LoginOK'] = '1_'.$data['id_nguoidung'].'_'.$data['hoten'].'_'.$data['email'];
@@ -302,7 +303,66 @@ class KhachHangController{
     }
     //End Sổ địa chỉ
     function YeuThich(){
-        require_once 'views/KhachHang/YeuThich.php';
+        if(isset($_SESSION['LoginOK'])){
+            $kh = explode("_", $_SESSION['LoginOK']);
+            $id_nguoidung = $kh[1];
+            $khmodel = new KhachHangModel();
+            $sanpham = $khmodel->getSanPhamYeuThich($id_nguoidung);
+            require_once 'views/KhachHang/YeuThich.php';
+        }else{
+            header("location: index.php?controller=KhachHang&action=DangNhap");
+        }
+    }
+    function themSanPhamYeuThich(){
+        if(isset($_SESSION['LoginOK']) && isset($_POST['id_nuochoa']) && isset($_POST['dungtich'])){
+            $kh = explode("_", $_SESSION['LoginOK']);
+            $id_nguoidung = $kh[1];
+            $id_nuochoa = $_POST['id_nuochoa'];
+            $dungtich = $_POST['dungtich'];
+            $khmodel = new KhachHangModel();
+            if(count($khmodel->get("tb_nuochoa", ['id_nuochoa'], [$id_nuochoa], ['and'])) > 0){
+                if(count($khmodel->get("tb_yeuthich", ['id_nguoidung','id_nuochoa', 'dungtich'], [$id_nguoidung, $id_nuochoa, $dungtich], ['and', 'and', 'and'])) == 0){
+                    if($dungtich == 10 || $dungtich == 20 || $dungtich == 100){
+                        if($khmodel->insert("tb_yeuthich", ['id_nguoidung', 'id_nuochoa', 'dungtich'], [$id_nguoidung, $id_nuochoa, $dungtich])){
+                            echo 1;
+                        }else{
+                            echo 0;
+                        }
+                    }else{
+                        echo 0;
+                    }
+                }else{
+                    echo 3;
+                }
+            }else{
+                echo 0;
+            }
+        }else{
+            echo 0;
+        }
+    }
+    function xoaSanPhamYeuThich(){
+        if(isset($_SESSION['LoginOK']) && isset($_GET['id'])){
+            $kh = explode("_", $_SESSION['LoginOK']);
+            $id_nguoidung = $kh[1];
+            $id = explode("_", $_GET['id']);
+            $id_nuochoa = $id[0];
+            $dungtich = $id[1];
+            $khmodel = new KhachHangModel();
+            if(count($khmodel->get("tb_yeuthich", ['id_nguoidung','id_nuochoa', 'dungtich'], [$id_nguoidung, $id_nuochoa, $dungtich], ['and', 'and', 'and'])) > 0){
+                if($khmodel->delete("tb_yeuthich", ['id_nguoidung','id_nuochoa', 'dungtich'], [$id_nguoidung, $id_nuochoa, $dungtich], ['and', 'and', 'and'])){
+                    $_SESSION['success'] = "Xóa sản phẩm yêu thích thành công!";
+                    header("location: index.php?controller=KhachHang&action=YeuThich");
+                }else{
+                    $_SESSION['error'] = "Xóa sản phẩm yêu thích không thành công!";
+                    header("location: index.php?controller=KhachHang&action=YeuThich");
+                }
+            }else{
+                header("location: index.php?controller=KhachHang&action=YeuThich");
+            }
+        }else{
+            header("location: index.php");
+        }
     }
     function GioHang(){
         $khmodel = new KhachHangModel();
@@ -310,6 +370,23 @@ class KhachHangController{
     }
     function LienHe(){
         require_once 'views/KhachHang/LienHe.php';
+    }
+    function guiLienHe(){
+        if(isset($_POST['submit'])){
+            $hoten = $_POST['hoten'];
+            $email = $_POST['email'];
+            $noidung = $_POST['noidung'];
+            $khmodel = new KhachHangModel();
+            if($khmodel->insert("tb_cauhoi", ['hoten', 'email', 'noidung'], [$hoten, $email, $noidung])){
+                $_SESSION['success'] = "Câu hỏi của bạn đã được gửi đi!";
+                header("location: index.php?controller=KhachHang&action=LienHe");
+            }else{
+                $_SESSION['error'] = "Câu hỏi của bạn chưa được gửi đi!";
+                header("location: index.php?controller=KhachHang&action=LienHe");
+            }
+        }else{
+            header("location: index.php");
+        }
     }
     function MuaHang(){
         if (isset($_COOKIE['myCart'])) {
@@ -793,17 +870,28 @@ class KhachHangController{
             header("location: index.php");
         }
     }
+    function checkMGG(){
+
+    }
     function HuyDonHang(){
         if(isset($_SESSION['LoginOK'])){
             if(isset($_GET["id_donhang"])){
                 $id_donhang = $_GET['id_donhang'];
-                    $khmodel = new KhachHangModel();
-                    $donhang = $khmodel->get("tb_donhang", ['id_donhang'], [$id_donhang], ['and']);
+                $khmodel = new KhachHangModel();
+                $donhang = $khmodel->get("tb_donhang", ['id_donhang'], [$id_donhang], ['and']);
                 if(count($donhang) > 0){
                     if($donhang[0]['trangthaidonhang'] == 0 && $donhang[0]['trangthaithanhtoan'] == 0 && $donhang[0]['trangthaivanchuyen'] == 0){
-                        if($khmodel->update("tb_donhang", ['trangthaidonhang'], [3], ['id_donhang'], [$id_donhang], ['and'])){
+                        $donhang_sanpham = $khmodel->getDonHangSanPham($id_donhang);
+                        if($khmodel->update("tb_donhang", ['trangthaidonhang', 'id_nguoiquanly'], [3, null], ['id_donhang'], [$id_donhang], ['and'])){
                             $donhang = $donhang[0];
                             $donhang_sanpham = $khmodel->getDonHangSanPham($id_donhang);
+                            foreach($donhang_sanpham as $item){
+                                if($item['magiamgia'] != ''){
+                                    if($khmodel->checkMGG($item['magiamgia'])){
+                                        $khmodel->updateUseCoupon($item['magiamgia']);
+                                    }
+                                }
+                            }
                             $soluongsanpham = array_reduce($donhang_sanpham, function($carry, $item) { return $carry + $item['soluong']; }, 0);
                             $tongtien = array_reduce($donhang_sanpham, function($carry, $item) { return $carry + $item['soluong']*$item['dongia']; }, 0);
                             $tongtien_dagiamgia = $donhang['tongtien'];
@@ -822,8 +910,48 @@ class KhachHangController{
                             $_SESSION['error'] = "Hủy đơn hàng ".$id_donhang." không thành công!";
                             header("location: index.php?controller=KhachHang&action=ChiTietDonHang&id_donhang=$id_donhang");
                         }
+                    }else{
+                        $_SESSION['error'] = "Hủy đơn hàng ".$id_donhang." không thành công!";
+                        header("location: index.php?controller=KhachHang&action=ChiTietDonHang&id_donhang=$id_donhang");
                     }
+                }else{
+                    header("location: index.php?controller=KhachHang");
                 }
+            }else{
+                header("location: index.php?controller=KhachHang");
+            }
+        }else{
+            header("location: index.php");
+        }
+    }
+    function DangKyNhanTin(){
+        if(isset($_POST["email"])){
+            $hoten = $_POST["hoten"];
+            $email = $_POST["email"];
+            $khmodel = new KhachHangModel();
+            if(count($khmodel->get("tb_dangkynhantin", ['email'], [$email], ['and'])) == 0){
+                if($khmodel->insert("tb_dangkynhantin", ['hoten', 'email'], [$hoten, $email])){
+                    header("location: index.php?controller=KhachHang&action=success");
+                }else{
+                    header("location: index.php?controller=error");
+                }
+            }else{
+                header("location: index.php?controller=error");
+            }
+        }else{
+            header("location: index.php");
+        }
+    }
+    function success(){
+        require_once 'views/template/success.php';
+    }
+    function checkEmailNhanTin(){
+        if(isset($_POST['data'])){
+            $khmodel = new KhachHangModel();
+            if($khmodel->check("tb_dangkynhantin", "email", $_POST['data'])){
+                echo 1;
+            }else{
+                echo 0;
             }
         }else{
             header("location: index.php");

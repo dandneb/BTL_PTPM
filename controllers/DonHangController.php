@@ -8,6 +8,10 @@ require_once 'models/DonHangModel.php';
 require_once 'models/KhachHangModel.php';
 require_once("send_email.php");
 class DonHangController{
+    private $id_nguoiquanly;
+    function __construct(){
+        $this->id_nguoiquanly = explode("_", $_SESSION['LoginOK'])[1];
+    }
     function index(){
         require_once 'views/Admin/DonHangManagement/index.php';
     }
@@ -54,10 +58,11 @@ class DonHangController{
             $DHModel = new DonHangModel();
             $id_donhang = $_GET['id_donhang'];
             $donhang = $DHModel->get("tb_donhang", ['id_donhang'], [$id_donhang], ['and']);
+            //die(print_r($this->id_nguoiquanly));
             if(count($donhang) > 0){
-                if($DHModel->update("tb_donhang", ['trangthaidonhang'], [1], ['id_donhang'], [$id_donhang], ['and'])){
+                if($DHModel->update("tb_donhang", ['trangthaidonhang', 'id_nguoiquanly'], [1, $this->id_nguoiquanly], ['id_donhang'], [$id_donhang], ['and'])){
                     if($donhang[0]['id_phuongthucthanhtoan'] != 9){
-                        if($DHModel->update("tb_donhang", ['trangthaithanhtoan'], [1], ['id_donhang'], [$id_donhang], ['and'])){
+                        if($DHModel->update("tb_donhang", ['trangthaithanhtoan'], [1], ['id_donhang', ], [$id_donhang], ['and'])){
                             $_SESSION['success'] = "Phê duyệt đơn hàng ".$id_donhang." thành công!";
                             header("location: index.php?controller=DonHang");
                         }else{
@@ -85,7 +90,7 @@ class DonHangController{
             $id_donhang = $_GET['id_donhang'];
             $donhang = $DHModel->get("tb_donhang", ['id_donhang'], [$id_donhang], ['and']);
             if(count($donhang) > 0){
-                if($DHModel->update("tb_donhang", ['trangthaidonhang'], [0], ['id_donhang'], [$id_donhang], ['and'])){
+                if($DHModel->update("tb_donhang", ['trangthaidonhang', 'id_nguoiquanly'], [0, $this->id_nguoiquanly], ['id_donhang'], [$id_donhang], ['and'])){
                     if($donhang[0]['id_phuongthucthanhtoan'] != 9){
                         if($DHModel->update("tb_donhang", ['trangthaithanhtoan'], [0], ['id_donhang'], [$id_donhang], ['and'])){
                             $_SESSION['success'] = "Bỏ phê duyệt đơn hàng ".$id_donhang." thành công!";
@@ -117,9 +122,14 @@ class DonHangController{
             $trangthaithanhtoan = $_POST['trangthaithanhtoan'];
             $donhang = $DHModel->get("tb_donhang", ['id_donhang'], [$id_donhang], ['and']);
             if(count($donhang) > 0){
-                if($DHModel->update("tb_donhang", ['trangthaithanhtoan'], [$trangthaithanhtoan], ['id_donhang'], [$id_donhang], ['and'])){
-                    $_SESSION['success'] = "Chuyển trạng thái thanh toán cho đơn hàng ".$id_donhang." thành công!";
-                    header("location: index.php?controller=DonHang");
+                if($DHModel->update("tb_donhang", ['trangthaithanhtoan', 'id_nguoiquanly'], [$trangthaithanhtoan, $this->id_nguoiquanly], ['id_donhang'], [$id_donhang], ['and'])){
+                    if($trangthaithanhtoan == 0){
+                        $_SESSION['success'] = "Chuyển trạng thái thanh toán cho đơn hàng ".$id_donhang." thành công!";
+                        header("location: index.php?controller=DonHang");
+                    }else{
+                        $_SESSION['success'] = "Chuyển trạng thái thanh toán cho đơn hàng ".$id_donhang." thành công, giờ hãy xác nhận vận chuyển đơn hàng!";
+                        header("location: index.php?controller=DonHang&action=updateVanChuyenDonHang&id_donhang=$id_donhang");
+                    }
                 }else{
                     $_SESSION['error'] = "Chuyển trạng thái thanh toán cho đơn hàng ".$id_donhang." thất bại!";
                     header("location: index.php?controller=DonHang");
@@ -161,7 +171,7 @@ class DonHangController{
             $donhang = $DHModel->get("tb_donhang", ['id_donhang'], [$id_donhang], ['and']);
             if(count($donhang) > 0){
                 if($trangthaivanchuyen < 2){
-                    if($DHModel->update("tb_donhang", ['trangthaivanchuyen'], [$trangthaivanchuyen], ['id_donhang'], [$id_donhang], ['and'])){
+                    if($DHModel->update("tb_donhang", ['trangthaivanchuyen', 'id_nguoiquanly'], [$trangthaivanchuyen, $this->id_nguoiquanly], ['id_donhang'], [$id_donhang], ['and'])){
                         $_SESSION['success'] = "Chuyển trạng thái vận chuyển cho đơn hàng ".$id_donhang." thành công!";
                         header("location: index.php?controller=DonHang");
                     }else{
@@ -169,7 +179,7 @@ class DonHangController{
                         header("location: index.php?controller=DonHang");
                     }
                 }else if($trangthaivanchuyen == 2){
-                    if($DHModel->update("tb_donhang", ['trangthaivanchuyen'], [$trangthaivanchuyen], ['id_donhang'], [$id_donhang], ['and'])){
+                    if($DHModel->update("tb_donhang", ['trangthaivanchuyen', 'id_nguoiquanly'], [$trangthaivanchuyen, $this->id_nguoiquanly], ['id_donhang'], [$id_donhang], ['and'])){
                         if($DHModel->update("tb_donhang", ['trangthaidonhang'], [2], ['id_donhang'], [$id_donhang], ['and'])){
                             $_SESSION['success'] = "Chuyển trạng thái vận chuyển và hoàn tất cho đơn hàng ".$id_donhang." thành công!";
                             header("location: index.php?controller=DonHang");
@@ -202,9 +212,16 @@ class DonHangController{
                     $_SESSION['error'] = "Không thể hủy đơn do đơn ".$id_donhang." đã thực hiện thành công!";
                     header("location: index.php?controller=DonHang");
                 }else{
-                    if($DHModel->update('tb_donhang', ['trangthaidonhang', 'trangthaivanchuyen', 'trangthaithanhtoan'], [3, 0, 0], ['id_donhang'], [$id_donhang], ['and'])){
+                    if($DHModel->update('tb_donhang', ['trangthaidonhang', 'trangthaivanchuyen', 'trangthaithanhtoan', 'id_nguoiquanly'], [3, 0, 0, $this->id_nguoiquanly], ['id_donhang'], [$id_donhang], ['and'])){
                         $donhang = $donhang[0];
                         $donhang_sanpham = $khmodel->getDonHangSanPham($id_donhang);
+                        foreach($donhang_sanpham as $item){
+                            if($item['magiamgia'] != ''){
+                                if($khmodel->checkMGG($item['magiamgia'])){
+                                    $khmodel->updateUseCoupon($item['magiamgia']);
+                                }
+                            }
+                        }
                         $soluongsanpham = array_reduce($donhang_sanpham, function($carry, $item) { return $carry + $item['soluong']; }, 0);
                         $tongtien = array_reduce($donhang_sanpham, function($carry, $item) { return $carry + $item['soluong']*$item['dongia']; }, 0);
                         $tongtien_dagiamgia = $donhang['tongtien'];
@@ -213,7 +230,7 @@ class DonHangController{
                             $email = $donhang['email'];
                             $subject = "[PARFUMERIE] Đơn hàng ".$id_donhang." của bạn đã được hủy trên hệ thống.";
                             ob_start();
-                            include 'views/KhachHang//Mailer_HuyDon.php';
+                            include 'views/KhachHang/Mailer_HuyDon.php';
                             $message = ob_get_clean();
                             sendemailforAccount($email, $subject, $message);
                         }

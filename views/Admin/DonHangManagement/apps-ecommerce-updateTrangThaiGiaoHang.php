@@ -49,7 +49,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                                 <option value="1">Đang vận chuyển</option>
                                 <?php
                                 }
-                                if($donhang[0]['trangthaivanchuyen'] != 2){
+                                if($donhang[0]['trangthaivanchuyen'] != 2 && $donhang[0]['trangthaithanhtoan'] == 1){
                                 ?>
                                 <option value="2">Đã giao hàng</option>
                                 <?php

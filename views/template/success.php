@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Error | Không tìm thấy trang yêu cầu</title>
+    <title>Đăng ký nhận tin thành công</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
     <meta content="Coderthemes" name="author">
     <!-- App favicon -->
     <link rel="shortcut icon" href="../BTL_PTPM/views/Admin/assets/images/users/unnamed.jpg">
+
     <!-- third party css -->
     <link href="../BTL_PTPM/views/Admin/assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css">
     <!-- third party css end -->
@@ -30,7 +31,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">404 Error</h4>
+                        <h4 class="page-title">Đăng ký nhận tin thành công</h4>
                     </div>
                 </div>
             </div>     
@@ -39,11 +40,11 @@
             <div class="row justify-content-center">
                 <div class="col-lg-4">
                     <div class="text-center">
-                        <img src="views/Admin/assets/images/file-searching.svg" height="90" alt="File not found Image">
-
-                        <h1 class="text-error mt-4">404</h1>
-                        <h4 class="text-uppercase text-danger mt-3">KHÔNG TÌM THẤY TRANG YÊU CẦU</h4>
-                        <p class="text-muted mt-3">Trang bạn đang tìm kiếm có vẻ không tồn tại trên hệ thống!</p>
+                        <img src="views/Admin/assets/images/users/unnamed.jpg" height="90" alt="File not found Image">
+                        
+                        <h1 class="text-error mt-4">SUCCESS</h1>
+                        <h4 class="text-uppercase text-primary mt-3">Đăng ký nhận tin thành công</h4>
+                        <p class="text-muted mt-3">Cảm ơn bạn đã đăng ký nhận những tin tức về sản phẩm, khuyến mãi, bài viết,... và các chương trình khác trên hệ thống. Chúng tôi sẽ sớm liên hệ lại với bạn!</p>
 
                         <a class="btn btn-success mt-3" href="index.php"><i class="mdi mdi-reply"></i> Return Home</a>
                     </div> <!-- end /.text-center-->
@@ -59,7 +60,7 @@
                 <div class="col-md-6">
                     <script>
                         document.write(new Date().getFullYear())
-                    </script> © Hyper - Coderthemes.com
+                    </script> © Parfumerie - Parfumerie.vn
                 </div>
                 <div class="col-md-6">
                     <div class="text-md-end footer-links d-none d-md-block">

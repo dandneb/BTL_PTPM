@@ -11,9 +11,16 @@ class MaGiamGiaController{
     function index(){
         require_once 'views/Admin/MaGiamGiaManagement/index.php';
     }
+    function hetHan(){
+        require_once 'views/Admin/MaGiamGiaManagement/apps-ecommerce-mGGHetHan.php';
+    }
     function getMaGiamGia(){
         $MaGiamGiaModel = new MaGiamGiaModel();
         echo $MaGiamGiaModel->getALLMaGiamGia();
+    }
+    function getMGGHetHan(){
+        $MaGiamGiaModel = new MaGiamGiaModel();
+        echo $MaGiamGiaModel->getMGGHetHan();
     }
     function addMaGiamGia(){
         $error = "";

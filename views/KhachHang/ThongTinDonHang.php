@@ -61,7 +61,7 @@ require("views/template/header.php");
                     <?php
                     if ($donhang['trangthaidonhang'] == 0 && $donhang['trangthaithanhtoan'] == 0 && $donhang['trangthaivanchuyen'] == 0) {
                     ?>
-                    <a href="index.php?controller=KhachHang&action=HuyDonHang&id_donhang=<?php echo $donhang['id_donhang'] ?>" class="btn btn-danger">Hủy đơn hàng</a>
+                    <a onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')" href="index.php?controller=KhachHang&action=HuyDonHang&id_donhang=<?php echo $donhang['id_donhang'] ?>" class="btn btn-danger">Hủy đơn hàng</a>
                     <?php
                     }
                     ?>
@@ -84,12 +84,14 @@ require("views/template/header.php");
                     } else {
                         $ttvc = "Đã vận chuyển";
                     }
-                    if ($donhang['trangthaidonhang'] < 2) {
+                    if ($donhang['trangthaidonhang'] == 0) {
                         $ttdh = "Chưa xác nhận";
-                    } else if ($donhang['trangthaidonhang'] == 3) {
+                    } else if ($donhang['trangthaidonhang'] == 1) {
                         $ttdh = "Đã xác nhận";
-                    } else {
+                    } else if ($donhang['trangthaidonhang'] == 2){
                         $ttdh = "Hoàn tất";
+                    }else{
+                        $ttdh = "Đã hủy";
                     }
                     ?>
                     <div class="col-md-6">

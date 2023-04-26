@@ -1,15 +1,6 @@
 <?php
 require_once 'models/NuocHoaModel.php';
 class NuocHoaController{
-    function index(){
-        $nHModel = new NuocHoaModel();
-        $nuocHoaNam = $nHModel->getNuocHoaSanPham(0);
-        $nuocHoaNu = $nHModel->getNuocHoaSanPham(1);
-        $nuocHoaUnisex = $nHModel->getNuocHoaSanPham(2);
-        $th = $nHModel->get("tb_thuonghieu", ['status'], [0], ['and'], "order by ten_thuonghieu asc");
-        $kienthuc = $nHModel->getBaiVietTrangChu(0);
-        require_once 'views/NuocHoa/index.php';
-    }
 
     function getNuocHoa(){
         if(isset($_GET['filter']) && isset($_GET['name'])){
@@ -73,6 +64,15 @@ class NuocHoaController{
             header("location: index.php");
         }
     }
+    function index(){
+        $nHModel = new NuocHoaModel();
+        $nuocHoaNam = $nHModel->getNuocHoaSanPham(0);
+        $nuocHoaNu = $nHModel->getNuocHoaSanPham(1);
+        $nuocHoaUnisex = $nHModel->getNuocHoaSanPham(2);
+        $th = $nHModel->get("tb_thuonghieu", ['status'], [0], ['and'], "order by ten_thuonghieu asc");
+        $kienthuc = $nHModel->getBaiVietTrangChu(0);
+        require_once 'views/NuocHoa/index.php';
+    }
 
     function ThongTin(){
         if(isset($_GET['id_nuochoa'])){
@@ -107,13 +107,38 @@ class NuocHoaController{
                         $check = true;
                     }
                 }
-                //die(print_r($gia_ban[2]));
+                echo "<script>var id_nuochoa = '".$nuochoa['id_nuochoa']."'</script>";
+                echo '<script>var ten_nuochoa = "'.$nuochoa['ten_nuochoa'].'"</script>';
+                echo "<script>var xuatxu = '".$nuochoa['xuatxu']."'</script>";
+                echo "<script>var img_link = '".$anh[0]['img_link']."'</script>";
+                echo "<script>var gia = ".$gia_json."</script>";
+                echo "<script>var gia_ban = ".$gia_ban_json."</script>";
+                echo "<script>var so_luong = ".$so_luong_json."</script>";
                 require_once 'views/NuocHoa/ThongTin.php';
             }else{
                 header("location: index.php");
             }
+        }else{
+            header("location: index.php");
         }
-        
+    }
+    function getThongTinNuocHoa(){
+        if(isset($_POST["id_nuochoa"])){
+            $nHModel = new NuocHoaModel();
+            echo $nHModel->getNuocHoa($_POST["id_nuochoa"]);
+        }
+    }
+    function getAnhNuocHoa(){
+        if(isset($_POST["id_nuochoa"])){
+            $nHModel = new NuocHoaModel();
+            echo $nHModel->getAnhNuocHoa($_POST["id_nuochoa"]);
+        }
+    }
+    function getGiaNuocHoa(){
+        if(isset($_POST["id_nuochoa"])){
+            $nHModel = new NuocHoaModel();
+            echo $nHModel->getGiaNuocHoa($_POST["id_nuochoa"]);
+        }
     }
     function GioiThieu(){
         require_once 'views/NuocHoa/GioiThieu.php';

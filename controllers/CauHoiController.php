@@ -16,7 +16,23 @@ class CauHoiController{
         echo $cHModel->getCauHoiDangXuLy();
     }
     function deleteCauHoi(){
-
+        if(isset($_GET['id_cauhoi'])){
+            $cHModel = new CauHoiModel();
+            $id_cauhoi = $_GET['id_cauhoi'];
+            if(count($cHModel->get("tb_cauhoi", ['id_cauhoi'], [$id_cauhoi], ['and'])) > 0){
+                if($cHModel->delete("tb_cauhoi", ['id_cauhoi'], [$id_cauhoi], ['and'])){
+                    $_SESSION['success'] = "Xóa câu hỏi thành công!";
+                    header("location: index.php?controller=CauHoi");
+                }else{
+                    $_SESSION['error'] = "Xóa câu hỏi không thành công!";
+                    header("location: index.php?controller=CauHoi");
+                }
+            }else{
+                header("location: index.php?controller=CauHoi");
+            }
+        }else{
+            header("location: index.php?controller=NhanVien");
+        }
     }
     function HoanTat(){
         $cHModel = new CauHoiModel();

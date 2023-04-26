@@ -42,6 +42,42 @@ class NuocHoaModel extends Model{
         }
         echo json_encode(array("data" => $data));
     }
+    function getNuocHoa($id_nuochoa){
+        $dbh = $this->connectDb();
+        $sql = "SELECT t1.id_nuochoa, t1.ten_nuochoa, IF(t1.gioitinh = 0, 'Nam', IF(t1.gioitinh = 1, 'Nữ', 'Unisex')) as gioitinh, t2.ten_thuonghieu, t1.xuatxu, t1.mota
+        FROM `tb_nuochoa` t1
+        INNER JOIN `tb_thuonghieu` t2 on t1.id_thuonghieu = t2.id_thuonghieu and t2.status = 0
+        INNER JOIN `tb_nhacungcap` t3 on t1.id_nhacungcap = t3.id_nhacungcap and t3.status = 0
+        where t1.id_nuochoa = ? and t1.status = 0";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(1, $id_nuochoa);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        echo json_encode(array("data" => $data));
+    }
+
+    function getAnhNuocHoa($id_nuochoa){
+        $dbh = $this->connectDb();
+        $sql = "SELECT * FROM `tb_anhnuochoa` WHERE id_nuochoa = ? ORDER BY img_link ASC";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(1, $id_nuochoa);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        echo json_encode(array("data" => $data));
+    }
+
+    function getGiaNuocHoa($id_nuochoa){
+        $dbh = $this->connectDb();
+        $sql = "SELECT t1.dungtich, t1.soluong, t1.gia_ban FROM `tb_gianuochoa` t1 WHERE id_nuochoa = ? order by dungtich asc";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(1, $id_nuochoa);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        echo json_encode(array("data" => $data));
+    }
 
     function queryNuocHoa($query){
         $query = "%".$query."%";

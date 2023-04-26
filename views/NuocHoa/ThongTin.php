@@ -163,6 +163,7 @@ require("views/template/header.php");
                                 else if ($nuochoa['gioitinh'] == 1)  $gt = "Nữ";
                                 else    $gt = "Unisex";
                                 echo $gt;
+                                echo "<script>var gt = '".$gt."'</script>";
                                 ?>
                                 <?php
                                 if ($gia[0]['soluong'] == 0 || $gia[1]['soluong'] == 0 || $gia[2]['soluong'] == 0) echo "";
@@ -188,7 +189,7 @@ require("views/template/header.php");
                         <p class="p-14-bold">Dung tích</p>
                         <div class="d-flex">
                             <div class="swatch-element">
-                                <input id="swatch-2-chiet-10ml" type="radio" name="dungtich" value="<?php echo $gia[0]['dungtich'] ?>_<?php echo $gia[0]['gia_ban'] ?>" <?php echo $flags[0] ?> <?php echo ($gia[0]['soluong'] == 0) ? "" : "disabled" ?> class="bk-product-property">
+                                <input id="swatch-2-chiet-10ml" type="radio" name="dungtich" value="<?php echo $gia[0]['dungtich'] ?>_<?php echo $gia[0]['gia_ban'] ?>" <?php echo $flags[0] ?> <?php echo ($gia[0]['soluong'] == 0) ? "" : "disabled" ?> class="bk-product-property dungtich">
                                 <label class="border" for="swatch-2-chiet-10ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[0][0] ?>">
                                     CHIẾT 10ML
                                     <?php
@@ -198,7 +199,7 @@ require("views/template/header.php");
                                 </label>
                             </div>
                             <div class="swatch-element">
-                                <input id="swatch-2-chiet-20ml" type="radio" name="dungtich" value="<?php echo $gia[1]['dungtich'] ?>_<?php echo $gia[1]['gia_ban'] ?>" <?php echo $flags[1] ?> <?php echo ($gia[1]['soluong'] == 0) ? "" : "disabled" ?> class="bk-product-property">
+                                <input id="swatch-2-chiet-20ml" type="radio" name="dungtich" value="<?php echo $gia[1]['dungtich'] ?>_<?php echo $gia[1]['gia_ban'] ?>" <?php echo $flags[1] ?> <?php echo ($gia[1]['soluong'] == 0) ? "" : "disabled" ?> class="bk-product-property dungtich">
                                 <label class="border" for="swatch-2-chiet-20ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[1][0] ?>">
                                     CHIẾT 20ML
                                     <?php
@@ -208,7 +209,7 @@ require("views/template/header.php");
                                 </label>
                             </div>
                             <div class="swatch-element">
-                                <input id="swatch-2-fullbox-100ml" type="radio" name="dungtich" value="<?php echo $gia[2]['dungtich'] ?>_<?php echo $gia[2]['gia_ban'] ?>" <?php echo $flags[2] ?> <?php echo ($gia[2]['soluong'] == 0) ? "" : "disabled" ?> class="bk-product-property">
+                                <input id="swatch-2-fullbox-100ml" type="radio" name="dungtich" value="<?php echo $gia[2]['dungtich'] ?>_<?php echo $gia[2]['gia_ban'] ?>" <?php echo $flags[2] ?> <?php echo ($gia[2]['soluong'] == 0) ? "" : "disabled" ?> class="bk-product-property dungtich">
                                 <label class="border" for="swatch-2-fullbox-100ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[2][0] ?>">
                                     FULLBOX 100ML
                                     <?php
@@ -256,14 +257,41 @@ require("views/template/header.php");
                     }
                     ?>
                     <div class="container p-0 mt-4">
-                        <a href="index.php?controller=nuochoa&action=muahang" class="text-decoration-none text-dark border favorite-tt d-flex align-items-center">
-                            <span class="material-icons">
-                                favorite
-                            </span>
-                            <span class="favorite-content">
-                                THÊM VÀO YÊU THÍCH
-                            </span>
-                        </a>
+                        <?php
+                        if(isset($_SESSION['LoginOK'])){
+                        ?>
+                            <button value="<?php echo $nuochoa['id_nuochoa'] ?>" class="bg-white text-dark border favorite-tt d-flex align-items-center addYeuThich" data-bs-toggle="modal" data-bs-target="#addYeuThichSuccess" style="width:auto">
+                                <span class="material-icons">
+                                    favorite
+                                </span>
+                                <span class="favorite-content">
+                                    THÊM VÀO YÊU THÍCH
+                                </span>
+                            </button>
+                        <?php
+                        }else{
+                        ?>
+                            <a href="index.php?controller=khachhang&action=dangnhap&id_nuochoa=<?php echo $nuochoa['id_nuochoa'] ?>" class="text-decoration-none text-dark border favorite-tt d-flex align-items-center">
+                                <span class="material-icons">
+                                    favorite
+                                </span>
+                                <span class="favorite-content">
+                                    THÊM VÀO YÊU THÍCH
+                                </span>
+                            </a>
+                        <?php
+                        }
+                        ?>
+                    </div>
+                    <div class="modal fade" id="addYeuThichSuccess" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content rounded-0">
+                                <div class="modal-body border-0 text-center" style="background-color: black; color: white; opacity: 0.9;">
+                                    <img src="images/ticket/check.png" id="imgNoticedYeuThich" alt="" style="max-height: 40px; max-width: 40px; margin: 0px auto 25px; display: block;">
+                                    <p class="noticedYeuThich">Thêm vào sản phẩm yêu thích thành công!</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
 
@@ -624,222 +652,13 @@ require("views/template/header.php");
     </div>
 </main>
 <script src="js\splide.min.js" type="text/javascript"></script>
-<script src="js/thongtinsanpham.js" type="text/javascript"></script>
 <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/ad153db3f4.js"></script>
-
-<script>
-    $(document).ready(function() {
-        var gia = <?php echo $gia_json ?>;
-        var gia_ban = <?php echo $gia_ban_json; ?>;
-        var so_luong = <?php echo $so_luong_json; ?>;
-        var chiet = -1;
-        for(var i = 0; i < so_luong.length; i++){
-            if(so_luong[i] == 0){
-                chiet = i;
-                break;
-            }
-        }
-        $(window).on('load', function() {
-            $(".btn-xt").click(function() {
-                $(".paragraph-sp").css("height", "100%");
-                $(".btn-xemthem").css("display", "none");
-                $(".btn-rutgon").css("display", "block");
-            });
-            $(".btn-rg").click(function() {
-                $(".paragraph-sp").css("height", "700px");
-                $(".btn-xemthem").css("display", "block");
-                $(".btn-rutgon").css("display", "none");
-            });
-        });
-        $("#swatch-2-chiet-10ml").click(function() {
-            $(".price-information").text(gia_ban[0]);
-            chiet = 0;
-            $("#soluong").val(1);
-        })
-        $("#swatch-2-chiet-20ml").click(function() {
-            $(".price-information").text(gia_ban[1]);
-            chiet = 1;
-            $("#soluong").val(1);
-        })
-        $("#swatch-2-fullbox-100ml").click(function() {
-            $(".price-information").text(gia_ban[2]);
-            chiet = 2;
-            $("#soluong").val(1);
-        })
-        
-        $("#btn-addSoLuong").click(function() {
-            if (parseInt($("#soluong").val()) < 20 && so_luong[chiet] == 0) {
-                $("#soluong").val(parseInt($("#soluong").val()) + 1);
-            }
-        })
-        $("#btn-reduceSoLuong").click(function() {
-            if (parseInt($("#soluong").val()) > 1 && so_luong[chiet] == 0) {
-                $("#soluong").val(parseInt($("#soluong").val()) - 1);
-            }
-        })
-        $("#soluong").on("input", function(){
-            if(parseInt($(this).val()) > 0 && parseInt($(this).val()) <= 20){
-                $("#helpSoLuong").text("Số lượng sản phẩm hợp lệ").css("color", "green");
-            }else{
-                $("#helpSoLuong").text("Số lượng sản phẩm chưa hợp lệ (Tối đa 20 sản phẩm)").css("color", "red");
-            }
-        })
-        /*
-        $("#btn-muaNgay").click(function() {
-            if (document.cookie.indexOf("myCart") != -1) {
-                var myArrayCookie = document.cookie.replace(/(?:(?:^|.*;\s*)myCart\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-                var myArray = JSON.parse(myArrayCookie);
-                console.log(myArray);
-            }
-        })
-        */
-        $("#btn-addGioHang, #btn-muaNgay").click(function() {
-            var dungtichValue = $('input[name=dungtich]:checked').val().split("_");
-            if(parseInt($("#soluong").val()) > 0 && parseInt($("#soluong").val()) <= 20){
-                if (document.cookie.indexOf("myCart") != -1) {
-                    sp = {
-                    'id_nuochoa' : '<?php echo $nuochoa['id_nuochoa'] ?>',
-                    'ten_nuochoa' : "<?php echo $nuochoa['ten_nuochoa'] ?>",
-                    'gioitinh' : '<?php echo $gt ?>',
-                    'xuatxu' : '<?php echo $nuochoa['xuatxu'] ?>',
-                    'dungtich' : dungtichValue[0],
-                    'dongia' : dungtichValue[1],
-                    'soluong' : parseInt($("#soluong").val()),
-                    'img_link' : '<?php echo $anh[0]['img_link'] ?>',
-                    }
-                    var myArrayCookie = document.cookie.replace(/(?:(?:^|.*;\s*)myCart\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-                    var myArray = JSON.parse(myArrayCookie);
-                    console.log(myArray);
-                    var check = false;
-                    var checkSL = false;
-                    $("#helpSoLuong").text("Số lượng sản phẩm hợp lệ").css("color", "green");
-                    $(".noticedGioHang").text("Thêm vào giỏ hàng thành công!").css("color", "white");
-                    $("#imgNoticedGioHang").attr("src", "images/ticket/check.png");
-                    myArray.forEach(function(item) {
-                        if(item.id_nuochoa == sp.id_nuochoa && item.ten_nuochoa == sp.ten_nuochoa &&
-                        item.gioitinh == sp.gioitinh && item.xuatxu == sp.xuatxu && item.dungtich == sp.dungtich
-                        && item.dongia == sp.dongia && check == false){
-                            if(parseInt(item.soluong) <= 20 - parseInt(sp.soluong)){
-                                item.soluong = parseInt(item.soluong) + parseInt(sp.soluong);
-                                check = true;
-                            }else{
-                                checkSL = true;
-                                $("#helpSoLuong").text("Số lượng sản phẩm chưa hợp lệ (Tối đa 20 sản phẩm)").css("color", "red");
-                                $("#imgNoticedGioHang").attr("src", "images/ticket/169779.png");
-                                $(".noticedGioHang").text("Thêm vào giỏ hàng chưa thành công do số lượng sản phẩm chưa hợp lệ!").css("color", "red");
-                            }
-                        }
-                    })
-                    if(check==false && checkSL==false){
-                        myArray.push(sp);
-                        check = true;
-                    }
-                    var myArrayJSON = JSON.stringify(myArray);
-                    document.cookie = "myCart=" + myArrayJSON;
-                    tongSanPham = myArray.reduce((tong, arr) => tong + arr.soluong, 0);
-                    $(".numberOfCart").text(tongSanPham);
-                    $("#soluong").val(1);
-                }else{
-                    sp = [{
-                    'id_nuochoa' : '<?php echo $nuochoa['id_nuochoa'] ?>',
-                    'ten_nuochoa' : "<?php echo $nuochoa['ten_nuochoa'] ?>",
-                    'gioitinh' : '<?php echo $gt ?>',
-                    'xuatxu' : '<?php echo $nuochoa['xuatxu'] ?>',
-                    'dungtich' : dungtichValue[0],
-                    'dongia' : dungtichValue[1],
-                    'soluong' : parseInt($("#soluong").val()),
-                    'img_link' : '<?php echo $anh[0]['img_link'] ?>',
-                    }]
-                    var myArrayJSON = JSON.stringify(sp);
-                    document.cookie = "myCart=" + myArrayJSON;
-                    tongSanPham = sp.reduce((tong, arr) => tong + arr.soluong, 0);
-                    $(".numberOfCart").text(tongSanPham);
-                    $("#soluong").val(1);
-                }
-                if ($(this).attr("id") == "btn-muaNgay"){
-                    setTimeout(function() {
-                        window.location = "index.php?controller=KhachHang&action=MuaHang";
-                    }, 500);
-                }
-            }else{
-                $("#helpSoLuong").text("Số lượng sản phẩm chưa hợp lệ (Tối đa 20 sản phẩm)").css("color", "red");
-                $("#imgNoticedGioHang").attr("src", "images/ticket/169779.png");
-                $(".noticedGioHang").text("Thêm vào giỏ hàng chưa thành công do số lượng sản phẩm chưa hợp lệ!").css("color", "red");
-            }
-        })
-    });
-    $('#myCarousel').carousel({
-        interval: false
-    });
-    $('#carousel-thumbs').carousel({
-        interval: false
-    });
-
-    // handles the carousel thumbnails
-    // https://stackoverflow.com/questions/25752187/bootstrap-carousel-with-thumbnails-multiple-carousel
-    $('[id^=carousel-selector-]').click(function() {
-        var id_selector = $(this).attr('id');
-        var id = parseInt(id_selector.substr(id_selector.lastIndexOf('-') + 1));
-        $('#myCarousel').carousel(id);
-    });
-    // Only display 3 items in nav on mobile.
-    if ($(window).width() < 575) {
-        $('#carousel-thumbs .row div:nth-child(4)').each(function() {
-            var rowBoundary = $(this);
-            $('<div class="row mx-0">').insertAfter(rowBoundary.parent()).append(rowBoundary.nextAll().addBack());
-        });
-        $('#carousel-thumbs .carousel-item .row:nth-child(even)').each(function() {
-            var boundary = $(this);
-            $('<div class="carousel-item">').insertAfter(boundary.parent()).append(boundary.nextAll().addBack());
-        });
-    }
-    $(window).resize(function() {
-        var windowWidth = $(window).width();
-        if (windowWidth < 768) {
-            console.log("OK");
-            $('#carousel-selector-6').attr('id', 'carousel-selector-3');
-        } else {
-            $('#carousel-selector-3').attr('id', 'carousel-selector-6');
-        }
-    })
-    // Hide slide arrows if too few items.
-    if ($('#carousel-thumbs .carousel-item').length < 2) {
-        $('#carousel-thumbs [class^=carousel-control-]').remove();
-        $('.machine-carousel-container #carousel-thumbs').css('padding', '0 5px');
-    }
-    // when the carousel slides, auto update
-    $('#myCarousel').on('slide.bs.carousel', function(e) {
-        var id = parseInt($(e.relatedTarget).attr('data-slide-number'));
-        $('[id^=carousel-selector-]').removeClass('selected');
-        $('[id=carousel-selector-' + id + ']').addClass('selected');
-    });
-    // when user swipes, go next or previous
-    $('#myCarousel').swipe({
-        fallbackToMouseEvents: true,
-        swipeLeft: function(e) {
-            $('#myCarousel').carousel('next');
-        },
-        swipeRight: function(e) {
-            $('#myCarousel').carousel('prev');
-        },
-        allowPageScroll: 'vertical',
-        preventDefaultEvents: false,
-        threshold: 75
-    });
-    /*
-    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-      event.preventDefault();
-      $(this).ekkoLightbox();
-    });
-    */
-
-    $('#myCarousel .carousel-item img').on('click', function(e) {
-        var src = $(e.target).attr('data-remote');
-        if (src) $(this).ekkoLightbox();
-    });
+<script src="js/nuocHoa.js" type="text/javascript"></script>
+<script src="js/thongTinNuocHoa.js">
+    
 </script>
 <?php
 require("views/template/footer.php");

@@ -8,7 +8,8 @@ class DonHangModel extends Model{
     function getDonHang(){
         $dbh = $this->connectDb();
         $sql = "SELECT t1.id_donhang, t1.email, t1.hoten, t1.sodienthoai, t1.diachi, t1.tinhthanh, t1.quanhuyen, t1.phuongxa, t1.id_phuongthucthanhtoan, t1.trangthaidonhang, t1.trangthaithanhtoan, t1.trangthaivanchuyen, t1.ngaydathang, t1.khuyenmai, t1.tongtien, t1.diachikhac,
-        (SELECT sum(soluong) from tb_donhang_nuochoa t2 where t1.id_donhang = t2.id_donhang GROUP BY id_donhang) as soluong
+        (SELECT sum(soluong) from tb_donhang_nuochoa t2 where t1.id_donhang = t2.id_donhang GROUP BY id_donhang) as soluong,
+        IF(ISNULL(t1.id_nguoiquanly) = 1, 'Chưa có người quản lý', (SELECT hoten from tb_nguoidung t3 where t3.id_nguoidung = t1.id_nguoiquanly)) as nguoiquanly
         FROM `tb_donhang` t1 WHERE t1.trangthaidonhang < 2";
         $stmt = $dbh->prepare($sql);
         if($stmt->execute()){
@@ -19,7 +20,8 @@ class DonHangModel extends Model{
     function getDonHangHoanTat(){
         $dbh = $this->connectDb();
         $sql = "SELECT t1.id_donhang, t1.email, t1.hoten, t1.sodienthoai, t1.diachi, t1.tinhthanh, t1.quanhuyen, t1.phuongxa, t1.id_phuongthucthanhtoan, t1.trangthaidonhang, t1.ngaydathang, t1.khuyenmai, t1.tongtien, t1.diachikhac,
-        (SELECT sum(soluong) from tb_donhang_nuochoa t2 where t1.id_donhang = t2.id_donhang GROUP BY id_donhang) as soluong
+        (SELECT sum(soluong) from tb_donhang_nuochoa t2 where t1.id_donhang = t2.id_donhang GROUP BY id_donhang) as soluong,
+        (SELECT hoten from tb_nguoidung t3 where t3.id_nguoidung = t1.id_nguoiquanly) as nguoiquanly
         FROM `tb_donhang` t1 where t1.trangthaidonhang = 2";
         $stmt = $dbh->prepare($sql);
         if($stmt->execute()){
@@ -29,9 +31,10 @@ class DonHangModel extends Model{
     }
     function getDonHangDaHuy(){
         $dbh = $this->connectDb();
-        $sql = "SELECT t1.id_donhang, t1.email, t1.hoten, t1.sodienthoai, t1.diachi, t1.tinhthanh, t1.quanhuyen, t1.phuongxa, t1.id_phuongthucthanhtoan, t1.trangthaidonhang, t1.ngaydathang, t1.khuyenmai, t1.tongtien, t1.diachikhac,
-        (SELECT sum(soluong) from tb_donhang_nuochoa t2 where t1.id_donhang = t2.id_donhang GROUP BY id_donhang) as soluong
-        FROM `tb_donhang` t1 where t1.trangthaidonhang = 3";
+        $sql = "SELECT t1.id_donhang, t1.email, t1.hoten, t1.sodienthoai, t1.diachi, t1.tinhthanh, t1.quanhuyen, t1.phuongxa, t1.id_phuongthucthanhtoan, t1.trangthaidonhang, t1.ngaydathang, t1.khuyenmai, t1.tongtien, t1.diachikhac, 
+        IF(ISNULL(t1.id_nguoiquanly) = 1, 'Khách hàng đã hủy đơn', IF((SELECT capbac from tb_nguoidung t2 where t2.id_nguoidung = t1.id_nguoiquanly) = 2, 'Chủ cửa hàng đã hủy đơn', CONCAT('Nhân viên ', (SELECT hoten from tb_nguoidung t2 where t2.id_nguoidung = t1.id_nguoiquanly ), ' đã hủy đơn'))) as lydohuydon,
+                (SELECT sum(soluong) from tb_donhang_nuochoa t2 where t1.id_donhang = t2.id_donhang GROUP BY id_donhang) as soluong
+                FROM `tb_donhang` t1 where t1.trangthaidonhang = 3";
         $stmt = $dbh->prepare($sql);
         if($stmt->execute()){
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);

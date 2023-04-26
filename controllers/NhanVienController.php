@@ -12,6 +12,9 @@ class NhanVienController{
     function index(){
         require_once 'views/Admin/index.php';
     }
+    function sanPhamLock(){
+        require_once 'views/Admin/ProductManagement/apps-ecommerce-lockProducts.php';
+    }
     function analytics(){
         require_once 'views/Admin/dashboard-analytics.php';
     }
@@ -22,6 +25,10 @@ class NhanVienController{
     function getSanPham(){
         $NhanVienModel = new NhanVienModel();
         echo $NhanVienModel->getALLProducts();
+    }
+    function getSanPhamLock(){
+        $NhanVienModel = new NhanVienModel();
+        echo $NhanVienModel->getALLProductLock();
     }
     function addImage(){
         /*

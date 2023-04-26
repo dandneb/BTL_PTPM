@@ -1,19 +1,23 @@
 <?php
 require("views/template/header.php");
 ?>
+
 <head>
     <title>Trang chủ</title>
     <style>
-        @media (min-width: 992px){
-            .img-thongtin{
+        @media (min-width: 992px) {
+            .img-thongtin {
                 height: 149px;
                 width: auto;
                 object-fit: cover;
             }
         }
     </style>
+    <link rel="stylesheet" href="style\splide-core.min.css">
+    <link rel="stylesheet" href="style\splide.min.css">
+    <link rel="stylesheet" href="style\ThongTin.css">
 </head>
-<main style="margin-bottom: 100px">
+<main style="margin-bottom: 100px" class="main-home">
     <a class="swiper mySwiper" href="">
         <div class="swiper-wrapper">
             <div class="swiper-slide" data-swiper-autoplay="5000"><img src="images/carousel/slider_1.webp" class="d-block w-100" alt="..." style="width: 1106px;"></div>
@@ -36,68 +40,88 @@ require("views/template/header.php");
         <div class="row" style="width: 100%; margin: 0px">
             <div class="swiper slide-product1" style="background-color: #FFF">
                 <div class="swiper-wrapper">
-                
+
                     <?php
-                    for($i = 0; $i < count($nuocHoaNam)-1; $i+=2){
+                    for ($i = 0; $i < count($nuocHoaNam) - 1; $i += 2) {
                         $item1 = $nuocHoaNam[$i];
-                        $item2 = $nuocHoaNam[$i+1];
+                        $item2 = $nuocHoaNam[$i + 1];
                     ?>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 pduct">
-                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>">
-                                <img src="<?php echo $item1['img_link'] ?>" alt="" class="product-img">
-                            </a>
-                            <div class="card-body">
-                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item1['ten_nuochoa'] ?></p></a>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item1['id_nuochoa'])).' - '.
-                                        $nHModel->ps_price($nHModel->getPrice('max', $item1['id_nuochoa']));
-                                        ?>
+                        <div class="swiper-slide">
+                            <div class="card rounded-0 pduct">
+                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>">
+                                    <img src="<?php echo $item1['img_link'] ?>" alt="" class="product-img">
+                                </a>
+                                <div class="card-body">
+                                    <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>">
+                                        <p class="card-text p-14-bold title-product text-black"><?php echo $item1['ten_nuochoa'] ?></p>
+                                    </a>
+                                    <div class="vote">
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
                                     </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
+                                    <div>
+                                        <div class="product-price p-14-bold text-success">
+                                            <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item1['id_nuochoa'])) . ' - ' .
+                                                $nHModel->ps_price($nHModel->getPrice('max', $item1['id_nuochoa']));
+                                            ?>
+                                        </div>
+                                        <div class="product-menu hidden-menu">
+                                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>"><button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button></a>
+                                            <button class="btn-menu xemThongTin" value="<?php echo $item1['id_nuochoa'] ?>" data-bs-toggle="modal" data-bs-target="#thongTinSanPham"><i class="bi bi-eye text-success"></i></button>
+                                            <?php
+                                            if (isset($_SESSION['LoginOK'])) {
+                                            ?>
+                                                <button class="btn-menu addYeuThich" value="<?php echo $item1['id_nuochoa'] ?>" type="button" data-bs-toggle="modal" data-bs-target="#addYeuThichSuccess"><i class="bi bi-heart text-success"></i></button>
+                                            <?php
+                                            } else {
+                                                echo '<a href="index.php?controller=KhachHang&action=DangNhap&yeuthich="><button class="btn-menu"><i class="bi bi-heart text-success"></i></button></a>';
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card rounded-0 pduct">
+                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>">
+                                    <img src="<?php echo $item2['img_link'] ?>" alt="" class="product-img">
+                                </a>
+                                <div class="card-body">
+                                    <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>">
+                                        <p class="card-text p-14-bold title-product text-black"><?php echo $item2['ten_nuochoa'] ?></p>
+                                    </a>
+                                    <div class="vote">
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                    </div>
+                                    <div>
+                                        <div class="product-price p-14-bold text-success">
+                                            <?php
+                                            echo number_format($item1['min_gia'], 0, ",", ".") . " ₫ - " . number_format($item1['max_gia'], 0, ",", ".") . " ₫";
+                                            ?>
+                                        </div>
+                                        <div class="product-menu hidden-menu">
+                                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>"><button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button></a>
+                                            <button class="btn-menu xemThongTin" value="<?php echo $item2['id_nuochoa'] ?>" data-bs-toggle="modal" data-bs-target="#thongTinSanPham"><i class="bi bi-eye text-success"></i></button>
+                                            <?php
+                                            if (isset($_SESSION['LoginOK'])) {
+                                            ?>
+                                                <button class="btn-menu addYeuThich" value="<?php echo $item2['id_nuochoa'] ?>" type="button" data-bs-toggle="modal" data-bs-target="#addYeuThichSuccess"><i class="bi bi-heart text-success"></i></button>
+                                            <?php
+                                            } else {
+                                                echo '<a href="index.php?controller=KhachHang&action=DangNhap&yeuthich="><button class="btn-menu"><i class="bi bi-heart text-success"></i></button></a>';
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card rounded-0 pduct">
-                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>">
-                                <img src="<?php echo $item2['img_link'] ?>" alt="" class="product-img">
-                            </a>
-                            <div class="card-body">
-                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item2['ten_nuochoa'] ?></p></a>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        <?php
-                                            echo number_format($item1['min_gia'], 0, ",", ".") . " ₫ - ".number_format($item1['max_gia'], 0, ",", ".") . " ₫";
-                                        ?>
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <?php
                     }
                     ?>
@@ -116,7 +140,7 @@ require("views/template/header.php");
         <div class="row">
             <div class="d-flex justify-content-center">
                 <button type="button" class="btn_xemThem bg-success text-white border-0">
-                    <div class="d-flex justify-content-center"><i class="bi bi-arrow-right-square" style="margin-top: 3px;"></i><span class="ms-1">Xem tất cả</span></div>
+                    <a class="d-flex justify-content-center text-white" href="index.php?controller=nuochoa&action=sanpham&gioitinh=Nam"><i class="bi bi-arrow-right-square" style="margin-top: 3px;"></i><span class="ms-1">Xem tất cả</span></a>
                 </button>
             </div>
         </div>
@@ -136,18 +160,20 @@ require("views/template/header.php");
         <div class="row" style="width: 100%; margin: 0px">
             <div class="swiper slide-product2">
                 <div class="swiper-wrapper">
-                        <?php
-                        for($i = 0; $i < count($nuocHoaNu)-1; $i+=2){
-                            $item1 = $nuocHoaNu[$i];
-                            $item2 = $nuocHoaNu[$i+1];
-                        ?>
+                    <?php
+                    for ($i = 0; $i < count($nuocHoaNu) - 1; $i += 2) {
+                        $item1 = $nuocHoaNu[$i];
+                        $item2 = $nuocHoaNu[$i + 1];
+                    ?>
                         <div class="swiper-slide">
                             <div class="card rounded-0 pduct">
                                 <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>">
                                     <img src="<?php echo $item1['img_link'] ?>" alt="" class="product-img">
                                 </a>
                                 <div class="card-body">
-                                    <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item1['ten_nuochoa'] ?></p></a>
+                                    <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>">
+                                        <p class="card-text p-14-bold title-product text-black"><?php echo $item1['ten_nuochoa'] ?></p>
+                                    </a>
                                     <div class="vote">
                                         <i class="bi bi-star text-warning"></i>
                                         <i class="bi bi-star text-warning"></i>
@@ -158,13 +184,21 @@ require("views/template/header.php");
                                     <div>
                                         <div class="product-price p-14-bold text-success">
                                             <?php
-                                            echo number_format($item1['min_gia'], 0, ",", ".") . " ₫ - ".number_format($item1['max_gia'], 0, ",", ".") . " ₫";
+                                            echo number_format($item1['min_gia'], 0, ",", ".") . " ₫ - " . number_format($item1['max_gia'], 0, ",", ".") . " ₫";
                                             ?>
                                         </div>
                                         <div class="product-menu hidden-menu">
-                                            <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                            <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                            <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
+                                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>"><button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button></a>
+                                            <button class="btn-menu xemThongTin" value="<?php echo $item1['id_nuochoa'] ?>" data-bs-toggle="modal" data-bs-target="#thongTinSanPham"><i class="bi bi-eye text-success"></i></button>
+                                            <?php
+                                            if (isset($_SESSION['LoginOK'])) {
+                                            ?>
+                                                <button class="btn-menu addYeuThich" value="<?php echo $item1['id_nuochoa'] ?>" type="button" data-bs-toggle="modal" data-bs-target="#addYeuThichSuccess"><i class="bi bi-heart text-success"></i></button>
+                                            <?php
+                                            } else {
+                                                echo '<a href="index.php?controller=KhachHang&action=DangNhap&yeuthich="><button class="btn-menu"><i class="bi bi-heart text-success"></i></button></a>';
+                                            }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -174,7 +208,9 @@ require("views/template/header.php");
                                     <img src="<?php echo $item2['img_link'] ?>" alt="" class="product-img">
                                 </a>
                                 <div class="card-body">
-                                    <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item2['ten_nuochoa'] ?></p></a>
+                                    <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>">
+                                        <p class="card-text p-14-bold title-product text-black"><?php echo $item2['ten_nuochoa'] ?></p>
+                                    </a>
                                     <div class="vote">
                                         <i class="bi bi-star text-warning"></i>
                                         <i class="bi bi-star text-warning"></i>
@@ -184,22 +220,30 @@ require("views/template/header.php");
                                     </div>
                                     <div>
                                         <div class="product-price p-14-bold text-success">
-                                            <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item2['id_nuochoa'])).' - '.
-                                            $nHModel->ps_price($nHModel->getPrice('max', $item2['id_nuochoa']));
+                                            <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item2['id_nuochoa'])) . ' - ' .
+                                                $nHModel->ps_price($nHModel->getPrice('max', $item2['id_nuochoa']));
                                             ?>
                                         </div>
                                         <div class="product-menu hidden-menu">
-                                            <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                            <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                            <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
+                                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>"><button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button></a>
+                                            <button class="btn-menu xemThongTin" value="<?php echo $item2['id_nuochoa'] ?>" data-bs-toggle="modal" data-bs-target="#thongTinSanPham"><i class="bi bi-eye text-success"></i></button>
+                                            <?php
+                                            if (isset($_SESSION['LoginOK'])) {
+                                            ?>
+                                                <button class="btn-menu addYeuThich" value="<?php echo $item2['id_nuochoa'] ?>" type="button" data-bs-toggle="modal" data-bs-target="#addYeuThichSuccess"><i class="bi bi-heart text-success"></i></button>
+                                            <?php
+                                            } else {
+                                                echo '<a href="index.php?controller=KhachHang&action=DangNhap&yeuthich="><button class="btn-menu"><i class="bi bi-heart text-success"></i></button></a>';
+                                            }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <?php
-                        }
-                        ?>
+                    <?php
+                    }
+                    ?>
                 </div>
                 <div class="swiper-button-next next2"></div>
                 <div class="swiper-button-prev prev2"></div>
@@ -209,7 +253,7 @@ require("views/template/header.php");
         <div class="row">
             <div class="d-flex justify-content-center">
                 <button type="button" class="btn_xemThem bg-success text-white border-0">
-                    <div class="d-flex justify-content-center"><i class="bi bi-arrow-right-square" style="margin-top: 3px;"></i><span class="ms-1">Xem tất cả</span></div>
+                    <a class="d-flex justify-content-center text-white" href="index.php?controller=nuochoa&action=sanpham&gioitinh=Nu"><i class="bi bi-arrow-right-square" style="margin-top: 3px;"></i><span class="ms-1">Xem tất cả</span></a>
                 </button>
             </div>
         </div>
@@ -229,68 +273,88 @@ require("views/template/header.php");
         <div class="row" style="width: 100%; margin: 0px">
             <div class="swiper slide-product3">
                 <div class="swiper-wrapper">
-                    
+
                     <?php
-                    for($i = 0; $i < count($nuocHoaUnisex)-1; $i+=2){
+                    for ($i = 0; $i < count($nuocHoaUnisex) - 1; $i += 2) {
                         $item1 = $nuocHoaUnisex[$i];
-                        $item2 = $nuocHoaUnisex[$i+1];
+                        $item2 = $nuocHoaUnisex[$i + 1];
                     ?>
-                    <div class="swiper-slide">
-                        <div class="card rounded-0 pduct">
-                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>">
-                                <img src="<?php echo $item1['img_link'] ?>" alt="" class="product-img">
-                            </a>
-                            <div class="card-body">
-                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item1['ten_nuochoa'] ?></p></a>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        <?php
-                                            echo number_format($item1['min_gia'], 0, ",", ".") . " ₫ - ".number_format($item1['max_gia'], 0, ",", ".") . " ₫";
-                                        ?>
+                        <div class="swiper-slide">
+                            <div class="card rounded-0 pduct">
+                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>">
+                                    <img src="<?php echo $item1['img_link'] ?>" alt="" class="product-img">
+                                </a>
+                                <div class="card-body">
+                                    <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>">
+                                        <p class="card-text p-14-bold title-product text-black"><?php echo $item1['ten_nuochoa'] ?></p>
+                                    </a>
+                                    <div class="vote">
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
                                     </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
+                                    <div>
+                                        <div class="product-price p-14-bold text-success">
+                                            <?php
+                                            echo number_format($item1['min_gia'], 0, ",", ".") . " ₫ - " . number_format($item1['max_gia'], 0, ",", ".") . " ₫";
+                                            ?>
+                                        </div>
+                                        <div class="product-menu hidden-menu">
+                                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item1['id_nuochoa'] ?>"><button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button></a>
+                                            <button class="btn-menu xemThongTin" value="<?php echo $item1['id_nuochoa'] ?>" data-bs-toggle="modal" data-bs-target="#thongTinSanPham"><i class="bi bi-eye text-success"></i></button>
+                                            <?php
+                                            if (isset($_SESSION['LoginOK'])) {
+                                            ?>
+                                                <button class="btn-menu addYeuThich" value="<?php echo $item1['id_nuochoa'] ?>" type="button" data-bs-toggle="modal" data-bs-target="#addYeuThichSuccess"><i class="bi bi-heart text-success"></i></button>
+                                            <?php
+                                            } else {
+                                                echo '<a href="index.php?controller=KhachHang&action=DangNhap"><button class="btn-menu"><i class="bi bi-heart text-success"></i></button></a>';
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card rounded-0 pduct">
+                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>">
+                                    <img src="<?php echo $item2['img_link'] ?>" alt="" class="product-img">
+                                </a>
+                                <div class="card-body">
+                                    <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>">
+                                        <p class="card-text p-14-bold title-product text-black"><?php echo $item2['ten_nuochoa'] ?></p>
+                                    </a>
+                                    <div class="vote">
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                    </div>
+                                    <div>
+                                        <div class="product-price p-14-bold text-success">
+                                            <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item2['id_nuochoa'])) . ' - ' .
+                                                $nHModel->ps_price($nHModel->getPrice('max', $item2['id_nuochoa']));
+                                            ?>
+                                        </div>
+                                        <div class="product-menu hidden-menu">
+                                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>"><button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button></a>
+                                            <button class="btn-menu xemThongTin" value="<?php echo $item2['id_nuochoa'] ?>" data-bs-toggle="modal" data-bs-target="#thongTinSanPham"><i class="bi bi-eye text-success"></i></button>
+                                            <?php
+                                            if (isset($_SESSION['LoginOK'])) {
+                                            ?>
+                                                <button class="btn-menu addYeuThich" value="<?php echo $item2['id_nuochoa'] ?>" type="button" data-bs-toggle="modal" data-bs-target="#addYeuThichSuccess"><i class="bi bi-heart text-success"></i></button>
+                                            <?php
+                                            } else {
+                                                echo '<a href="index.php?controller=KhachHang&action=DangNhap&yeuthich="><button class="btn-menu"><i class="bi bi-heart text-success"></i></button></a>';
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card rounded-0 pduct">
-                            <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>">
-                                <img src="<?php echo $item2['img_link'] ?>" alt="" class="product-img">
-                            </a>
-                            <div class="card-body">
-                                <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=<?php echo $item2['id_nuochoa'] ?>"><p class="card-text p-14-bold title-product text-black"><?php echo $item2['ten_nuochoa'] ?></p></a>
-                                <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                                <div>
-                                    <div class="product-price p-14-bold text-success">
-                                        <?php echo $nHModel->ps_price($nHModel->getPrice('min', $item2['id_nuochoa'])).' - '.
-                                        $nHModel->ps_price($nHModel->getPrice('max', $item2['id_nuochoa']));
-                                        ?>
-                                    </div>
-                                    <div class="product-menu hidden-menu">
-                                        <button class="btn-menu"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu"><i class="bi bi-heart text-success"></i></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <?php
                     }
                     ?>
@@ -303,7 +367,7 @@ require("views/template/header.php");
         <div class="row">
             <div class="d-flex justify-content-center">
                 <button type="button" class="btn_xemThem bg-success text-white border-0">
-                    <div class="d-flex justify-content-center"><i class="bi bi-arrow-right-square" style="margin-top: 3px;"></i><span class="ms-1">Xem tất cả</span></div>
+                    <a class="d-flex justify-content-center text-white" href="index.php?controller=nuochoa&action=sanpham&gioitinh=Unisex"><i class="bi bi-arrow-right-square" style="margin-top: 3px;"></i><span class="ms-1">Xem tất cả</span></a>
                 </button>
             </div>
         </div>
@@ -317,25 +381,25 @@ require("views/template/header.php");
                 <div class="slide-content1">
                     <div class="card-wrapper swiper-wrapper">
                         <?php
-                        foreach($kienthuc as $item){
+                        foreach ($kienthuc as $item) {
                         ?>
-                        <a class="card-container swiper-slide text-decoration-none" href="index.php?controller=NuocHoa&action=BaiViet&id_baiviet=<?php echo $item['id_baiviet_blog'] ?>" style="text-align:start; color: black;" href="">
-                            <div class="image-content">
-                                <span class="overlay"></span>
-                                <div class="card-image">
-                                    <img src="<?php echo $item['img_link'] ?>" alt="" class="card-img img-thongtin" style="width: auto; height: 149px;">
+                            <a class="card-container swiper-slide text-decoration-none" href="index.php?controller=NuocHoa&action=BaiViet&id_baiviet=<?php echo $item['id_baiviet_blog'] ?>" style="text-align:start; color: black;" href="">
+                                <div class="image-content">
+                                    <span class="overlay"></span>
+                                    <div class="card-image">
+                                        <img src="<?php echo $item['img_link'] ?>" alt="" class="card-img img-thongtin" style="width: auto; height: 149px;">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-content d-flex flex-column justify-content-start mt-2">
-                                <p class="card-title p-14-bold"><?php echo $item['tieude'] ?></p>
-                                <?php
-                                $timestamp = strtotime($item['ngaydang']);
-                                $date = date("d/m/Y", $timestamp);
-                                ?>
-                                <span class="card-time p-12 ms-0 me-0 mt-2" style="opacity:0.5;">Đăng bởi PARFUMERIEVN - <?php echo $date ?></span>
-                                <p class="p-12 mt-2" data-toggle="tooltip" title="<?php echo $item['mota'] ?>"><?php echo (strlen($item['mota']) > 92) ? substr($item['mota'], 0, 92) : $item['mota']?></p>
-                            </div>
-                        </a>
+                                <div class="card-content d-flex flex-column justify-content-start mt-2">
+                                    <p class="card-title p-14-bold"><?php echo $item['tieude'] ?></p>
+                                    <?php
+                                    $timestamp = strtotime($item['ngaydang']);
+                                    $date = date("d/m/Y", $timestamp);
+                                    ?>
+                                    <span class="card-time p-12 ms-0 me-0 mt-2" style="opacity:0.5;">Đăng bởi PARFUMERIEVN - <?php echo $date ?></span>
+                                    <p class="p-12 mt-2" data-toggle="tooltip" title="<?php echo $item['mota'] ?>"><?php echo (strlen($item['mota']) > 92) ? substr($item['mota'], 0, 92) : $item['mota'] ?></p>
+                                </div>
+                            </a>
                         <?php
                         }
                         ?>
@@ -345,15 +409,167 @@ require("views/template/header.php");
                 <div class="swiper-button-prev prev4"></div>
                 <div class="swiper-pagination pagination4" style="bottom:-2px"></div>
             </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addYeuThichSuccess" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-0">
+                <div class="modal-body border-0 text-center" style="background-color: black; color: white; opacity: 0.9;">
+                    <img src="images/ticket/check.png" id="imgNoticedYeuThich" alt="" style="max-height: 40px; max-width: 40px; margin: 0px auto 25px; display: block;">
+                    <p class="noticedYeuThich">Thêm vào sản phẩm yêu thích thành công!</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="thongTinSanPham" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="noticed" style="display: none;">
+                            <img src="images/ticket/check.png" id="imgNoticedGioHang" alt="" style="max-height: 16px; max-width: 16px; display: block; margin-right: 10px">
+                        </div>
+                        <div class="noticed" style="display: none;">
+                            <span class="noticedGioHang p-16-bold mb-0"></span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body row">
+                    <div class="col-md-6">
+                        <div class="container">
+                            <div class="carousel-container position-relative row">
+                                <!-- Sorry! Lightbox doesn't work - yet. -->
+                                <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+                                    <div class="carousel-inner img-main">
+                                        
+                                    </div>
+                                </div>
+
+                                <!-- Carousel Navigation -->
+                                <div id="carousel-thumbs" class="carousel slide" data-ride="carousel" data-interval="false">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <div class="row mx-0 img-thumb-one">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item">
+                                            <div class="row mx-0 img-thumb-two">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#carousel-thumbs" role="button" data-slide="prev" style="transform: translateX(-39%);">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only text-black">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carousel-thumbs" role="button" data-slide="next" style="transform: translateX(39%);">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            <h2 class="title-head mb-1 ten_nuochoa" style="font-size: 18px;">AAA</h2>
+                            <p class="p-14 m-0">Tình trạng: <span class="p-14-bold tinhtrang"></span></p>
+                            <p class="p-14 m-0">Thương hiệu: <span class="p-14-bold ten_thuonghieu"></span></p>
+                            <p class="p-14 m-0 mb-2">Loại sản phẩm: <span class="p-14-bold loaisanpham"></span></p>
+                        </div>
+                        <div class="border-bottom border-top">
+                            <p class="price-information mt-2 mb-2 gia_ban"></p>
+                        </div>
+                        <div class="mt-2">
+                            <span class="mota" style="font-family:Trebuchet MS,Helvetica,sans-serif; color:#42495B"></span>
+                        </div>
+                        <div>
+                            <div class="swatch">
+                                <p class="p-14-bold">Giới tính</p>
+                                <div class="swatch-element">
+                                    <input id="swatch-0-nam" type="radio" name="option-0" class="bk-product-property">
+                                    <label class="border text-uppercase gioitinh" for="swatch-0-nam" style="position: relative;">
+                                        
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="swatch">
+                                <div class="swatch-element">
+                                    <p class="p-14-bold">Xuất xứ</p>
+                                    <input id="swatch-1-anh" type="radio" name="option-1" class="bk-product-property">
+                                    <label class="border text-uppercase xuatxu" for="swatch-1-anh" style="position: relative;">
+                                        
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="swatch" style="margin-top: 32px">
+                                <p class="p-14-bold">Dung tích</p>
+                                <div class="d-flex">
+                                    <div class="swatch-element">
+                                        <input id="swatch-2-chiet-10ml" type="radio" name="dungtich" class="bk-product-property dungtich">
+                                        <label class="border chiet-10ml" for="swatch-2-chiet-10ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[0][0] ?>">
+                                            
+                                        </label>
+                                    </div>
+                                    <div class="swatch-element">
+                                        <input id="swatch-2-chiet-20ml" type="radio" name="dungtich" class="bk-product-property dungtich">
+                                        <label class="border chiet-20ml" for="swatch-2-chiet-20ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[1][0] ?>">
+                                            
+                                        </label>
+                                    </div>
+                                    <div class="swatch-element">
+                                        <input id="swatch-2-fullbox-100ml" type="radio" name="dungtich" class="bk-product-property dungtich">
+                                        <label class="border chiet-100ml" for="swatch-2-fullbox-100ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[2][0] ?>">
+                                            
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="swatch gioHang">
+                                    <p class="p-14-bold swatch">Số lượng</p>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <button class="btn" id="btn-reduceSoLuong" type="button" style="border-radius: 0; background-color: unset !important; border: 1px solid #F1F1F1;">-</button>
+                                        </div>
+                                        <input type="text" class="form-control" id="soluong" name="soluong" aria-describedby="basic-addon1" style="flex:none; width: 50px; border-left: 0; border-right: 0;" value="1">
+                                        <div class="input-group-prepend">
+                                            <button class="btn" id="btn-addSoLuong" type="button" style="border-radius: 0; background-color: unset !important; border: 1px solid #F1F1F1;">+</button>
+                                        </div>
+                                    </div>
+                                    <span id="helpSoLuong" class="p-13"></span>
+                                    <div class="container p-0">
+                                        <button class="btn btn-success btn-lg btn-thongtin rounded-0 w-100" id="btn-addGioHang" type="button">
+                                            <span class="txt-main">THÊM VÀO GIỎ HÀNG</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="container p-0 mt-3 hethang">
+                                    <button class="btn btn-success btn-lg btn-thongtin rounded-0 d-flex flex-column justify-content-center align-items-center" disabled type="button">
+                                        <span class="txt-main text-uppercase">Hết hàng</span>
+                                        <span class="p-14">Liên hệ 0888070308</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </main>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script src="js\bootstrap.bundle.min.js"></script>
-<script src="js\nuocHoa.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/nuocHoa.js"></script>
+<script src="js/splide.min.js" type="text/javascript"></script>
+<script class="js-thongtin" src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+<script class="js-thongtin" src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
+<script class="js-thongtin" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"></script>
+<script class="js-thongtin" src="https://kit.fontawesome.com/ad153db3f4.js"></script>
+<!-- <script class="js-thongtin" src="js/thongTinNuocHoa.js"></script> -->
 <script>
-
     var name = ".slide-product";
     var swiper_pagination = ".pagination";
     var swiper_button_prev = ".prev";
@@ -367,8 +583,8 @@ require("views/template/header.php");
             loop: false,
             loopFillGroupWithBlank: true,
             navigation: {
-                nextEl: swiper_button_next+i,
-                prevEl: swiper_button_prev+i,
+                nextEl: swiper_button_next + i,
+                prevEl: swiper_button_prev + i,
             },
             breakpoints: {
                 0: {

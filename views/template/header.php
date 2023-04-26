@@ -100,7 +100,7 @@ if (isset($_SESSION['LoginOK'])) {
                             <a class="p-13 m-0 text-black">Danh mục</a>
                         </div>
                         <div style="background-color:white" class="p-2 border-bottom">
-                            <a class="p-14 m-0 text-black">Trang chủ</a>
+                            <a class="p-14 m-0 text-black" href="index.php">Trang chủ</a>
                         </div>
                         <div style="background-color:white" class="p-2 border-bottom">
                             <a class="p-14 m-0 text-black">Giới thiệu</a>
@@ -141,16 +141,16 @@ if (isset($_SESSION['LoginOK'])) {
                             
                         </div>
                         <div style="background-color:white" class="p-2 border-bottom">
-                            <a class="p-14 m-0 text-black">Kiến thức</a>
+                            <a class="p-14 m-0 text-black" href="index.php?controller=NuocHoa&action=KienThuc">Kiến thức</a>
                         </div>
                         <div style="background-color:white" class="p-2 border-bottom">
-                            <a class="p-14 m-0 text-black">Blog</a>
+                            <a class="p-14 m-0 text-black" href="index.php?controller=NuocHoa&action=Blog">Blog</a>
                         </div>
                         <div style="background-color:white" class="p-2 border-bottom">
-                            <a class="p-14 m-0 text-black">Liên hệ</a>
+                            <a class="p-14 m-0 text-black" href="index.php?controller=NuocHoa&action=LienHe">Liên hệ</a>
                         </div>
                         <div style="background-color:white" class="p-2 border-bottom">
-                            <a class="p-14 m-0 text-black">Đơn hàng</a>
+                            <a class="p-14 m-0 text-black" href="index.php?controller=NuocHoa&action=TimKiemDonHang">Đơn hàng</a>
                         </div>
                     </div>
                 </div>
@@ -197,7 +197,7 @@ if (isset($_SESSION['LoginOK'])) {
     </nav>
     <ul class="nav justify-content-center p-15-bold" style="background-color:#FFFFFF; position:relative">
         <li class="nav-item">
-            <a class="nav-link active text-dark" href="#">TRANG CHỦ</a>
+            <a class="nav-link active text-dark" href="index.php">TRANG CHỦ</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" href="index.php?controller=nuochoa&action=gioithieu">GIỚI THIỆU</a>

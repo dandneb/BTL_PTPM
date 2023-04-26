@@ -4,6 +4,13 @@ require("views/template/header.php");
 <head>
     <title>Danh sách sản phẩm</title>
     <link rel="stylesheet" href="style/pagination.css">
+    <style>
+        input:focus {
+            outline: none !important;
+            box-shadow: none !important;
+            border: var(--bs-border-width) solid var(--bs-border-color);
+        }
+    </style>
 </head>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
@@ -19,7 +26,7 @@ require("views/template/header.php");
     </div>
     <div class="container pb-3">
         <div class="row">
-            <div class="section-sp col-md-3 me-3 border p-0" style="max-height: 480px">
+            <div class="section-sp col-md-3 me-3 border p-0">
                 <div class="accordion" id="accordionPanelsStayOpenExample" style="padding: 10px;">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
@@ -34,9 +41,10 @@ require("views/template/header.php");
                                 ?>
                                 <div>
                                     <p class="p-14-bold">Thương hiệu</p>
-                                    <div class="input-group input-group-sm mt-2 mb-2">
-                                        <input type="text" class="form-control" id="search" name="search" placeholder="Tìm kiếm thương hiệu" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                    </div>
+                                    <form class="input-group input-group-sm mt-2 mb-2" role="search">
+                                        <input type="search" aria-label="Search" class="form-control" id="search" name="search" placeholder="Tìm kiếm thương hiệu" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                        <button type="button" class="btn btn-secondary" id="click-search"><span class="material-icons">search</span></button>
+                                    </form>
                                     <div class="trademark p-2">
                                         <?php
                                         for ($i = 0; $i < count($th); $i++) {

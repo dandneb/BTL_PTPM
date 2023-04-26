@@ -75,6 +75,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                                     <th>Trạng thái đơn hàng</th>
                                     <th>Trạng thái thanh toán</th>
                                     <th>Trạng thái vận chuyển</th>
+                                    <th>Quản lý</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -111,8 +112,12 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                 {"data":"sodienthoai"},
                 {"data":"diachi"},
                 {"data": "ngaydathang"},
-                {"data": "khuyenmai"},
-                {"data": "tongtien"},
+                {"data": "khuyenmai", "render": function(data, type, row){
+                    return parseInt(data).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                }},
+                {"data": "tongtien", "render": function(data, type, row){
+                    return parseInt(data).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                }},
                 {"data": "trangthaidonhang",
                 "render": function ( data, type, row ) {
                     if ( data == 0 ) {
@@ -141,6 +146,10 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                             return '<span class="badge bg-success">Đã giao</span>';
                     }
                 }},
+                {"data": "nguoiquanly",
+                "render": function ( data, type, row ) {
+                    return `<span class="badge bg-success">${data}</span>`;
+                }},
                 {
                     data: 'id_donhang',
                     targets: 5,
@@ -150,7 +159,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         }else{
                             a = (row.trangthaidonhang == 0) ? `<a onclick="return confirm('Bạn có chắc chắn muốn duyệt đơn hàng này?')" href="index.php?controller=DonHang&action=duyetDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Duyệt đơn hàng"><i class="mdi mdi-cash-check"></i></a>` : "";
                             b = (row.trangthaivanchuyen == 0 && row.trangthaithanhtoan == 0) ? `<a onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')" href="index.php?controller=DonHang&action=huyDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Hủy đơn hàng"><i class="uil uil-file-times-alt"></i></a>` : "";
-                            c = (row.trangthaidonhang == 1 && row.trangthaithanhtoan==1) ? `<a href="index.php?controller=DonHang&action=updateVanChuyenDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Cập nhật trạng thái giao hàng"><i class="mdi mdi-truck-delivery-outline"></i></a>` : "";
+                            c = (row.trangthaidonhang == 1) ? `<a href="index.php?controller=DonHang&action=updateVanChuyenDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Cập nhật trạng thái giao hàng"><i class="mdi mdi-truck-delivery-outline"></i></a>` : "";
                             d = `<a href="index.php?controller=DonHang&action=thongTinDonHang&id_donhang=${data}" class="action-icon" data-toggle="tooltip" data-placement="top" title="Xem thông tin đơn hàng"><i class="mdi mdi-eye-outline"></i></a>`;
                             return a+b+c+d;
                         }

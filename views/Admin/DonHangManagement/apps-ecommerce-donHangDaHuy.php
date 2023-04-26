@@ -109,13 +109,17 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                 {"data":"sodienthoai"},
                 {"data":"diachi"},
                 {"data": "ngaydathang"},
-                {"data": "khuyenmai"},
-                {"data": "tongtien"},
+                {"data": "khuyenmai", "render": function(data, type, row){
+                    return parseInt(data).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                }},
+                {"data": "tongtien", "render": function(data, type, row){
+                    return parseInt(data).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                }},
                 {"data": "trangthaidonhang",
                 "render": function ( data, type, row ) {
                     
-                    if ( data == 3 ) {
-                        return '<span class="badge bg-danger">Đã hủy</span>';
+                    if ( data == 3) {
+                        return `<span class="badge bg-danger">${row.lydohuydon}</span>`;
                     }
                 }},
                 {

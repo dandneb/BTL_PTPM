@@ -52,17 +52,32 @@ require("views/template/header.php");
             </div>
             <div class="col-md-8">
                 <h5>GỬI THÔNG TIN</h5>
-                <form class="row g-3 needs-validation" action="" method="POST" novalidate>
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <?php
+                            if(isset($_SESSION['success'])){
+                                echo '<span class="text-primary">'.$_SESSION['success'].'</span>';
+                                unset($_SESSION['success']);
+                            }
+                            else if(isset($_SESSION['error'])){
+                                echo '<span class="text-danger">'.$_SESSION['error'].'</span>';
+                                unset($_SESSION['error']);
+                            }
+                        ?>
+                    </div>
+                </div>
+                <form class="row g-3 needs-validation" action="index.php?controller=KhachHang&action=guiLienHe" method="POST" onsubmit="return validateForm()" novalidate>
                     <div class="col-md-6">
                         <label for="validationCustom01 p-14-bold" class="form-label">Họ tên<span style="color:red;">*</span></label>
-                        <input type="text" class="form-control" id="validationCustom01" required>
+                        <input type="text" class="form-control" name="hoten" id="validationCustom01" required>
                         <div class="invalid-feedback">
                             Vui lòng nhập họ và tên của bạn!
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label for="validationCustom02 p-14-bold" class="form-label">Email<span style="color:red;">*</span></label>
-                        <input type="text" class="form-control" id="validationCustom02" required>
+                        <input type="text" class="form-control" name="email" id="email" required>
+                        <span class="helpEmail p-12-bold"></span>
                         <div class="invalid-feedback">
                             Vui lòng nhập email của bạn!
                         </div>
@@ -70,12 +85,12 @@ require("views/template/header.php");
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label for="validationTextarea p-14-bold" class="form-label">Nội dung<span style="color:red;">*</span></label>
-                            <textarea class="form-control" id="validationTextarea" required></textarea>
+                            <textarea class="form-control" name="noidung" id="validationTextarea" required></textarea>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div>
-                            <button class="btn btn-success rounded-0" type="submit">GỬI TIN NHẮN</button>
+                            <button class="btn btn-success rounded-0" name="submit" type="submit">GỬI TIN NHẮN</button>
                         </div>
                     </div>
                 </form>
@@ -90,7 +105,7 @@ require("views/template/header.php");
         </div>
     </div>
 </main>
-    
+<script src="js/checkEmail.js"></script>
 <?php
 require("views/template/footer.php");
 ?>
