@@ -100,7 +100,7 @@ $(document).ready(function(){
                 var newArray = myArray.filter((item, index) => index != inx);
                 var myArrayJSON = JSON.stringify(newArray);
                 document.cookie = "myCart=" + myArrayJSON;
-                $(this).closest(".row-sp").html("");
+                $(this).closest(".row-sp").css('padding', '0').html("");
                 re_caculator(newArray);
                 if(newArray.length < 1){
                     $(".row-main-giohang").html(`

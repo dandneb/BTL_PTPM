@@ -42,6 +42,11 @@ require("views/template/header.php");
         <div class="row">
             <div class="col-md-12 mb-4">
                 <p class="p-14 text-end">Ngày đặt hàng: <?php echo date("d/m/Y", strtotime($donhang['ngaydathang'])); ?></p>
+                <?php
+                if($donhang['trangthaidonhang'] == 3){
+                    echo '<p class="p-14 text-end">Ngày hủy đơn: '.date("d/m/Y", strtotime($donhang['ngayhuy'])).'</p>';
+                }
+                ?>
                 <div class="row mb-2">
                     <div class="col-sm-12">
                         <?php

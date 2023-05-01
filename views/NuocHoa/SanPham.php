@@ -1,6 +1,7 @@
 <?php
 require("views/template/header.php");
 ?>
+
 <head>
     <title>Danh sách sản phẩm</title>
     <link rel="stylesheet" href="style/pagination.css">
@@ -11,6 +12,9 @@ require("views/template/header.php");
             border: var(--bs-border-width) solid var(--bs-border-color);
         }
     </style>
+    <link rel="stylesheet" href="style\splide-core.min.css">
+    <link rel="stylesheet" href="style\splide.min.css">
+    <link rel="stylesheet" href="style\ThongTin.css">
 </head>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
@@ -37,29 +41,29 @@ require("views/template/header.php");
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                             <div class="accordion-body">
                                 <?php
-                                if(isset($_GET['gioitinh']) || isset($_POST['query'])){
+                                if (isset($_GET['gioitinh']) || isset($_POST['query']) || isset($_GET['all'])) {
                                 ?>
-                                <div>
-                                    <p class="p-14-bold">Thương hiệu</p>
-                                    <form class="input-group input-group-sm mt-2 mb-2" role="search">
-                                        <input type="search" aria-label="Search" class="form-control" id="search" name="search" placeholder="Tìm kiếm thương hiệu" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                        <button type="button" class="btn btn-secondary" id="click-search"><span class="material-icons">search</span></button>
-                                    </form>
-                                    <div class="trademark p-2">
-                                        <?php
-                                        for ($i = 0; $i < count($th); $i++) {
-                                        ?>
-                                            <div class="form-check" style="height:35px">
-                                                <input class="form-check-input check-box-th" type="checkbox" value="<?php echo $th[$i]['id_thuonghieu'] ?>">
-                                                <label class="form-check-label p-15" style="opacity: 0.8;" for="flexCheckDefault">
-                                                    <?php echo $th[$i]['ten_thuonghieu'] ?>
-                                                </label>
-                                            </div>
-                                        <?php
-                                        }
-                                        ?>
+                                    <div>
+                                        <p class="p-14-bold">Thương hiệu</p>
+                                        <form class="input-group input-group-sm mt-2 mb-2" role="search">
+                                            <input type="search" aria-label="Search" class="form-control" id="search" name="search" placeholder="Tìm kiếm thương hiệu" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                            <button type="button" class="btn btn-secondary" id="click-search"><span class="material-icons">search</span></button>
+                                        </form>
+                                        <div class="trademark p-2">
+                                            <?php
+                                            for ($i = 0; $i < count($th); $i++) {
+                                            ?>
+                                                <div class="form-check" style="height:35px">
+                                                    <input class="form-check-input check-box-th" type="checkbox" value="<?php echo $th[$i]['id_thuonghieu'] ?>">
+                                                    <label class="form-check-label p-15" style="opacity: 0.8;" for="flexCheckDefault">
+                                                        <?php echo $th[$i]['ten_thuonghieu'] ?>
+                                                    </label>
+                                                </div>
+                                            <?php
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
-                                </div>
                                 <?php
                                 }
                                 ?>
@@ -105,14 +109,16 @@ require("views/template/header.php");
             <div class="list-product-sp col-md-8 border">
                 <div style="padding: 10px;">
                     <?php
-                    if($flags == 1){
+                    if ($flags == 1) {
                     ?>
-                    <h4>Nước hoa <?php echo $name_filter ?> chính hãng</h4>
+                        <h4>Nước hoa <?php echo $name_filter ?> chính hãng</h4>
                     <?php
-                    }else{
+                    } else if ($flags == 2) {
                     ?>
-                    <h4>Kết quả tìm kiếm cho '<?php echo $query ?>'</h4>
+                        <h4>Kết quả tìm kiếm cho '<?php echo $query ?>'</h4>
                     <?php
+                    } else {
+                        echo "<h4>Tất cả sản phẩm</h4>";
                     }
                     ?>
                     <span class="p-15-bold">Xếp theo: </span>
@@ -133,7 +139,7 @@ require("views/template/header.php");
                     <hr>
                     <div id="pagination-container"></div>
                     <div id="myList" class="container">
-                        
+
                     </div>
                 </div>
             </div>
@@ -332,6 +338,152 @@ require("views/template/header.php");
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="addYeuThichSuccess" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-0">
+                    <div class="modal-body border-0 text-center" style="background-color: black; color: white; opacity: 0.9;">
+                        <img src="images/ticket/check.png" id="imgNoticedYeuThich" alt="" style="max-height: 40px; max-width: 40px; margin: 0px auto 25px; display: block;">
+                        <p class="noticedYeuThich">Thêm vào sản phẩm yêu thích thành công!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="thongTinSanPham" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="noticed" style="display: none;">
+                                <img src="images/ticket/check.png" id="imgNoticedGioHang" alt="" style="max-height: 16px; max-width: 16px; display: block; margin-right: 10px">
+                            </div>
+                            <div class="noticed" style="display: none;">
+                                <span class="noticedGioHang p-16-bold mb-0"></span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body row">
+                        <div class="col-md-6">
+                            <div class="container">
+                                <div class="carousel-container position-relative row">
+                                    <!-- Sorry! Lightbox doesn't work - yet. -->
+                                    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+                                        <div class="carousel-inner img-main">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <!-- Carousel Navigation -->
+                                    <div id="carousel-thumbs" class="carousel slide" data-ride="carousel" data-interval="false">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <div class="row mx-0 img-thumb-one">
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="carousel-item">
+                                                <div class="row mx-0 img-thumb-two">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carousel-thumbs" role="button" data-slide="prev" style="transform: translateX(-39%);">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only text-black">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carousel-thumbs" role="button" data-slide="next" style="transform: translateX(39%);">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <h2 class="title-head mb-1 ten_nuochoa" style="font-size: 18px;">AAA</h2>
+                                <p class="p-14 m-0">Tình trạng: <span class="p-14-bold tinhtrang"></span></p>
+                                <p class="p-14 m-0">Thương hiệu: <span class="p-14-bold ten_thuonghieu"></span></p>
+                                <p class="p-14 m-0 mb-2">Loại sản phẩm: <span class="p-14-bold loaisanpham"></span></p>
+                            </div>
+                            <div class="border-bottom border-top">
+                                <p class="price-information mt-2 mb-2 gia_ban"></p>
+                            </div>
+                            <div class="mt-2">
+                                <span class="mota" style="font-family:Trebuchet MS,Helvetica,sans-serif; color:#42495B"></span>
+                            </div>
+                            <div>
+                                <div class="swatch">
+                                    <p class="p-14-bold">Giới tính</p>
+                                    <div class="swatch-element">
+                                        <input id="swatch-0-nam" type="radio" name="option-0" class="bk-product-property">
+                                        <label class="border text-uppercase gioitinh" for="swatch-0-nam" style="position: relative;">
+                                            
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="swatch">
+                                    <div class="swatch-element">
+                                        <p class="p-14-bold">Xuất xứ</p>
+                                        <input id="swatch-1-anh" type="radio" name="option-1" class="bk-product-property">
+                                        <label class="border text-uppercase xuatxu" for="swatch-1-anh" style="position: relative;">
+                                            
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="swatch" style="margin-top: 32px">
+                                    <p class="p-14-bold">Dung tích</p>
+                                    <div class="d-flex">
+                                        <div class="swatch-element">
+                                            <input id="swatch-2-chiet-10ml" type="radio" name="dungtich" class="bk-product-property dungtich">
+                                            <label class="border chiet-10ml" for="swatch-2-chiet-10ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[0][0] ?>">
+                                                
+                                            </label>
+                                        </div>
+                                        <div class="swatch-element">
+                                            <input id="swatch-2-chiet-20ml" type="radio" name="dungtich" class="bk-product-property dungtich">
+                                            <label class="border chiet-20ml" for="swatch-2-chiet-20ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[1][0] ?>">
+                                                
+                                            </label>
+                                        </div>
+                                        <div class="swatch-element">
+                                            <input id="swatch-2-fullbox-100ml" type="radio" name="dungtich" class="bk-product-property dungtich">
+                                            <label class="border chiet-100ml" for="swatch-2-fullbox-100ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[2][0] ?>">
+                                                
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="swatch gioHang">
+                                        <p class="p-14-bold swatch">Số lượng</p>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <button class="btn" id="btn-reduceSoLuong" type="button" style="border-radius: 0; background-color: unset !important; border: 1px solid #F1F1F1;">-</button>
+                                            </div>
+                                            <input type="text" class="form-control" id="soluong" name="soluong" aria-describedby="basic-addon1" style="flex:none; width: 50px; border-left: 0; border-right: 0;" value="1">
+                                            <div class="input-group-prepend">
+                                                <button class="btn" id="btn-addSoLuong" type="button" style="border-radius: 0; background-color: unset !important; border: 1px solid #F1F1F1;">+</button>
+                                            </div>
+                                        </div>
+                                        <span id="helpSoLuong" class="p-13"></span>
+                                        <div class="container p-0">
+                                            <button class="btn btn-success btn-lg btn-thongtin rounded-0 w-100" id="btn-addGioHang" type="button">
+                                                <span class="txt-main">THÊM VÀO GIỎ HÀNG</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="container p-0 mt-3 hethang">
+                                        <button class="btn btn-success btn-lg btn-thongtin rounded-0 d-flex flex-column justify-content-center align-items-center" disabled type="button">
+                                            <span class="txt-main text-uppercase">Hết hàng</span>
+                                            <span class="p-14">Liên hệ 0888070308</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 <script>
@@ -374,6 +526,7 @@ require("views/template/header.php");
 </script>
 <script src="js/pagination.js"></script>
 <script src="js/danhSachSanPham.js" id="danhSachSanPham"></script>
+<script src="js/nuocHoa.js" id="index-js"></script>
 <?php
 require("views/template/footer.php");
 ?>

@@ -35,7 +35,7 @@ $id_nguoidung = substr($randomString, 0, 11);
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="index.php">Parfumerie</a></li>
                         <li class="breadcrumb-item"><a href="index.php?controller=nhanvien">Quản lý cửa hàng</a></li>
-                        <li class="breadcrumb-item"><a href="index.php?controller=ThuongHieu">Thương hiệu</a></li>
+                        <li class="breadcrumb-item"><a href="index.php?controller=taikhoan">Danh sách tài khoản</a></li>
                         <li class="breadcrumb-item active">Thêm tài khoản</li>
                     </ol>
                 </div>
@@ -124,27 +124,6 @@ $id_nguoidung = substr($randomString, 0, 11);
 
 </div>
 <!-- content -->
-
-<!-- Footer Start -->
-<footer class="footer">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                <script>
-                    document.write(new Date().getFullYear())
-                </script> © Hyper - Coderthemes.com
-            </div>
-            <div class="col-md-6">
-                <div class="text-md-end footer-links d-none d-md-block">
-                    <a href="javascript: void(0);">About</a>
-                    <a href="javascript: void(0);">Support</a>
-                    <a href="javascript: void(0);">Contact Us</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-<!-- end Footer -->
 <?php
 require "views/Admin/templates/footer.php";
 ?>

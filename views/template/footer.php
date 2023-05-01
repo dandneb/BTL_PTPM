@@ -3,30 +3,30 @@
             <div class="row">
                 <div class="col-md-3 mt-4">
                     <p class="p-14-bold">VỀ PARFUMERIE</p>
-                    <span class="p-14">Trang chủ</span> <br>
-                    <span class="p-14">Giới thiệu</span> <br>
-                    <span class="p-14">Sản phẩm</span> <br>
-                    <span class="p-14">Liên hệ</span>
+                    <a href="index.php" class="text-white link-footer"><span class="p-14">Trang chủ</span></a> <br>
+                    <a href="index.php?controller=NuocHoa&action=GioiThieu" class="text-white link-footer"><span class="p-14">Giới thiệu</span></a> <br>
+                    <a href="index.php?controller=NuocHoa&action=SanPham&all=" class="text-white link-footer"><span class="p-14">Sản phẩm</span></a> <br>
+                    <a href="index.php?controller=KhachHang&action=LienHe" class="text-white link-footer"><span class="p-14">Liên hệ</span></a>
                 </div>
                 <div class="col-md-3 mt-4">
                     <p class="p-14-bold">HƯỚNG DẪN</p>
-                    <span class="p-14">Hướng dẫn mua hàng</span> <br>
-                    <span class="p-14">Hướng dẫn thanh toán</span> <br>
-                    <span class="p-14">Hướng dẫn giao nhận</span> <br>
-                    <span class="p-14">Điều khoản sử dụng</span>
+                    <a href="#" class="text-white link-footer"><span class="p-14">Hướng dẫn mua hàng</span></a> <br>
+                    <a href="#" class="text-white link-footer"><span class="p-14">Hướng dẫn thanh toán</span></a> <br>
+                    <a href="#" class="text-white link-footer"><span class="p-14">Hướng dẫn giao nhận</span></a> <br>
+                    <a href="#" class="text-white link-footer"><span class="p-14">Điều khoản sử dụng</span></a>
                 </div>
                 <div class="col-md-3 mt-4">
                     <p class="p-14-bold">CHÍNH SÁCH</p>
-                    <span class="p-14">Chính sách mua hàng</span> <br>
-                    <span class="p-14">Chính sách bảo mật thông tin</span> <br>
-                    <span class="p-14">Chính sách giao hàng</span> <br>
-                    <span class="p-14">Chính sách đổi trả - bảo hành</span>
+                    <a href="#" class="text-white link-footer"><span class="p-14">Chính sách mua hàng</span></a> <br>
+                    <a href="#" class="text-white link-footer"><span class="p-14">Chính sách bảo mật thông tin</span></a> <br>
+                    <a href="#" class="text-white link-footer"><span class="p-14">Chính sách giao hàng</span></a> <br>
+                    <a href="#" class="text-white link-footer"><span class="p-14">Chính sách đổi trả - bảo hành</span></a>
                 </div>
                 <div class="col-md-3 mt-4">
                     <p class="p-14-bold">HỖ TRỢ</p>
-                    <span class="p-14">Tìm kiếm</span> <br>
-                    <span class="p-14">Đăng nhập</span> <br>
-                    <span class="p-14">Đăng ký</span> <br>
+                    <a href="#" class="text-white link-footer"><span class="p-14">Tìm kiếm</span></a> <br>
+                    <a href="index.php?controller=KhachHang&action=DangNhap" class="text-white link-footer"><span class="p-14">Đăng nhập</span></a> <br>
+                    <a href="index.php?controller=KhachHang&action=DangKy" class="text-white link-footer"><span class="p-14">Đăng ký</span></a> <br>
                 </div>
             </div>
             <div class="row mt-4">

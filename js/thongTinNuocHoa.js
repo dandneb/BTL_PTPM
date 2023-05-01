@@ -142,6 +142,46 @@ $(document).ready(function() {
         }
     })
 });
+
+$(document).on('click', '.addYeuThich', function() {
+    var id_nuochoa = $(this).val();
+    var dungtich = 10;
+    if ($('input[type="radio"].dungtich').length > 0) {
+        var selectedValue = $('input[type="radio"].dungtich:checked').val();
+        if(selectedValue !== undefined){
+            dungtich = selectedValue.split("_")[0];
+        }
+    }
+    if(id_nuochoa!=""){
+        let form_datas = new FormData();
+        form_datas.append('id_nuochoa',id_nuochoa);
+        form_datas.append('dungtich',dungtich);
+        $.ajax({
+            url: 'index.php?controller=KhachHang&action=themSanPhamYeuThich',
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_datas,
+            type: 'post',
+            success: function(res) {
+                var data = res;
+                if(data == 0){
+                    $("#imgNoticedYeuThich").attr("src", "images/ticket/169779.png");
+                    $(".noticedYeuThich").text("Thêm vào sản phẩm yêu thích không thành công!").css("color", "red");
+                }else if(data == 1){
+                    $(".noticedYeuThich").text("Thêm vào sản phẩm yêu thích thành công!").css("color", "white");
+                    $("#imgNoticedYeuThich").attr("src", "images/ticket/check.png");
+                }else{
+                    $("#imgNoticedYeuThich").attr("src", "images/ticket/169779.png");
+                    $(".noticedYeuThich").text("Sản phẩm đã có trong danh sách yêu thích!").css("color", "red");
+                }
+            }
+        });
+        return false;
+    }
+})
+
 $('#myCarousel').carousel({
     interval: false
 });

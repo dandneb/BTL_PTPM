@@ -109,7 +109,6 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
 <!-- third party js ends -->
 
 <!-- demo app -->
-<script src="../BTL_PTPM/js/jquery-3.6.4.min.js"></script>
 <!-- third party js ends -->
 
 <!-- demo app -->

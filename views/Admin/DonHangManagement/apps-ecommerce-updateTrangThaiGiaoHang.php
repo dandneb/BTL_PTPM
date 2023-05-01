@@ -27,6 +27,20 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
             <div class="col-md-10 ms-auto me-auto">
                 <div style="color: warning" id="thong_bao">
                 </div>
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <?php
+                            if(isset($_SESSION['success'])){
+                                echo '<span class="text-success">'.$_SESSION['success'].'</span>';
+                                unset($_SESSION['success']);
+                            }
+                            else if(isset($_SESSION['error'])){
+                                echo '<span class="text-danger">'.$_SESSION['error'].'</span>';
+                                unset($_SESSION['error']);
+                            }
+                        ?>
+                    </div>
+                </div>
                 <a class="btn btn-danger mt-2 mb-2">Trạng thái hiện tại: <?php echo $tt ?></a>
                 <div class="row">
                     <form class="row" action="index.php?controller=DonHang&action=updateDelivery" method="POST">
@@ -72,26 +86,6 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
     </div>
     <!-- content -->
 
-    <!-- Footer Start -->
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6">
-                    <script>
-                        document.write(new Date().getFullYear())
-                    </script> © Hyper - Coderthemes.com
-                </div>
-                <div class="col-md-6">
-                    <div class="text-md-end footer-links d-none d-md-block">
-                        <a href="javascript: void(0);">About</a>
-                        <a href="javascript: void(0);">Support</a>
-                        <a href="javascript: void(0);">Contact Us</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- end Footer -->
 
     <?php
     require "views/Admin/templates/footer.php";

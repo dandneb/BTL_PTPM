@@ -69,7 +69,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         </div>
 
                         <div class="table-responsive">
-                            <table id="myTable" class="table table-centered w-100 dt-responsive nowrap display" id="products-datatable mt-2">
+                            <table id="alternative-page-datatable" class="table table-centered w-100 nowrap w-100 dt-responsive nowrap display" id="products-datatable mt-2">
                                 <thead class="table-light">
                                     <tr>
                                         <th class="all">Sản phẩm</th>
@@ -207,7 +207,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     </div>
                     <div class="col-md-12 d-flex justify-content-center mt-2">
                         <div>
-                            <a class="btn btn-success btn-lg btn-thongtin rounded-0" id="btn-addGioHang" type="button">
+                            <a class="btn btn-success btn-lg btn-thongtin rounded-0" id="xemChiTiet" href="">
                                 <span class="txt-main">XEM CHI TIẾT</span>
                             </a>
                         </div>
@@ -224,7 +224,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
     <script src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/date-1.4.0/fc-4.2.2/fh-3.3.2/r-2.4.1/rg-1.3.1/sc-2.1.1/sb-1.4.2/sl-1.6.2/datatables.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#myTable').DataTable({
+            $('#alternative-page-datatable').DataTable({
                 dom: 'Blfrtip',
                 select: true,
                 lengthMenu: [10, 15, 25, 50, 75, 100],
@@ -329,6 +329,9 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         }
                     },
                 ],
+                "language": {
+                    "url": '//cdn.datatables.net/plug-ins/1.10.25/i18n/Vietnamese.json',
+                },
             });
         });
     </script>
@@ -337,6 +340,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/ad153db3f4.js"></script>
     <script src="js/nuocHoa.js"></script>
+    <script src="js/admin.js"></script>
 <?php
 } else {
     header("location: index.php");

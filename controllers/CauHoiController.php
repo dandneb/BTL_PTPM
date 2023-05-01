@@ -2,6 +2,9 @@
 if(!isset($_SESSION)) {
     session_start();
 }
+require 'vendor/autoload.php';
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['LoginOK'][0] == "2") {
     $ql = explode("_", $_SESSION['LoginOK']);
     require_once 'models/CauHoiModel.php';
@@ -105,6 +108,57 @@ class CauHoiController{
             header("location:index.php?controller=NhanVien");
         }
         
+    }
+    function deleteQuestion(){
+        if(isset($_POST['cauhoi'])){
+            $counts = 0;
+            $arr_lost = [];
+            $cauhoi = $_POST['cauhoi'];
+            $array = json_decode($cauhoi, true);
+            $cHModel = new CauHoiModel();
+            for($i = 0; $i < count($array); $i++){
+                if($cHModel->delete("tb_cauhoi", ['id_cauhoi'], [$array[$i]['id_cauhoi']], ['and'])){
+                    $counts++;
+                }else{
+                    $arr_lost($arr_lost, $array[$i]['id_cauhoi']);
+                }
+            }
+            if(count($arr_lost)<=0){
+                $goal = "";
+                for($i = 0; $i < count($array); $i++){
+                    $folder_name = "../BTL_PTPM/questions/".date('m-Y', strtotime($array[$i]['thoigianhoi']));
+                    if (!file_exists($folder_name)) {
+                        mkdir($folder_name, 0777, true);
+                    }
+                    $goal = $folder_name."/".date('m-Y', strtotime($array[$i]['thoigianhoi'])).".xlsx";
+                    if(!file_exists($goal)){
+                        $template = "../BTL_PTPM/views/Admin/CauHoiManagement/Storage/Example.xlsx";
+                        copy($template, $goal);
+                    }
+                    $spreadsheet = IOFactory::load($goal);
+                    $worksheet = $spreadsheet->getActiveSheet();
+                    $lastRow = $worksheet->getHighestDataRow();
+                    $newRow = $lastRow + 1;
+                    $worksheet->setCellValue("A$newRow", $array[$i]['id_cauhoi']);
+                    $worksheet->setCellValue("B$newRow", $array[$i]['thoigianhoi']);
+                    $worksheet->setCellValue("C$newRow", $array[$i]['hoten']);
+                    $worksheet->setCellValue("D$newRow", $array[$i]['email']);
+                    $worksheet->setCellValue("E$newRow", $array[$i]['noidung']);
+                    $worksheet->setCellValue("F$newRow", $array[$i]['trangthai']);
+                    $worksheet->setCellValue("G$newRow", $array[$i]['ip_address']);
+                    $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+                    $writer->save($goal);
+                }
+                echo $counts;
+            }
+            else{
+                echo $counts."~".json_encode($arr_lost);
+            }
+        }
+    }
+    function storage(){
+        
+        require_once("views/Admin/CauHoiManagement/luuTru.php");
     }
 }
 }else{

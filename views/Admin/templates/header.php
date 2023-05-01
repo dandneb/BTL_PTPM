@@ -25,7 +25,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
     <link href="../BTL_PTPM/views/Admin/assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style">
     <link href="../BTL_PTPM/views/Admin/assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style">
     <link href="../BTL_PTPM/views/Admin/assets/css/admin.css" rel="stylesheet" type="text/css" id="dark-style">
-    <script src="js/admin.js"></script></script>
+    <script src="../BTL_PTPM/js/jquery-3.6.4.min.js"></script>
 </head>
 
 <body class="loading" data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
@@ -195,7 +195,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                                     <a href="index.php?controller=CauHoi&action=DaTraLoi">Danh sách câu hỏi đã xử lý</a>
                                 </li>
                                 <li>
-                                    <a href="index.php?controller=CauHoi&action=KhoLuuTru">Kho lưu trữ</a>
+                                    <a href="index.php?controller=CauHoi&action=storage">Kho lưu trữ</a>
                                 </li>
                             </ul>
                         </div>

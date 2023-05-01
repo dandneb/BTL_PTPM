@@ -3,9 +3,6 @@ require("views/template/header.php");
 ?>
 
 <head>
-    <link rel="stylesheet" href="style\splide-core.min.css">
-    <link rel="stylesheet" href="style\splide.min.css">
-    <link rel="stylesheet" href="style\ThongTin.css">
     <title>Thông tin nước hoa</title>
     <style>
         .title-paragraph {
@@ -35,7 +32,13 @@ require("views/template/header.php");
             color: #1C1C1C;
             font-family: Trebuchet MS, Helvetica, sans-serif;
         }
+        @media (min-width: 991.2px){
+            .nav {
+                justify-content: center;
+            }
+        }
     </style>
+    <link rel="stylesheet" href="style/pagination.css">
 </head>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
@@ -43,7 +46,7 @@ require("views/template/header.php");
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none p-14 text-dark">Trang chủ</a></li>
-                    <li class="breadcrumb-item"><a href="#" class="text-decoration-none p-14 text-dark">Nước hoa <?php echo $thuonghieu['ten_thuonghieu'] ?></a></li>
+                    <li class="breadcrumb-item"><a href="index.php?controller=NuocHoa&action=SanPham&thuonghieu=<?php echo $nuochoa['id_thuonghieu'] ?>" class="text-decoration-none p-14 text-dark">Nước hoa <?php echo $thuonghieu['ten_thuonghieu'] ?></a></li>
                     <li class="breadcrumb-item active" aria-current="page"><span class="p-14 text-dark"><?php echo $nuochoa['ten_nuochoa'] ?></span></li>
                 </ol>
             </nav>
@@ -138,13 +141,23 @@ require("views/template/header.php");
             </div>
             <div class="col-md-8">
                 <h1 class="title-head"><?php echo $nuochoa['ten_nuochoa'] ?></h1>
-                <div class="vote">
+                <?php
+                $rate_1 = round($nuochoa['danhgia']);
+                echo '<div class="vote">';
+                for($j = 1; $j <= $rate_1; $j++){
+                ?>
+                <i class="bi bi-star-fill text-warning"></i>
+                <?php
+                }
+                if($rate_1 < 5){
+                    for($j = $rate_1+1; $j <= 5; $j++){
+                        ?>
                     <i class="bi bi-star text-warning"></i>
-                    <i class="bi bi-star text-warning"></i>
-                    <i class="bi bi-star text-warning"></i>
-                    <i class="bi bi-star text-warning"></i>
-                    <i class="bi bi-star text-warning"></i>
-                </div>
+                        <?php
+                    }
+                }
+                echo "</div>";
+                ?>
                 <div>
                     <p class="p-14-bold m-0">Tình trạng: <span class="p-14 <?php echo ($soluong <= 2) ? "text-success" : "text-danger" ?>"><?php echo ($soluong <= 2) ? "Còn hàng" : "Hết hàng" ?></span></p>
                     <p class="price-information"><?php echo ($check == true) ? $gia_ban[$vitri][0] : $gia_ban[0][0] ?></p>
@@ -155,7 +168,7 @@ require("views/template/header.php");
                         <p class="p-14-bold">Giới tính</p>
                         <div class="swatch-element">
                             <input id="swatch-0-nam" type="radio" name="option-0" value="<?php echo $nuochoa['gioitinh'] ?>" <?php echo ($gia[0]['soluong'] == 0 || $gia[1]['soluong'] == 0 || $gia[2]['soluong'] == 0) ? 'checked' : 'disabled' ?> class="bk-product-property">
-                            <label class="border text-uppercase" for="swatch-0-nam" style="position: relative;">
+                            <label class="label-info border text-uppercase" for="swatch-0-nam" style="position: relative;">
                                 <?php
                                 $gt = "";
                                 if ($nuochoa['gioitinh'] == 0)
@@ -176,7 +189,7 @@ require("views/template/header.php");
                         <div class="swatch-element">
                             <p class="p-14-bold">Xuất xứ</p>
                             <input id="swatch-1-anh" type="radio" name="option-1" value="<?php echo $nuochoa['xuatxu'] ?>" <?php echo ($gia[0]['soluong'] == 0 || $gia[1]['soluong'] == 0 || $gia[2]['soluong'] == 0) ? 'checked' : 'disabled' ?> class="bk-product-property">
-                            <label class="border text-uppercase" for="swatch-1-anh" style="position: relative;">
+                            <label class="label-info border text-uppercase" for="swatch-1-anh" style="position: relative;">
                                 <?php echo $nuochoa['xuatxu'] ?>
                                 <?php
                                 if ($gia[0]['soluong'] == 0 || $gia[1]['soluong'] == 0 || $gia[2]['soluong'] == 0) echo "";
@@ -190,7 +203,7 @@ require("views/template/header.php");
                         <div class="d-flex">
                             <div class="swatch-element">
                                 <input id="swatch-2-chiet-10ml" type="radio" name="dungtich" value="<?php echo $gia[0]['dungtich'] ?>_<?php echo $gia[0]['gia_ban'] ?>" <?php echo $flags[0] ?> <?php echo ($gia[0]['soluong'] == 0) ? "" : "disabled" ?> class="bk-product-property dungtich">
-                                <label class="border" for="swatch-2-chiet-10ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[0][0] ?>">
+                                <label class="label-info border" for="swatch-2-chiet-10ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[0][0] ?>">
                                     CHIẾT 10ML
                                     <?php
                                     if ($gia[0]['soluong'] == 0) echo "";
@@ -200,7 +213,7 @@ require("views/template/header.php");
                             </div>
                             <div class="swatch-element">
                                 <input id="swatch-2-chiet-20ml" type="radio" name="dungtich" value="<?php echo $gia[1]['dungtich'] ?>_<?php echo $gia[1]['gia_ban'] ?>" <?php echo $flags[1] ?> <?php echo ($gia[1]['soluong'] == 0) ? "" : "disabled" ?> class="bk-product-property dungtich">
-                                <label class="border" for="swatch-2-chiet-20ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[1][0] ?>">
+                                <label class="label-info border" for="swatch-2-chiet-20ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[1][0] ?>">
                                     CHIẾT 20ML
                                     <?php
                                     if ($gia[1]['soluong'] == 0) echo "";
@@ -210,7 +223,7 @@ require("views/template/header.php");
                             </div>
                             <div class="swatch-element">
                                 <input id="swatch-2-fullbox-100ml" type="radio" name="dungtich" value="<?php echo $gia[2]['dungtich'] ?>_<?php echo $gia[2]['gia_ban'] ?>" <?php echo $flags[2] ?> <?php echo ($gia[2]['soluong'] == 0) ? "" : "disabled" ?> class="bk-product-property dungtich">
-                                <label class="border" for="swatch-2-fullbox-100ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[2][0] ?>">
+                                <label class="label-info border" for="swatch-2-fullbox-100ml" style="position: relative;" data-toggle="tooltip" data-placement="top" title="<?php echo $gia_ban[2][0] ?>">
                                     FULLBOX 100ML
                                     <?php
                                     if ($gia[2]['soluong'] == 0) echo "";
@@ -311,10 +324,10 @@ require("views/template/header.php");
         <div class="row p-0 pb-3" style="padding: 10px;">
             <div class="col-md-8 border" style="padding-top: 12px;">
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link active p-1 p-14 ms-2 me-1" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">THÔNG TIN SẢN PHẨM</button>
-                    <button class="nav-link p-1 p-14 me-1" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">HƯỚNG DẪN SỬ DỤNG VÀ BẢO QUẢN</button>
-                    <button class="nav-link p-1 p-14 me-1" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">CHÍNH SÁCH ĐỔI TRẢ VÀ BẢO HÀNH</button>
-                    <button class="nav-link p-1 p-14 me-1" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review" aria-selected="false">ĐÁNH GIÁ</button>
+                    <button class="nav-link active p-1 p-14" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">THÔNG TIN SẢN PHẨM</button>
+                    <button class="nav-link p-1 p-14" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">HƯỚNG DẪN SỬ DỤNG VÀ BẢO QUẢN</button>
+                    <button class="nav-link p-1 p-14" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">CHÍNH SÁCH ĐỔI TRẢ VÀ BẢO HÀNH</button>
+                    <button class="nav-link p-1 p-14" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review" aria-selected="false">ĐÁNH GIÁ</button>
                 </div>
                 <div class="tab-content mt-3" id="nav-tabContent">
                     <div class="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -570,9 +583,44 @@ require("views/template/header.php");
                         </div>
                     </div>
                     <div class="tab-pane fade tour_information" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                        <div class="row">
-                            <div class="col-md-12 border border-dark" style="margin-left: 8px; margin-right: 30px;">
-                                OK
+                        <div class="row main-review">
+                            <!-- 
+                            <div class="col-md-12 border d-flex justify-content-center" style="margin-left: 1.5%; width: 97%; background-color:#F2F8EA">
+                                <div class="nav-review" style="padding: 25px 0px">
+                                    <p class="p-14 text-center">Hiện tại sản phẩm chưa có đánh giá nào, bạn hãy trở thành người đầu tiên đánh giá cho sản phẩm này</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="rounded text-white border-0" style="padding:4px; background-color:#80BB35;">Gửi đánh giá của bạn</button>
+                                    </div>
+                                </div>
+                            </div>
+                            -->
+                            <div class="col-md-12 border" style="margin-left: 1.5%; width: 97%; background-color:#F2F8EA">
+                                <div class="review mt-1 mb-1">
+                                    <div id="pagination-container"></div>
+                                    <div id="myList" class="container">
+                                        <!--  
+                                        <div class="d-flex justify-content-between">
+                                            <p class="title-review p-13-bold mb-0 ms-2" style="font-size: 18px !important; font-weight: bold;">Đào Duy Đán</p>
+                                            <p class="time-review p-13-bold mb-0 me-2">30/4//2023 10:39</p>
+                                        </div>
+                                        <div class="content-reivew bg-white rounded p-1">
+                                            <div>
+                                                <div class="vote">
+                                                    <span class="p-13-bold mb-0">Đánh giá:</span>
+                                                    <i class="bi bi-star text-warning"></i>
+                                                    <i class="bi bi-star text-warning"></i>
+                                                    <i class="bi bi-star text-warning"></i>
+                                                    <i class="bi bi-star text-warning"></i>
+                                                    <i class="bi bi-star text-warning"></i>
+                                                </div>
+                                                <div>
+                                                    <span class="p-13-bold mb-0">Nhận xét:</span> <span class="p-13 mb-0">Khá tuyệt vời!</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        -->
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -656,10 +704,10 @@ require("views/template/header.php");
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/ad153db3f4.js"></script>
-<script src="js/nuocHoa.js" type="text/javascript"></script>
-<script src="js/thongTinNuocHoa.js">
-    
-</script>
+<script src="js/pagination.js"></script>
+<script src="js/moment.js"></script>
+<script src="js/thongTinNuocHoa.js"></script>
+<script src="js/danhGia.js"></script>
 <?php
 require("views/template/footer.php");
 ?>

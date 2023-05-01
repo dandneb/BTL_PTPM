@@ -178,8 +178,10 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                                         `;
                         }
                     },
-
                 ],
+                "language": {
+                    "url": '//cdn.datatables.net/plug-ins/1.10.25/i18n/Vietnamese.json',
+                },
             });
             $(document).on('click', '.thongtin', function() {
                 $row = $(this).closest('tr');

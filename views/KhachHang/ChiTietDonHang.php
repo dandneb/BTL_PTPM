@@ -26,6 +26,10 @@ require("views/template/header.php");
     .btn-danger {
         --bs-btn-border-color: none;
     }
+    .star-review{
+        font-size: 35px;
+        cursor: pointer;
+    }
 </style>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
@@ -33,7 +37,8 @@ require("views/template/header.php");
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none p-14 text-dark">Trang chủ</a></li>
-                    <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none p-14 text-dark">Trang tài khoản</a></li>
+                    <li class="breadcrumb-item"><a href="index.php?controller=KhachHang" class="text-decoration-none p-14 text-dark">Trang tài khoản</a></li>
+                    <li class="breadcrumb-item"><a href="index.php?controller=KhachHang&action=DonHang" class="text-decoration-none p-14 text-dark">Danh sách đơn hàng</a></li>
                     <li class="breadcrumb-item active" aria-current="page"><span class="p-14 text-dark">Chi tiết đơn hàng</span></li>
                 </ol>
             </nav>
@@ -52,7 +57,26 @@ require("views/template/header.php");
                 </div>
             </div>
             <div class="col-md-9 mb-4">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <?php
+                            if(isset($_SESSION['success'])){
+                                echo '<span class="text-success">'.$_SESSION['success'].'</span>';
+                                unset($_SESSION['success']);
+                            }
+                            else if(isset($_SESSION['error'])){
+                                echo '<span class="text-danger">'.$_SESSION['error'].'</span>';
+                                unset($_SESSION['error']);
+                            }
+                        ?>
+                    </div>
+                </div>
                 <p class="p-14 text-end">Ngày đặt hàng: <?php echo date("d/m/Y", strtotime($donhang['ngaydathang'])); ?></p>
+                <?php
+                if($donhang['trangthaidonhang'] == 3){
+                    echo '<p class="p-14 text-end">Ngày hủy đơn: '.date("d/m/Y", strtotime($donhang['ngayhuy'])).'</p>';
+                }
+                ?>
                 <div class="row mb-2">
                     <div class="col-sm-12">
                         <?php
@@ -161,18 +185,36 @@ require("views/template/header.php");
                             </thead>
                             <tbody>
                                 <?php
-                                foreach ($donhang_sanpham as $item) {
+                                foreach ($donhang_sanpham as $index => $item) {
                                 ?>
                                     <tr>
                                         <td style="width: 50%">
                                             <div class="row">
                                                 <div class="col-md-5">
-                                                    <img src="<?php echo $item['img_link'] ?>" alt="">
+                                                    <img src="<?php echo $item['img_link'] ?>" alt="" style="width: 100%; height: auto">
                                                 </div>
                                                 <div class="col-md-7 ps-4">
                                                     <p class="p-15 mb-0"><?php echo $item['ten_nuochoa'] ?></p>
                                                     <p class="p-14 mb-4"><?php echo $item['gioitinh'] . " / " . $item['xuatxu'] . " / Chiết " . $item['dungtich'] . "ml" ?></p>
                                                     <p class="p-15-bold mb-0">Mã sản phẩm: <?php echo $item['id_nuochoa'] ?></p>
+                                                    <?php
+                                                    if($donhang['trangthaidonhang'] == 2){
+                                                        $now = new DateTime();
+                                                        $time = new DateTime($donhang['ngayhoantat']);
+                                                        $interval = $now->diff($time);
+                                                        if ($interval->days < 10) {
+                                                            if($result[$item['id_nuochoa']] == 1 && ($index == 0 || $index != 0 && $donhang_sanpham[$index]['id_nuochoa'] != $donhang_sanpham[$index-1]['id_nuochoa'])){
+                                                            ?>
+                                                            <button value="<?php echo $item['id_nuochoa'] ?>" class="btn btn-danhgia btn-secondary mt-5 rounded-0 d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#danhGiaSanPham"><i class="bi bi-pencil-square"></i><span class="ms-2">Đánh giá cho sản phẩm</span></button>
+                                                            <?php
+                                                            }else if($result[$item['id_nuochoa']] == 0 && ($index == 0 || $index != 0 && $donhang_sanpham[$index]['id_nuochoa'] != $donhang_sanpham[$index-1]['id_nuochoa'])){
+                                                                ?>
+                                                            <button value="<?php echo $item['id_nuochoa'] ?>" class="btn btn-updatedanhgia btn-secondary mt-5 rounded-0 d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#updateDanhGiaSanPham"><i class="bi bi-pencil-square"></i><span class="ms-2">Sửa đánh giá</span></button>
+                                                                <?php
+                                                            }
+                                                        }
+                                                    }
+                                                    ?>
                                                 </div>
                                             </div>
                                         </td>
@@ -251,7 +293,101 @@ require("views/template/header.php");
             </div>
         </div>
     </div>
+    <?php
+    if($donhang['trangthaidonhang'] == 2){
+    ?>
+    <div class="modal fade" id="danhGiaSanPham" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <form class="modal-content" action="index.php?controller=KhachHang&action=DanhGia" method="POST" onsubmit="return validationForm()">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Đánh giá cho sản phẩm </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="text-center">Chọn Đánh Giá Cho Sản Phẩm</h6>
+                    <div>
+                        <input type="radio" class="danhgia bk-product-property" value="1" id="star-1" name="danhgia">
+                        <input type="radio" class="danhgia bk-product-property" value="2" id="star-2" name="danhgia">
+                        <input type="radio" class="danhgia bk-product-property" value="3" id="star-3" name="danhgia">
+                        <input type="radio" class="danhgia bk-product-property" value="4" id="star-4" name="danhgia">
+                        <input type="radio" class="danhgia bk-product-property" value="5" id="star-5" name="danhgia">
+                    </div>
+                    <div class="vote d-flex justify-content-center">
+                        <label for="star-1"><i class="bi bi-star text-warning star-review star-review-1 me-1"></i></label>
+                        <label for="star-2"><i class="bi bi-star text-warning star-review star-review-2 me-1"></i></label>
+                        <label for="star-3"><i class="bi bi-star text-warning star-review star-review-3 me-1"></i></label>
+                        <label for="star-4"><i class="bi bi-star text-warning star-review star-review-4 me-1"></i></label>
+                        <label for="star-5"><i class="bi bi-star text-warning star-review star-review-5 me-1"></i></label>
+                    </div>
+                    <div class="vote d-flex justify-content-center">
+                        <span class="helpSP p-12"></span>
+                    </div>
+                    <h6 class="mt-2">Nhập Đánh Giá Của Bạn</h6>
+                    <div class="mb-2 mt-2 rounded-2">
+                        <textarea class="form-control rounded-0 p-14-bold note-DanhGia" name="noteDanhGia" placeholder="Đánh giá" required></textarea>
+                    </div>
+                    <div class="vote d-flex justify-content-center">
+                        <span class="helpDG p-12"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" value="" class="btn btn-primary submit-danhgia" name="submit" style="background-color:blue;">Đánh giá</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <?php
+    }
+    if(count($check_danhgia) > $tongDanhGia){
+    ?>
+    <div class="modal fade" id="updateDanhGiaSanPham" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <form class="modal-content" action="index.php?controller=KhachHang&action=updateDanhGia" method="POST" onsubmit="return validationFormUpdate()">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Sửa đánh giá cho sản phẩm </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="text-center">Sửa Đánh Giá Cho Sản Phẩm</h6>
+                    <div>
+                        <input type="radio" class="danhgia bk-product-property" value="1" id="star-update-1" name="updatedanhgia">
+                        <input type="radio" class="danhgia bk-product-property" value="2" id="star-update-2" name="updatedanhgia">
+                        <input type="radio" class="danhgia bk-product-property" value="3" id="star-update-3" name="updatedanhgia">
+                        <input type="radio" class="danhgia bk-product-property" value="4" id="star-update-4" name="updatedanhgia">
+                        <input type="radio" class="danhgia bk-product-property" value="5" id="star-update-5" name="updatedanhgia">
+                    </div>
+                    <div class="vote d-flex justify-content-center">
+                        <label for="star-update-1"><i class="bi bi-star text-warning star-review star-review-1 me-1"></i></label>
+                        <label for="star-update-2"><i class="bi bi-star text-warning star-review star-review-2 me-1"></i></label>
+                        <label for="star-update-3"><i class="bi bi-star text-warning star-review star-review-3 me-1"></i></label>
+                        <label for="star-update-4"><i class="bi bi-star text-warning star-review star-review-4 me-1"></i></label>
+                        <label for="star-update-5"><i class="bi bi-star text-warning star-review star-review-5 me-1"></i></label>
+                    </div>
+                    <div class="vote d-flex justify-content-center">
+                        <span class="helpUpdateSP p-12"></span>
+                    </div>
+                    <h6 class="mt-2">Sửa Nội Dung Đánh Giá Của Bạn</h6>
+                    <div class="mb-2 mt-2 rounded-2">
+                        <textarea class="form-control rounded-0 p-14-bold note-DanhGia-update" name="updateNoteDanhGia" placeholder="Đánh giá" required></textarea>
+                    </div>
+                    <div class="vote d-flex justify-content-center">
+                        <span class="helpUpdateDG p-12"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" value="" class="btn btn-primary submit-updatedanhgia" name="update-submit" style="background-color:blue;">Cập nhật</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <?php
+    }
+    ?>
 </main>
+<script src="js/chiTietDonHang.js"></script>
+
 <?php
 require("views/template/footer.php");
 ?>

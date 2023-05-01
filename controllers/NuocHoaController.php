@@ -19,6 +19,13 @@ class NuocHoaController{
         }
     }
 
+    function getALL(){
+        if(isset($_GET['all'])){
+            $nHModel = new NuocHoaModel();
+            echo $nHModel->getALL();
+        }
+    }
+
     function SanPham(){
         $flags = 0;
         if(isset($_GET['gioitinh']) && !isset($_GET['thuonghieu'])&& !isset($_GET['query'])){
@@ -42,6 +49,11 @@ class NuocHoaController{
             }else{
                 header("location: index.php");
             }
+            if(isset($_SESSION['LoginOK'])){
+                echo "<script>var login = true;</script>";
+            }else{
+                echo "<script>var login = false;</script>";
+            }
             require_once 'views/NuocHoa/SanPham.php';
         }else if(isset($_GET['thuonghieu']) && !isset($_GET['gioitinh']) && !isset($_GET['query'])){
             $flags = 1;
@@ -54,11 +66,32 @@ class NuocHoaController{
             }else{
                 header("location: index.php");
             }
+            if(isset($_SESSION['LoginOK'])){
+                echo "<script>var login = true;</script>";
+            }else{
+                echo "<script>var login = false;</script>";
+            }
             require_once 'views/NuocHoa/SanPham.php';
         }else if(!empty($_GET['query']) && isset($_GET['query']) && !isset($_GET['thuonghieu']) && !isset($_GET['gioitinh'])){
             $flags = 2;
             $query = $_GET['query'];
             echo '<script> var query = "'.$query.'"; var check = 1; </script>';
+            if(isset($_SESSION['LoginOK'])){
+                echo "<script>var login = true;</script>";
+            }else{
+                echo "<script>var login = false;</script>";
+            }
+            require_once 'views/NuocHoa/SanPham.php';
+        }else if(isset($_GET['all'])){
+            $flags = 3;
+            $nHModel = new NuocHoaModel();
+            $th = $nHModel->get("tb_thuonghieu", ['status'], [0], ['and'], "order by ten_thuonghieu asc");
+            echo '<script> var check = 2; </script>';
+            if(isset($_SESSION['LoginOK'])){
+                echo "<script>var login = true;</script>";
+            }else{
+                echo "<script>var login = false;</script>";
+            }
             require_once 'views/NuocHoa/SanPham.php';
         }else{
             header("location: index.php");
@@ -107,6 +140,11 @@ class NuocHoaController{
                         $check = true;
                     }
                 }
+                if(isset($_SESSION['LoginOK'])){
+                    echo "<script>var login = true;</script>";
+                }else{
+                    echo "<script>var login = false;</script>";
+                }
                 echo "<script>var id_nuochoa = '".$nuochoa['id_nuochoa']."'</script>";
                 echo '<script>var ten_nuochoa = "'.$nuochoa['ten_nuochoa'].'"</script>';
                 echo "<script>var xuatxu = '".$nuochoa['xuatxu']."'</script>";
@@ -122,6 +160,14 @@ class NuocHoaController{
             header("location: index.php");
         }
     }
+
+    function getDanhGia(){
+        if(isset($_POST["id_nuochoa"])){
+            $nHModel = new NuocHoaModel();
+            echo $nHModel->getDanhGia($_POST["id_nuochoa"]);
+        }
+    }
+
     function getThongTinNuocHoa(){
         if(isset($_POST["id_nuochoa"])){
             $nHModel = new NuocHoaModel();

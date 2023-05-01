@@ -17,7 +17,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="index.php">Parfumerie</a></li>
-                        <li class="breadcrumb-item"><a href="index.php?controller=NhaCungCap">Quản lý cửa hàng</a></li>
+                        <li class="breadcrumb-item"><a href="index.php?controller=NhanVien">Quản lý cửa hàng</a></li>
                         <li class="breadcrumb-item"><a href="index.php?controller=BaiViet">Blog/Kiến thức</a></li>
                         <li class="breadcrumb-item active">Thêm blog/kiến thức</li>
                     </ol>
@@ -85,27 +85,6 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
 
 </div>
 <!-- content -->
-
-<!-- Footer Start -->
-<footer class="footer">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                <script>
-                    document.write(new Date().getFullYear())
-                </script> © Hyper - Coderthemes.com
-            </div>
-            <div class="col-md-6">
-                <div class="text-md-end footer-links d-none d-md-block">
-                    <a href="javascript: void(0);">About</a>
-                    <a href="javascript: void(0);">Support</a>
-                    <a href="javascript: void(0);">Contact Us</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-<!-- end Footer -->
 
 <?php
 require "views/Admin/templates/footer.php";

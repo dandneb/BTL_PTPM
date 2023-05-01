@@ -3,7 +3,7 @@ require "views/Admin/templates/header.php";
 if(!isset($_SESSION)) {
     session_start();
 }
-if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['LoginOK'][0] == "2") {
+if (isset($_SESSION['LoginOK']) || $_SESSION['LoginOK'][0] == "2") {
     $ql = explode("_", $_SESSION['LoginOK']);
 ?>
 <head>

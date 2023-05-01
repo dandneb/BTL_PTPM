@@ -33,7 +33,7 @@ if (isset($_SESSION['LoginOK'])) {
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container-fluid">
-            <a class="logo_wrapper" href="index.php" style="cursor:pointer;">
+            <a class="logo_wrapper d-flex align-items-center justify-content-center" href="index.php" style="cursor:pointer;">
                 <div class="navbar-brand" href="index.php"><img src="images/header/logo.png" class="logo" alt=""></div>
             </a>
             <button class="btn btn-sidebar" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><span class="navbar-toggler-icon"></span></button>
@@ -129,6 +129,9 @@ if (isset($_SESSION['LoginOK'])) {
                             </div>
                             <ul style="display:none">
                                 <li>
+                                    <a href="index.php?controller=NuocHoa&action=SanPham&all=">Tất cả sản phẩm.</a>
+                                </li>
+                                <li>
                                     <a href="index.php?controller=NuocHoa&action=SanPham&gioitinh=Nam">Nước hoa Nam.</a>
                                 </li>
                                 <li>
@@ -156,11 +159,11 @@ if (isset($_SESSION['LoginOK'])) {
                 </div>
             </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form action="index.php" method="GET" class="d-flex input-group" role="search" style="max-width: 30%;">
+                <form action="index.php" method="GET" class="d-flex d-flex align-items-center input-group mb-0" role="search" style="max-width: 30%;">
                     <input type="text" name="controller" value="NuocHoa" hidden>
                     <input type="text" name="action" value="SanPham" hidden>
                     <input class="form-control" type="search" name="query" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
-                    <button class="btn rounded-0" style="background-color: #FFFFFF;" name="submit" type="submit"><span class="material-icons">
+                    <button class="btn rounded-0" style="background-color: #FFFFFF; height: 37.6px" name="submit" type="submit"><span class="material-icons">
                             search
                         </span></button>
                 </form>
@@ -222,6 +225,10 @@ if (isset($_SESSION['LoginOK'])) {
             <a class="nav-link text-dark" href="#">NƯỚC HOA ></a>
             <div class="content-gt shadow" style="background-color: #FFFFFF">
                 <ul>
+                    <li>
+                        <a href="index.php?controller=NuocHoa&action=SanPham&all=">Tất cả sản phẩm</a>
+                    </li>
+                    <hr style="margin: 0">
                     <li>
                         <a href="index.php?controller=NuocHoa&action=SanPham&gioitinh=Nam">Nước hoa Nam</a>
                     </li>

@@ -14,7 +14,7 @@ class KhachHangModel extends Model{
     }
     function getALLDH($id_khachhang){
         $dbh = $this->connectDb();
-        $stmt = $dbh->prepare("Select * from tb_donhang where id_khachhang = ?");
+        $stmt = $dbh->prepare("Select t1.*, DATE_FORMAT(t1.ngaydathang, '%d-%m-%Y %H:%i:%s') as ngaydat from tb_donhang t1 where id_khachhang = ?");
         $stmt->bindValue(1, $id_khachhang);
         if($stmt->execute()){
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -24,10 +24,11 @@ class KhachHangModel extends Model{
     function getDonHangSanPham($id_donhang){
         $dbh = $this->connectDb();
         $stmt = $dbh->prepare("SELECT t1.*, t3.id_nuochoa, t3.ten_nuochoa, t3.xuatxu, IF(t3.gioitinh=0, 'Nam', IF(t3.gioitinh=1, 'Nữ', 'Unisex')) AS gioitinh,
-        (SELECT img_link FROM tb_anhnuochoa t2 WHERE t1.id_nuochoa = t2.id_nuochoa ORDER BY t2.id_anh ASC LIMIT 1) as img_link
+        (SELECT img_link FROM tb_anhnuochoa t2 WHERE t1.id_nuochoa = t2.id_nuochoa ORDER BY t2.id_anh ASC LIMIT 1) as img_link,
+        (SELECT ngayhoantat FROM tb_donhang t3 WHERE t1.id_donhang = t3.id_donhang) as ngayhoantat
         FROM tb_donhang_nuochoa t1
         INNER JOIN tb_nuochoa t3 on t1.id_nuochoa = t3.id_nuochoa
-        WHERE t1.id_donhang = ?");
+        WHERE t1.id_donhang = ? order by t1.id_nuochoa desc");
         $stmt->bindValue(1, $id_donhang);
         if($stmt->execute()){
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -35,6 +36,34 @@ class KhachHangModel extends Model{
             else return false;
         }
     }
+
+    function getCheckDHSP($id_donhang){
+        $dbh = $this->connectDb();
+        $stmt = $dbh->prepare("SELECT t1.id_donhang, t1.id_nuochoa, 
+        IF(ISNULL((SELECT t2.noidungdanhgia from tb_danhgia t2 where t1.id_donhang = t2.id_donhang and t1.id_nuochoa = t2.id_nuochoa)), 1, (SELECT t2.noidungdanhgia from tb_danhgia t2 where t1.id_donhang = t2.id_donhang and t1.id_nuochoa = t2.id_nuochoa)) as noidungdanhgia,
+        ISNULL((SELECT t2.xephang from tb_danhgia t2 where t1.id_donhang = t2.id_donhang and t1.id_nuochoa = t2.id_nuochoa)) as danhgia,
+        IF(ISNULL((SELECT t2.xephang from tb_danhgia t2 where t1.id_donhang = t2.id_donhang and t1.id_nuochoa = t2.id_nuochoa)), 0, (SELECT t2.xephang from tb_danhgia t2 where t1.id_donhang = t2.id_donhang and t1.id_nuochoa = t2.id_nuochoa)) as xephang,
+        (SELECT ngayhoantat FROM tb_donhang t3 WHERE t1.id_donhang = t3.id_donhang) as ngayhoantat
+        from tb_donhang_nuochoa t1
+        WHERE t1.id_donhang = ? GROUP by id_nuochoa order by t1.id_nuochoa desc");
+        $stmt->bindValue(1, $id_donhang);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if(count($data) > 0)    return $data;
+            else return false;
+        }
+    }
+
+    function updateDanhGia($id_nuochoa){
+        $dbh = $this->connectDb();
+        $stmt = $dbh->prepare("UPDATE tb_nuochoa t1 set danhgia = (SELECT avg(xephang) from tb_danhgia t2 where t1.id_nuochoa = t2.id_nuochoa) where id_nuochoa = ?");
+        $stmt->bindValue(1, $id_nuochoa);
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
+
     function getSanPhamYeuThich($id_nguoidung){
         $dbh = $this->connectDb();
         $stmt = $dbh->prepare("SELECT `id_nguoidung`, `id_nuochoa`, `dungtich`, 

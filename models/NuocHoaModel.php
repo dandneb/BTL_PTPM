@@ -27,7 +27,7 @@ class NuocHoaModel extends Model{
 
     function getNH($column, $filter){
         $dbh = $this->connectDb();
-        $sql = "SELECT t1.id_nuochoa, t1.ten_nuochoa, t1.gioitinh, t1.id_thuonghieu, t1.ngaybat_dauban,
+        $sql = "SELECT t1.id_nuochoa, t1.ten_nuochoa, t1.gioitinh, t1.id_thuonghieu, t1.ngaybat_dauban, t1.danhgia,
         (SELECT max(gia_ban) from `tb_gianuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa GROUP by t4.id_nuochoa) as max_gia,
         (SELECT min(gia_ban) from `tb_gianuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa GROUP by t4.id_nuochoa) as min_gia,
         (SELECT img_link from `tb_anhnuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa order by id_anh ASC limit 1, 1) as img_link
@@ -51,6 +51,23 @@ class NuocHoaModel extends Model{
         where t1.id_nuochoa = ? and t1.status = 0";
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(1, $id_nuochoa);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        echo json_encode(array("data" => $data));
+    }
+
+    function getALL(){
+        $dbh = $this->connectDb();
+        $sql = "SELECT t1.id_nuochoa, t1.ten_nuochoa, t1.gioitinh, t1.id_thuonghieu, t1.ngaybat_dauban, t1.danhgia,
+        (SELECT max(gia_ban) from `tb_gianuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa GROUP by t4.id_nuochoa) as max_gia,
+        (SELECT min(gia_ban) from `tb_gianuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa GROUP by t4.id_nuochoa) as min_gia,
+        (SELECT img_link from `tb_anhnuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa order by id_anh ASC limit 1, 1) as img_link
+        FROM `tb_nuochoa` t1
+        INNER JOIN `tb_thuonghieu` t2 on t1.id_thuonghieu = t2.id_thuonghieu and t2.status = 0
+        INNER JOIN `tb_nhacungcap` t3 on t1.id_nhacungcap = t3.id_nhacungcap and t3.status = 0
+        where t1.status = 0";
+        $stmt = $dbh->prepare($sql);
         if($stmt->execute()){
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -82,7 +99,7 @@ class NuocHoaModel extends Model{
     function queryNuocHoa($query){
         $query = "%".$query."%";
         $dbh = $this->connectDb();
-        $sql = "SELECT t1.id_nuochoa, t1.ten_nuochoa, t1.gioitinh, t1.id_thuonghieu, t1.ngaybat_dauban,
+        $sql = "SELECT t1.id_nuochoa, t1.ten_nuochoa, t1.gioitinh, t1.id_thuonghieu, t1.ngaybat_dauban, t1.danhgia,
         (SELECT max(gia_ban) from `tb_gianuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa GROUP by t4.id_nuochoa) as max_gia,
         (SELECT min(gia_ban) from `tb_gianuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa GROUP by t4.id_nuochoa) as min_gia,
         (SELECT img_link from `tb_anhnuochoa` t4 where t1.id_nuochoa = t4.id_nuochoa order by id_anh ASC limit 1, 1) as img_link
@@ -92,6 +109,17 @@ class NuocHoaModel extends Model{
         where t1.ten_nuochoa LIKE ? and t1.status = 0";
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(1, $query);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        echo json_encode(array("data" => $data));
+    }
+
+    function getDanhGia($id_nuochoa){
+        $dbh = $this->connectDb();
+        $sql = "SELECT t1.id_nuochoa, t1.hoten, t1.noidungdanhgia, t1.xephang, t1.ngaydanhgia FROM `tb_danhgia` t1 WHERE t1.id_nuochoa = ? order by t1.ngaydanhgia desc";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(1, $id_nuochoa);
         if($stmt->execute()){
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }

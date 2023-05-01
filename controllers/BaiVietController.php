@@ -6,7 +6,10 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
     $ql = explode("_", $_SESSION['LoginOK']);
     require_once 'models/BaiVietModel.php';
 class BaiVietController{
-
+    private $id_nguoiquanly;
+    function __construct(){
+        $this->id_nguoiquanly = explode("_", $_SESSION['LoginOK'])[1];
+    }
     function index(){
         $bvModel = new BaiVietModel();
         require_once 'views/Admin/BaiVietManagement/index.php';

@@ -10,7 +10,7 @@ require("views/template/header.php");
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none p-14 text-dark">Trang chủ</a></li>
-                    <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none p-14 text-dark">Trang tài khoản</a></li>
+                    <li class="breadcrumb-item"><a href="index.php?controller=KhachHang" class="text-decoration-none p-14 text-dark">Trang tài khoản</a></li>
                     <li class="breadcrumb-item active" aria-current="page"><span class="p-14 text-dark">Sổ địa chỉ</span></li>
                 </ol>
             </nav>

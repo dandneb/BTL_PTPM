@@ -4,8 +4,10 @@ $(document).ready(async function () {
     var urls = "";
     if(check == 0){
         urls = "index.php?controller=NuocHoa&action=getNuocHoa&name="+names+"&filter=" + filter;
-    }else{
+    }else if(check == 1){
         urls = "index.php?controller=NuocHoa&action=queryNuocHoa&query="+query;
+    }else{
+        urls = "index.php?controller=NuocHoa&action=getALL&all=";
     }
     try {
         let res = await $.ajax({
@@ -29,6 +31,22 @@ $(document).ready(async function () {
                 formatResult: function (data) {
                     var result = [];
                     for (var i = 0, len = data.length; i < len; i++) {
+                        var rate = Math.round(parseFloat(data[i].danhgia));
+                        var html_rate = '';
+                        for(let j = 1; j <= rate; j++){
+                            html_rate += '<i class="bi bi-star-fill text-warning me-1"></i>';
+                        }
+                        if(rate < 5){
+                            for(let j = rate+1; j <= 5; j++){
+                                html_rate += '<i class="bi bi-star text-warning me-1"></i>';
+                            }
+                        }
+                        var button = "";
+                        if (login) {
+                            button = `<button class="btn-menu addYeuThich" style="padding: 6px;" value="${data[i].id_nuochoa}" type="button" data-bs-toggle="modal" data-bs-target="#addYeuThichSuccess"><i class="bi bi-heart text-success"></i></button>`;
+                        }else{
+                            button = `<a href="index.php?controller=KhachHang&action=DangNhap&yeuthich="><button class="btn-menu" style="padding: 6px;"><i class="bi bi-heart text-success"></i></button></a>`;
+                        }
                         result.push(`<div class="col-md-4">
                     <div class="swiper-slide text-decoration-none">
                         <div class="card rounded-0 product border-0">
@@ -38,20 +56,16 @@ $(document).ready(async function () {
                             <div class="card-body">
                                 <p class="card-text p-14-bold title-product text-black">${data[i].ten_nuochoa}</p>
                                 <div class="vote">
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
+                                    `+html_rate+`
                                 </div>
                                 <div>
                                     <div class="product-price p-14-bold text-success">
                                         ${data[i].min_gia.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) + " - " + data[i].max_gia.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                     </div>
                                     <div class="product-menu hidden-menu">
-                                        <button class="btn-menu" style="padding: 6px;"><i class="bi bi-cart-plus text-success"></i></button>
-                                        <button class="btn-menu" style="padding: 6px;"><i class="bi bi-eye text-success"></i></button>
-                                        <button class="btn-menu" style="padding: 6px;"><i class="bi bi-heart text-success"></i></i></button>
+                                        <a href="index.php?controller=NuocHoa&action=ThongTin&id_nuochoa=${data[i].id_nuochoa}"><button class="btn-menu" style="padding: 6px;"><i class="bi bi-cart-plus text-success"></i></button></a>
+                                        <button class="btn-menu xemThongTin" style="padding:6px" value="${data[i].id_nuochoa}" data-bs-toggle="modal" data-bs-target="#thongTinSanPham"><i class="bi bi-eye text-success"></i></button>
+                                        `+button+`
                                     </div>
                                 </div>
                             </div>
@@ -257,12 +271,11 @@ $(document).ready(async function () {
                 }
             }else{
                 var index = costs.indexOf($(this).val());
-                console.log(costs)
                 if (index > -1) {
                     costs.splice(index, 1);
                 }
                 if(costs.length > 0){
-                    newArr = myArr.filter(function(item){
+                    newArr = newArr.filter(function(item){
                         for(let i = 0; i < costs.length; i++){
                             let cost = costs[i].split("_");
                             if(parseInt(item.min_gia) >= parseInt(cost[0]) && parseInt(item.min_gia) <= parseInt(cost[1])){
@@ -299,7 +312,7 @@ $(document).ready(async function () {
                     }
                 }else{
                     if(selected.length > 0){
-                        newArr = newArr.filter(function(item){
+                        newArr = myArr.filter(function(item){
                             return selected.includes(item.id_thuonghieu)
                         })
                         if(selectedValue != ""){

@@ -3,7 +3,7 @@ require "views/Admin/templates/header.php";
 if(!isset($_SESSION)) {
     session_start();
 }
-if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['LoginOK'][0] == "2") {
+if (isset($_SESSION['LoginOK']) || $_SESSION['LoginOK'][0] == "2") {
     $ql = explode("_", $_SESSION['LoginOK']);
 ?>
 
@@ -130,6 +130,10 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
         $('#myTable').DataTable({
             dom: 'Blfrtip',
             select: true,
+            columnDefs: [
+                { type: 'date', targets: 2 }
+            ],
+            order: [[2, 'asc']],
             lengthMenu: [10, 15, 25, 50, 75, 100],
             "ajax": "index.php?controller=MaGiamGia&action=getMaGiamGia",
             "columns":[
@@ -167,6 +171,9 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     }
                 },
             ],
+            "language": {
+                "url": '//cdn.datatables.net/plug-ins/1.10.25/i18n/Vietnamese.json',
+            },
         });
     } );
 </script>

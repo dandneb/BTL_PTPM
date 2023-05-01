@@ -25,7 +25,7 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                         <li class="breadcrumb-item active">Đơn hàng</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Danh sách đơn hàng</h4>
+                <h4 class="page-title">Danh sách đơn hàng chờ xử lý</h4>
             </div>
         </div>
     </div>
@@ -104,6 +104,10 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
         $('#myTable').DataTable({
             dom: 'Blfrtip',
             select: true,
+            columnDefs: [
+                { type: 'date-time', targets: 4 }
+            ],
+            order: [[4, 'asc']],
             lengthMenu: [10, 15, 25, 50, 75, 100],
             "ajax": "index.php?controller=DonHang&action=getDonHang",
             "columns":[
@@ -166,6 +170,9 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                     }
                 },
             ],
+            "language": {
+                "url": '//cdn.datatables.net/plug-ins/1.10.25/i18n/Vietnamese.json',
+            },
         });
     } );
 </script>

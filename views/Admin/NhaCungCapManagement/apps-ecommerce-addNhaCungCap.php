@@ -20,8 +20,8 @@ $id_nhacungcap = substr($randomString, 0, 11);
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="index.php">Parfumerie</a></li>
-                        <li class="breadcrumb-item"><a href="index.php?controller=NhaCungCap">Quản lý cửa hàng</a></li>
-                        <li class="breadcrumb-item"><a href="index.php?controller=NhaCungCap&action=sanpham">Nhà cung cấp</a></li>
+                        <li class="breadcrumb-item"><a href="index.php?controller=NhanVien">Quản lý cửa hàng</a></li>
+                        <li class="breadcrumb-item"><a href="index.php?controller=NhaCungCap">Nhà cung cấp</a></li>
                         <li class="breadcrumb-item active">Thêm nhà cung cấp</li>
                     </ol>
                 </div>
@@ -100,27 +100,6 @@ $id_nhacungcap = substr($randomString, 0, 11);
 
 </div>
 <!-- content -->
-
-<!-- Footer Start -->
-<footer class="footer">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                <script>
-                    document.write(new Date().getFullYear())
-                </script> © Hyper - Coderthemes.com
-            </div>
-            <div class="col-md-6">
-                <div class="text-md-end footer-links d-none d-md-block">
-                    <a href="javascript: void(0);">About</a>
-                    <a href="javascript: void(0);">Support</a>
-                    <a href="javascript: void(0);">Contact Us</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-<!-- end Footer -->
 
 <?php
 require "views/Admin/templates/footer.php";

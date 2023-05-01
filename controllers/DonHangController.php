@@ -61,18 +61,8 @@ class DonHangController{
             //die(print_r($this->id_nguoiquanly));
             if(count($donhang) > 0){
                 if($DHModel->update("tb_donhang", ['trangthaidonhang', 'id_nguoiquanly'], [1, $this->id_nguoiquanly], ['id_donhang'], [$id_donhang], ['and'])){
-                    if($donhang[0]['id_phuongthucthanhtoan'] != 9){
-                        if($DHModel->update("tb_donhang", ['trangthaithanhtoan'], [1], ['id_donhang', ], [$id_donhang], ['and'])){
-                            $_SESSION['success'] = "Phê duyệt đơn hàng ".$id_donhang." thành công!";
-                            header("location: index.php?controller=DonHang");
-                        }else{
-                            $_SESSION['error'] = "Phê duyệt đơn hàng ".$id_donhang." thành công nhưng cập nhật thông tin thanh toán thất bại!";
-                            header("location: index.php?controller=DonHang");
-                        }
-                    }else{
-                        $_SESSION['success'] = "Phê duyệt đơn hàng ".$id_donhang." thành công!";
-                        header("location: index.php?controller=DonHang");
-                    }
+                    $_SESSION['success'] = "Phê duyệt đơn hàng ".$id_donhang." thành công!";
+                    header("location: index.php?controller=DonHang&action=updateVanChuyenDonHang&id_donhang=$id_donhang");
                 }else{
                     $_SESSION['error'] = "Phê duyệt đơn hàng ".$id_donhang." thất bại!";
                     header("location: index.php?controller=DonHang");
@@ -180,7 +170,10 @@ class DonHangController{
                     }
                 }else if($trangthaivanchuyen == 2){
                     if($DHModel->update("tb_donhang", ['trangthaivanchuyen', 'id_nguoiquanly'], [$trangthaivanchuyen, $this->id_nguoiquanly], ['id_donhang'], [$id_donhang], ['and'])){
-                        if($DHModel->update("tb_donhang", ['trangthaidonhang'], [2], ['id_donhang'], [$id_donhang], ['and'])){
+                        date_default_timezone_set('Asia/Bangkok');
+                        $now = new DateTime();
+                        $datetime = $now->format('Y-m-d H:i:s');
+                        if($DHModel->update("tb_donhang", ['trangthaidonhang', 'ngayhoantat'], [2, $datetime], ['id_donhang'], [$id_donhang], ['and'])){
                             $_SESSION['success'] = "Chuyển trạng thái vận chuyển và hoàn tất cho đơn hàng ".$id_donhang." thành công!";
                             header("location: index.php?controller=DonHang");
                         }else{
@@ -212,7 +205,10 @@ class DonHangController{
                     $_SESSION['error'] = "Không thể hủy đơn do đơn ".$id_donhang." đã thực hiện thành công!";
                     header("location: index.php?controller=DonHang");
                 }else{
-                    if($DHModel->update('tb_donhang', ['trangthaidonhang', 'trangthaivanchuyen', 'trangthaithanhtoan', 'id_nguoiquanly'], [3, 0, 0, $this->id_nguoiquanly], ['id_donhang'], [$id_donhang], ['and'])){
+                    date_default_timezone_set('Asia/Bangkok');
+                    $now = new DateTime();
+                    $datetime = $now->format('Y-m-d H:i:s');
+                    if($DHModel->update('tb_donhang', ['trangthaidonhang', 'trangthaivanchuyen', 'trangthaithanhtoan', 'id_nguoiquanly', 'ngayhuy'], [3, 0, 0, $this->id_nguoiquanly, $datetime], ['id_donhang'], [$id_donhang], ['and'])){
                         $donhang = $donhang[0];
                         $donhang_sanpham = $khmodel->getDonHangSanPham($id_donhang);
                         foreach($donhang_sanpham as $item){

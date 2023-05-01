@@ -1,0 +1,13 @@
+{
+    "name": "vender/btl-ptdapm",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Dao Duy Dan, Mai Van Duc, Le Duc Thang"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "phpoffice/phpspreadsheet": "*"
+    }
+}

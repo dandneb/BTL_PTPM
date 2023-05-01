@@ -9,7 +9,7 @@ require_once 'model.php';
 class CauHoiModel extends Model{
     function getCauHoiDangXuLy(){
         $dbh = $this->connectDb();
-        $stmt = $dbh->prepare("SELECT `id_cauhoi`, `thoigianhoi`, `hoten`, `email`, `noidung`, `trangthai` FROM `tb_cauhoi` WHERE trangthai = 0");
+        $stmt = $dbh->prepare("SELECT `id_cauhoi`, `thoigianhoi`, `hoten`, `email`, `noidung`, `trangthai`, `ip_address` FROM `tb_cauhoi` WHERE trangthai = 0");
         if($stmt->execute()){
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }

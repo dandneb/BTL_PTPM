@@ -157,6 +157,9 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
                 },
                 {"data":"email"},
             ],
+            "language": {
+                "url": '//cdn.datatables.net/plug-ins/1.10.25/i18n/Vietnamese.json',
+            },
         });
     } );
 </script>

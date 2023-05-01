@@ -25,10 +25,11 @@ $id_doanvan = substr($randomString, 0, 11);
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="index.php">Parfumerie</a></li>
                             <li class="breadcrumb-item"><a href="index.php?controller=NhanVien">Quản lý cửa hàng</a></li>
-                            <li class="breadcrumb-item active">Kiến thức/Blog</li>
+                            <li class="breadcrumb-item"><a href="index.php?controller=BaiViet">Kiến thức/Blog</a></li>
+                            <li class="breadcrumb-item active">Sửa/Thêm đoạn văn</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">Kiến thức/Blog</h4>
+                    <h4 class="page-title">Sửa/Thêm đoạn văn</h4>
                 </div>
             </div>
         </div>
