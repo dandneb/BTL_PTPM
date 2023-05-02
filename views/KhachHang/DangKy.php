@@ -89,9 +89,6 @@ require("views/template/footer.php");
 <script src="js/ajax.js"></script>
 <script>
     function validationForm(){
-        console.log($("#emailHelp").text()==="Email hợp lệ có thể đăng ký");
-        console.log($("#sdtHelp").text() === "Số điện thoại hợp lệ có thể đăng ký");
-        console.log($("#password").val().length >= 8);
         if($("#emailHelp").text()==="Email hợp lệ có thể đăng ký" && $("#sdtHelp").text() === "Số điện thoại hợp lệ có thể đăng ký" && $("#password").val().length >= 8){
             return true;
         }else{

@@ -1,26 +1,31 @@
 // Khách hàng - Đăng ký - Email
+var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 $(document).ready(function(){
     $("#email").change(function(){
         let email = $("#email").val();
         if(email!=""){
-            let form_datas = new FormData();
-            form_datas.append('email',email);
-            $.ajax({
-                url: 'index.php?controller=khachhang&action=checkEmail', // gửi đến file upload.php 
-                dataType: 'text',
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: form_datas,
-                type: 'post',
-                success: function(res) {
-                    if(res == 1)
-                        $("#emailHelp").text("Email đã tồn tại trong hệ thống").css("color","red");
-                    else
-                        $("#emailHelp").text("Email hợp lệ có thể đăng ký").css("color","green");
-                }
-            });
-            return false;
+            if(filter.test(email)){
+                let form_datas = new FormData();
+                form_datas.append('email',email);
+                $.ajax({
+                    url: 'index.php?controller=khachhang&action=checkEmail', // gửi đến file upload.php 
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_datas,
+                    type: 'post',
+                    success: function(res) {
+                        if(res == 1)
+                            $("#emailHelp").text("Email đã tồn tại trong hệ thống").css("color","red");
+                        else
+                            $("#emailHelp").text("Email hợp lệ có thể đăng ký").css("color","green");
+                    }
+                });
+                return false;
+            }else{
+                $("#emailHelp").text("Định dạng email không hợp lệ!").css("color","red");
+            }
         }
     })
 })

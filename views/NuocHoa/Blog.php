@@ -3,6 +3,7 @@ require("views/template/header.php");
 ?>
 <head>
     <title>Blog</title>
+    <link rel="stylesheet" href="style/pagination.css">
 </head>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
@@ -54,28 +55,11 @@ require("views/template/header.php");
             <div class="col-md-9 border">
                 <div class="row mt-2">
                     <h5>Blog</h5>
-                    <?php
-                    foreach($blog as $item){
-                    ?>
-                    <div class="col-md-12 mb-3">
-                        <a class="blog-item-thumbnail" href="index.php?controller=NuocHoa&action=BaiViet&id_baiviet=<?php echo $item['id_baiviet_blog'] ?>">
-                            <img src="<?php echo $item['img_link'] ?>" alt="">
-                        </a>
-                        <div class="blog-items-main">
-                            <div>
-                                <a><h6><?php echo $item['tieude'] ?></h6></a>
-                                <?php
-                                $timestamp = strtotime($item['ngaydang']);
-                                $date = date("d/m/Y", $timestamp);
-                                ?>
-                                <p class="post-time"><?php echo $date ?> - PARFUMERIEVN</p>
-                            </div>
-                            <p class="mt-3" data-toggle="tooltip" title="<?php echo $item['mota'] ?>"><?php echo substr($item['mota'], 0, 360)."..." ?></p>
-                        </div>
+                    <div id="pagination-container"></div>
+                    <div id="myList" class="container">
+                        
                     </div>
-                    <?php
-                    }
-                    ?>
+                    
                 </div>
             </div>
         </div>
@@ -84,3 +68,6 @@ require("views/template/header.php");
 <?php
 require("views/template/footer.php");
 ?>
+<script src="js/pagination.js"></script>
+<script src="js/moment.js"></script>
+<script src="js/kienThuc.js"></script>

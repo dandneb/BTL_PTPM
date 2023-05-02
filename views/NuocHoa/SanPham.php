@@ -41,13 +41,13 @@ require("views/template/header.php");
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                             <div class="accordion-body">
                                 <?php
-                                if (isset($_GET['gioitinh']) || isset($_POST['query']) || isset($_GET['all'])) {
+                                if (isset($_GET['gioitinh']) || isset($_GET['query']) || isset($_GET['all'])) {
                                 ?>
                                     <div>
                                         <p class="p-14-bold">Thương hiệu</p>
                                         <form class="input-group input-group-sm mt-2 mb-2" role="search">
                                             <input type="search" aria-label="Search" class="form-control" id="search" name="search" placeholder="Tìm kiếm thương hiệu" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                            <button type="button" class="btn btn-secondary" id="click-search"><span class="material-icons">search</span></button>
+                                            <button type="button" class="btn btn-secondary" id="click-search" style="z-index: 1;"><span class="material-icons">search</span></button>
                                         </form>
                                         <div class="trademark p-2">
                                             <?php

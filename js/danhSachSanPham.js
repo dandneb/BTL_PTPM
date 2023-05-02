@@ -360,7 +360,7 @@ $(document).ready(async function () {
         })
         $('input[name="sorted"]').click(function() {
             selectedValue = $(this).val();
-            if(newArr.length > 0){
+            if(newArr.length > 0 && selected.length > 0 && costs.length > 0){
                 if(selectedValue == 0){
                     newArr.sort(function(a, b) {
                         return new Date(b.ngaybat_dauban) - new Date(a.ngaybat_dauban);
@@ -447,8 +447,8 @@ $(document).ready(async function () {
                         </div>
                         `);
                     }
-                    $("#danhSachSanPham").remove();
-                    $(".trademark").append('<script src="js/danhSachSanPham.js" id="danhSachSanPham"></script>');
+                    //$("#danhSachSanPham").remove();
+                    //$(".trademark").append('<script src="js/danhSachSanPham.js" id="danhSachSanPham"></script>');
                 }
             }
         })

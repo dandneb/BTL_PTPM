@@ -96,6 +96,17 @@ class NuocHoaModel extends Model{
         echo json_encode(array("data" => $data));
     }
 
+    function getBaiVietPhanTrang($phanloai){
+        $dbh = $this->connectDb();
+        $sql = "SELECT t1.*, (SELECT img_link from tb_doanvan t2 where t1.id_baiviet_blog = t2.id AND img_link IS NOT NULL ORDER BY t2.sothutu ASC limit 0, 1) as img_link FROM `tb_kienthuc_blog` t1 WHERE t1.phanloai = ?";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(1, $phanloai);
+        if($stmt->execute()){
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        echo json_encode(array("data" => $data));
+    }
+
     function queryNuocHoa($query){
         $query = "%".$query."%";
         $dbh = $this->connectDb();

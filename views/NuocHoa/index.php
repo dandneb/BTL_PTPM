@@ -447,7 +447,7 @@ require("views/template/header.php");
                                 <div class="image-content">
                                     <span class="overlay"></span>
                                     <div class="card-image">
-                                        <img src="<?php echo $item['img_link'] ?>" alt="" class="card-img img-thongtin" style="width: auto; height: 149px;">
+                                        <img src="<?php echo $item['img_link'] ?>" alt="" class="card-img img-thongtin" style="width: 100%;  height: 149px; object-fit: cover;">
                                     </div>
                                 </div>
                                 <div class="card-content d-flex flex-column justify-content-start mt-2">

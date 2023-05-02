@@ -60,6 +60,7 @@ class NuocHoaController{
             $thuonghieu = $_GET['thuonghieu'];
             $nHModel = new NuocHoaModel();
             $th = $nHModel->get("tb_thuonghieu", ['id_thuonghieu'], [$thuonghieu], ['and']);
+            echo "<script>var thuonghieu = ".json_encode($th)."</script>";
             if(count($th) > 0){
                 echo '<script> var filter = "'.$thuonghieu.'"; var names="id_thuonghieu"; var check = 0; </script>';
                 $name_filter = $th[0]['ten_thuonghieu'];
@@ -76,6 +77,9 @@ class NuocHoaController{
             $flags = 2;
             $query = $_GET['query'];
             echo '<script> var query = "'.$query.'"; var check = 1; </script>';
+            $nHModel = new NuocHoaModel();
+            $th = $nHModel->get("tb_thuonghieu", ['status'], [0], ['and'], "order by ten_thuonghieu asc");
+            echo "<script>var thuonghieu = ".json_encode($th)."</script>";
             if(isset($_SESSION['LoginOK'])){
                 echo "<script>var login = true;</script>";
             }else{
@@ -87,6 +91,8 @@ class NuocHoaController{
             $nHModel = new NuocHoaModel();
             $th = $nHModel->get("tb_thuonghieu", ['status'], [0], ['and'], "order by ten_thuonghieu asc");
             echo '<script> var check = 2; </script>';
+            $th = $nHModel->get("tb_thuonghieu", ['status'], [0], ['and'], "order by ten_thuonghieu asc");
+            echo "<script>var thuonghieu = ".json_encode($th)."</script>";
             if(isset($_SESSION['LoginOK'])){
                 echo "<script>var login = true;</script>";
             }else{
@@ -191,14 +197,16 @@ class NuocHoaController{
     }
     function Blog(){
         $nHModel = new NuocHoaModel();
-        $blog = $nHModel->getBaiViet(1);
+        //$blog = $nHModel->getBaiViet(1);
         $blognoibat = $nHModel->getBaiVietNoiBat(1);
+        echo "<script>var pl = 1;</script>";
         require_once 'views/NuocHoa/Blog.php';
     }
     function KienThuc(){
         $nHModel = new NuocHoaModel();
-        $kienthuc = $nHModel->getBaiViet(0);
+        //$kienthuc = $nHModel->getBaiViet(0);
         $baivietnoibat = $nHModel->getBaiVietNoiBat(0);
+        echo "<script>var pl = 0;</script>";
         require_once 'views/NuocHoa/KienThuc.php';
     }
     function BaiViet(){
@@ -221,7 +229,12 @@ class NuocHoaController{
         }else{
             header("location: index.php");
         }
-        
+    }
+    function getKienThuc(){
+        if(isset($_GET['all'])){
+            $nHModel = new NuocHoaModel();
+            echo $nHModel->getBaiVietPhanTrang($_GET['all']);
+        }
     }
 }
 ?>
