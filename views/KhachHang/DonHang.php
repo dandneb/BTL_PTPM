@@ -97,7 +97,7 @@ require("views/template/header.php");
             ],
             select: true,
             columnDefs: [
-                { type: 'date-time', targets: 1 }
+                { type: 'date', targets: 1 }
             ],
             order: [[1, 'desc']],
             responsive: true,

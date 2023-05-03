@@ -4,6 +4,10 @@ require("views/template/header.php");
 
 <head>
     <title>Thông tin nước hoa</title>
+    <link rel="stylesheet" href="style/pagination.css">
+    <link rel="stylesheet" href="style\splide-core.min.css">
+    <link rel="stylesheet" href="style\splide.min.css">
+    <link rel="stylesheet" href="style\ThongTin.css">
     <style>
         .title-paragraph {
             font-size: 18px;
@@ -32,13 +36,13 @@ require("views/template/header.php");
             color: #1C1C1C;
             font-family: Trebuchet MS, Helvetica, sans-serif;
         }
-        @media (min-width: 991.2px){
+
+        @media (min-width: 991.2px) {
             .nav {
                 justify-content: center;
             }
         }
     </style>
-    <link rel="stylesheet" href="style/pagination.css">
 </head>
 <main class="bg-white">
     <div class="container-fluid" style="background-color: #F9F9F9">
@@ -128,11 +132,11 @@ require("views/template/header.php");
                                 </div>
                             </div>
                             <a class="carousel-control-prev" href="#carousel-thumbs" role="button" data-slide="prev" style="transform: translateX(-39%);">
-                                <span class="carousel-control-prev-icon bg-black" aria-hidden="true"></span>
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="sr-only">Previous</span>
                             </a>
                             <a class="carousel-control-next" href="#carousel-thumbs" role="button" data-slide="next" style="transform: translateX(39%);">
-                                <span class="carousel-control-next-icon bg-black" aria-hidden="true"></span>
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>
@@ -144,16 +148,16 @@ require("views/template/header.php");
                 <?php
                 $rate_1 = round($nuochoa['danhgia']);
                 echo '<div class="vote">';
-                for($j = 1; $j <= $rate_1; $j++){
+                for ($j = 1; $j <= $rate_1; $j++) {
                 ?>
-                <i class="bi bi-star-fill text-warning"></i>
-                <?php
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <?php
                 }
-                if($rate_1 < 5){
-                    for($j = $rate_1+1; $j <= 5; $j++){
-                        ?>
-                    <i class="bi bi-star text-warning"></i>
-                        <?php
+                if ($rate_1 < 5) {
+                    for ($j = $rate_1 + 1; $j <= 5; $j++) {
+                    ?>
+                        <i class="bi bi-star text-warning"></i>
+                <?php
                     }
                 }
                 echo "</div>";
@@ -176,7 +180,7 @@ require("views/template/header.php");
                                 else if ($nuochoa['gioitinh'] == 1)  $gt = "Nữ";
                                 else    $gt = "Unisex";
                                 echo $gt;
-                                echo "<script>var gt = '".$gt."'</script>";
+                                echo "<script>var gt = '" . $gt . "'</script>";
                                 ?>
                                 <?php
                                 if ($gia[0]['soluong'] == 0 || $gia[1]['soluong'] == 0 || $gia[2]['soluong'] == 0) echo "";
@@ -271,7 +275,7 @@ require("views/template/header.php");
                     ?>
                     <div class="container p-0 mt-4">
                         <?php
-                        if(isset($_SESSION['LoginOK'])){
+                        if (isset($_SESSION['LoginOK'])) {
                         ?>
                             <button value="<?php echo $nuochoa['id_nuochoa'] ?>" class="bg-white text-dark border favorite-tt d-flex align-items-center addYeuThich" data-bs-toggle="modal" data-bs-target="#addYeuThichSuccess" style="width:auto">
                                 <span class="material-icons">
@@ -282,7 +286,7 @@ require("views/template/header.php");
                                 </span>
                             </button>
                         <?php
-                        }else{
+                        } else {
                         ?>
                             <a href="index.php?controller=khachhang&action=dangnhap&id_nuochoa=<?php echo $nuochoa['id_nuochoa'] ?>" class="text-decoration-none text-dark border favorite-tt d-flex align-items-center">
                                 <span class="material-icons">
@@ -392,10 +396,10 @@ require("views/template/header.php");
                             <p class="title-paragraph">Hương thơm sang trọng nổi bật của nước hoa <?php echo $nuochoa['ten_nuochoa'] ?></p>
                             <div class="paragraph">
                                 <?php
-                                if($nuochoa['loai_huongthom'] != "$"){
+                                if ($nuochoa['loai_huongthom'] != "$") {
                                     $loaihuongthom = $nuochoa['loai_huongthom'];
                                     $loaihuongthom = preg_split('/\r\n|\r|\n/', $loaihuongthom);
-                                    ?>
+                                ?>
                                     <ul class="ps-3">
                                         <?php
                                         foreach ($loaihuongthom as $lht) {
@@ -405,7 +409,7 @@ require("views/template/header.php");
                                         }
                                         ?>
                                     </ul>
-                                    <?php
+                                <?php
                                 }
                                 ?>
                             </div>
@@ -479,19 +483,18 @@ require("views/template/header.php");
                                 <p class="paragraph">Hãy chọn <a href="index.php">shop nước hoa chính hãng Parfumerie</a> - Nước hoa không chỉ có thơm & đẹp, nước hoa chính là cá tính và dấu ấn của mỗi người. Hãy yêu thương bản thân nhiều hơn.</p>
                                 <p class="paragraph">Và chúng tôi nói KHÔNG với nước hoa hàng giả/ hàng nhái (fake) vì thế bạn có thể hoàn toàn tin tưởng khi mua nước hoa chính hãng tại Parfumerie.</p>
                             </div>
+                            <div class="container-fluid btn-rutgon">
+                                <div class="text-center">
+                                    <span class="btn btn-rg">THU GỌN <span class="material-icons" style="transform:translateY(6px)">
+                                            arrow_upward
+                                        </span></span>
+                                </div>
+                            </div>
                         </div>
                         <div class="container-fluid btn-xemthem">
                             <div class="button-sp text-center">
                                 <span class="btn btn-xt">XEM THÊM <span class="material-icons" style="transform:translateY(6px)">
                                         expand_more
-                                    </span></span>
-                            </div>
-                        </div>
-
-                        <div class="container-fluid btn-rutgon">
-                            <div class="text-center">
-                                <span class="btn btn-rg">THU GỌN <span class="material-icons" style="transform:translateY(6px)">
-                                        arrow_upward
                                     </span></span>
                             </div>
                         </div>
@@ -699,6 +702,7 @@ require("views/template/header.php");
         </div>
     </div>
 </main>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script src="js\splide.min.js" type="text/javascript"></script>
 <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>

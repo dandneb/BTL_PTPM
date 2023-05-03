@@ -239,6 +239,12 @@ if (isset($_SESSION['LoginOK']) && $_SESSION['LoginOK'][0] == "1" || $_SESSION['
         });
     } );
 </script>
+<script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/ad153db3f4.js"></script>
+<script src="js/nuocHoa.js"></script>
+<script src="js/admin.js"></script>
 <?php
 }else{
     header("location: index.php");

@@ -113,7 +113,6 @@
                             <div>
                                 <p class="p-16-bold">Phương thức thanh toán</p>
                                 <?php
-                                if($pTTT['ten'] == "Thanh toán qua VNPAY-QR"){
                                     $mota = preg_split('/\r\n|\r|\n/', $pTTT['mota']);
                                 ?>
                                 <p class="p-14"><?php echo $pTTT['ten'] ?></p>
@@ -122,11 +121,7 @@
                                 foreach($mota as $item){
                                     echo '<p class="p-14">'.$item.'</p>';
                                 }
-                                }else{
-                                ?>
-
-                                <?php
-                                }
+                                
                                 ?>
                             </div>
                         </div>

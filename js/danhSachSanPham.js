@@ -447,8 +447,8 @@ $(document).ready(async function () {
                         </div>
                         `);
                     }
-                    //$("#danhSachSanPham").remove();
-                    //$(".trademark").append('<script src="js/danhSachSanPham.js" id="danhSachSanPham"></script>');
+                    $("#danhSachSanPham").remove();
+                    $(".trademark").append('<script src="js/danhSachSanPham.js" id="danhSachSanPham"></script>');
                 }
             }
         })

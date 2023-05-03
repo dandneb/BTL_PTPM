@@ -697,7 +697,7 @@ require("views/template/header.php");
             delay: 10000,
         },
     });
-    $('#myCarousel').carousel({
+$('#myCarousel').carousel({
     interval: false
 });
 $('#carousel-thumbs').carousel({
